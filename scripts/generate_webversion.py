@@ -183,6 +183,7 @@ def load_svg_inline(path):
 FLAG_EMOJI = {
     "NL": "🇳🇱", "US": "🇺🇸", "GB": "🇬🇧", "DE": "🇩🇪",
     "AU": "🇦🇺", "FR": "🇫🇷", "CA": "🇨🇦", "EU": "🇪🇺",
+    "NO": "🇳🇴",
 }
 
 

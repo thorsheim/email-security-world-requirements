@@ -62,6 +62,7 @@ STATUS_PRIORITY = {
 FLAG_EMOJI = {
     "NL": "🇳🇱", "US": "🇺🇸", "GB": "🇬🇧", "DE": "🇩🇪",
     "AU": "🇦🇺", "FR": "🇫🇷", "CA": "🇨🇦", "EU": "🇪🇺",
+    "NO": "🇳🇴",
 }
 
 

@@ -1,0 +1,161 @@
+country_code: "NO"
+country_name: Norway
+last_reviewed: "2026-04-13"
+notes: >
+  Norway's digital public sector standards are governed by the "Forskrift om IT-standarder
+  i offentlig forvaltning" (Regulation on IT standards in public administration,
+  2013-04-05-959), managed by Digitaliseringsdirektoratet (DigDir). This regulation
+  mandates specific technical standards for public sector online services. §12 requires
+  all government online services to be reachable over both IPv4 and IPv6 by 1 January 2025.
+  For email security, the Norwegian National Cyber Security Centre (NSM — Nasjonalt
+  sikkerhetssenter) publishes "Grunnprinsipper for IKT-sikkerhet" (Basic Principles for
+  ICT Security), which recommends SPF, DKIM, DMARC, and STARTTLS for all organisations.
+  Norid (the .no TLD registry) has promoted DNSSEC for .no domains.
+
+authorities:
+  "DigDir": "https://www.digdir.no/digital-samhandling/referansekatalogen-for-it-standardar/1480"
+  "NSM": "https://nsm.no/fagomrader/rad-og-veiledning/grunnprinsipper-for-ikt-sikkerhet"
+
+references:
+  - title: "Forskrift om IT-standarder i offentlig forvaltning (2013-04-05-959)"
+    url: "https://lovdata.no/dokument/SF/forskrift/2013-04-05-959"
+    publisher: "Kommunal- og distriktsdepartementet / DigDir"
+    year: 2013
+  - title: "Grunnprinsipper for IKT-sikkerhet 2.0"
+    url: "https://nsm.no/fagomrader/rad-og-veiledning/grunnprinsipper-for-ikt-sikkerhet"
+    publisher: "NSM — Nasjonalt sikkerhetssenter"
+    year: 2023
+  - title: "Referansekatalog for IT-standardar"
+    url: "https://www.digdir.no/digital-samhandling/referansekatalogen-for-it-standardar/1480"
+    publisher: "Digitaliseringsdirektoratet"
+    year: 2024
+
+requirements:
+  - standard: SPF
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NSM"
+    policy_document: "Grunnprinsipper for IKT-sikkerhet"
+    notes: >
+      NSM recommends SPF as part of email authentication hardening under the
+      "Grunnprinsipper for IKT-sikkerhet" framework for all Norwegian organisations.
+    references:
+      - title: "NSM — Grunnprinsipper for IKT-sikkerhet"
+        url: "https://nsm.no/fagomrader/rad-og-veiledning/grunnprinsipper-for-ikt-sikkerhet"
+
+  - standard: DKIM
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NSM"
+    policy_document: "Grunnprinsipper for IKT-sikkerhet"
+    notes: >
+      NSM recommends DKIM to cryptographically sign outgoing email and prevent
+      message tampering in transit.
+    references:
+      - title: "NSM — Grunnprinsipper for IKT-sikkerhet"
+        url: "https://nsm.no/fagomrader/rad-og-veiledning/grunnprinsipper-for-ikt-sikkerhet"
+
+  - standard: DMARC
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NSM"
+    policy_document: "Grunnprinsipper for IKT-sikkerhet"
+    notes: >
+      NSM recommends DMARC with a policy of at least p=quarantine, progressing to
+      p=reject. Included in the ICT security basic principles guidance for Norwegian
+      public and private sector organisations.
+    references:
+      - title: "NSM — Grunnprinsipper for IKT-sikkerhet"
+        url: "https://nsm.no/fagomrader/rad-og-veiledning/grunnprinsipper-for-ikt-sikkerhet"
+
+  - standard: STARTTLS
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NSM"
+    policy_document: "Grunnprinsipper for IKT-sikkerhet"
+    notes: >
+      NSM recommends TLS-encrypted transport for email as part of secure communication
+      practices in the ICT security basic principles.
+    references:
+      - title: "NSM — Grunnprinsipper for IKT-sikkerhet"
+        url: "https://nsm.no/fagomrader/rad-og-veiledning/grunnprinsipper-for-ikt-sikkerhet"
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: >
+      No formal NSM mandate or recommendation specifically for DANE as of 2026.
+      DANE deployment depends on DNSSEC, which is recommended for .no domains.
+
+  - standard: DNSSEC
+    status: recommended
+    applies_to:
+      - government_agencies
+      - tld_registrants
+    authority: "DigDir"
+    policy_document: "Referansekatalog for IT-standardar"
+    notes: >
+      DNSSEC is listed in the DigDir Referansekatalog as a recommended standard for
+      Norwegian public sector domains. Norid (the .no registry) actively promotes
+      DNSSEC signing for all .no domains.
+    references:
+      - title: "Referansekatalog for IT-standardar — DNSSEC"
+        url: "https://www.digdir.no/digital-samhandling/referansekatalogen-for-it-standardar/1480"
+
+  - standard: MTA-STS
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No formal NSM or DigDir mandate for MTA-STS as of 2026."
+
+  - standard: TLS-RPT
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No formal NSM or DigDir mandate for TLS-RPT as of 2026."
+
+  - standard: CAA
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No specific mandate for CAA records in Norwegian government policy as of 2026."
+
+  - standard: IPv6
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "DigDir"
+    policy_document: "Forskrift om IT-standarder i offentlig forvaltning — §12"
+    effective_date: "2025-01-01"
+    notes: >
+      §12 of the Regulation on IT standards in public administration
+      (forskrift 2013-04-05-959) requires all government organisations to make their
+      online services available over both IPv4 and IPv6. The deadline for compliance
+      was 1 January 2025. This covers internet-facing services including email
+      (MX hosts must have AAAA records and accept SMTP over IPv6).
+    references:
+      - title: "Forskrift om IT-standarder i offentlig forvaltning — §12 (IPv6)"
+        url: "https://lovdata.no/dokument/SF/forskrift/2013-04-05-959"
+
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No formal NSM or DigDir mandate for RPKI as of 2026."
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - government_agencies
+    notes: "No known Norwegian government guidance on ASPA as of 2026."
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No NSM or DigDir guidance on BIMI as of 2026."
