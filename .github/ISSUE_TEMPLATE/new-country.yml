@@ -1,0 +1,98 @@
+name: Add New Country
+description: Request or submit data for a country not yet in the repository
+title: "[Country] Add XX — Country Name"
+labels: ["new-country"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing! Please fill in what you know.
+        If you'd prefer to submit a Pull Request directly, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
+  - type: input
+    id: country_code
+    attributes:
+      label: ISO Country Code
+      description: The ISO 3166-1 alpha-2 code (2 uppercase letters)
+      placeholder: "e.g., NO"
+    validations:
+      required: true
+
+  - type: input
+    id: country_name
+    attributes:
+      label: Country Name
+      placeholder: "e.g., Norway"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: spf_status
+    attributes:
+      label: SPF Status
+      options:
+        - mandatory
+        - recommended
+        - informational
+        - none
+        - unknown
+    validations:
+      required: true
+
+  - type: dropdown
+    id: dkim_status
+    attributes:
+      label: DKIM Status
+      options:
+        - mandatory
+        - recommended
+        - informational
+        - none
+        - unknown
+    validations:
+      required: true
+
+  - type: dropdown
+    id: dmarc_status
+    attributes:
+      label: DMARC Status
+      options:
+        - mandatory
+        - recommended
+        - informational
+        - none
+        - unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: authority
+    attributes:
+      label: Issuing Authority
+      description: What government body or agency issued this guidance?
+      placeholder: "e.g., Norwegian National Security Authority (NSM)"
+
+  - type: textarea
+    id: sources
+    attributes:
+      label: Source URLs
+      description: Official government/agency document URLs (one per line)
+      placeholder: |
+        https://nsm.no/...
+        https://...
+    validations:
+      required: true
+
+  - type: textarea
+    id: applies_to
+    attributes:
+      label: Who Does This Apply To?
+      description: Government agencies only? All organisations? Critical infrastructure?
+      placeholder: "e.g., Government agencies and critical infrastructure operators"
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Any context, caveats, or additional information

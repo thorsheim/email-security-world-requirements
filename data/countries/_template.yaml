@@ -1,0 +1,48 @@
+# Copy this file to data/countries/XX.yaml where XX = ISO 3166-1 alpha-2 code (uppercase)
+# See data/schema/country.schema.json for full field documentation
+# See CONTRIBUTING.md for guidance on finding authoritative sources
+
+country_code: XX            # REQUIRED: 2-letter ISO code, uppercase (e.g. DE, FR, AU)
+country_name: ""            # REQUIRED: Full English name (e.g. "Germany")
+last_reviewed: "YYYY-MM-DD" # REQUIRED: Date you last verified this data (ISO 8601)
+
+notes: ""
+# Optional: general context about this country's email security posture.
+# Who is the relevant authority? What is the policy landscape?
+
+references: []
+# Optional: top-level policy/regulatory documents for this country.
+# - title: "Document or framework title"
+#   url: "https://..."
+#   publisher: "Issuing organization"
+#   year: 2024
+
+requirements: []
+# Add one entry per standard. Valid standard IDs:
+#   SPF, DKIM, DMARC, DANE, MTA-STS, TLS-RPT, BIMI, STARTTLS
+#
+# Valid status values:
+#   mandatory     - Legally or policy-required
+#   recommended   - Official guidance / best practice document
+#   informational - Mentioned in a document but no clear directive
+#   none          - Explicitly confirmed not required
+#   unknown       - You searched but found nothing definitive
+#
+# Valid applies_to values:
+#   all_organizations, government_agencies, federal_agencies,
+#   critical_infrastructure, state_agencies, financial_sector,
+#   healthcare, education, private_sector, tld_registrants
+#
+# Example entry:
+# - standard: DMARC
+#   status: mandatory
+#   level: reject          # Only for DMARC: reject | quarantine | none
+#   applies_to:
+#     - government_agencies
+#   authority: "National Cyber Security Centre"
+#   policy_document: "Email Security Policy v2"
+#   effective_date: "2023-01-01"
+#   notes: "p=reject required within 12 months of the policy effective date."
+#   references:
+#     - title: "Email Security Policy"
+#       url: "https://..."

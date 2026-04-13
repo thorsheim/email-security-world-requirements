@@ -1,0 +1,105 @@
+country_code: EU
+country_name: European Union
+last_reviewed: "2026-04-13"
+notes: >
+  The European Union is not a single country but a supranational body whose
+  directives apply to all 27 member states. The NIS2 Directive (EU 2022/2555),
+  which came into force in January 2023 and was required to be transposed into
+  national law by October 2024, sets cybersecurity requirements for essential
+  and important entities. Article 21 requires "state-of-the-art" technical
+  measures including email security for in-scope organisations. ENISA (EU
+  Agency for Cybersecurity) technical guidelines reference SPF, DKIM, DMARC,
+  and encrypted transport. Individual member states implement NIS2 at their
+  own levels (see individual country entries for DE, FR, NL, etc.).
+  This entry captures EU-level guidance only.
+
+references:
+  - title: "NIS2 Directive (EU) 2022/2555"
+    url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32022L2555"
+    publisher: "European Parliament and Council"
+    year: 2022
+  - title: "ENISA - Guidelines on ICT Security for Essential Services"
+    url: "https://www.enisa.europa.eu/publications/nis-investments-2023"
+    publisher: "ENISA"
+    year: 2023
+  - title: "ENISA - Good Practices for Security of IoT and Smart Infrastructures"
+    url: "https://www.enisa.europa.eu/"
+    publisher: "ENISA"
+    year: 2024
+
+requirements:
+  - standard: SPF
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    authority: "ENISA / NIS2"
+    policy_document: "NIS2 Directive - Article 21"
+    notes: >
+      NIS2 Article 21 mandates "state-of-the-art" email security measures for
+      essential and important entities, which ENISA guidance interprets to include
+      SPF. However, NIS2 does not explicitly name SPF; it is for member states
+      and implementing acts to define specifics. See individual country entries
+      for national-level requirements.
+    references:
+      - title: "NIS2 Directive - Article 21"
+        url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32022L2555"
+
+  - standard: DKIM
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    authority: "ENISA / NIS2"
+    policy_document: "NIS2 Directive - Article 21"
+    notes: >
+      Referenced in ENISA guidance as a recommended measure under NIS2 obligations.
+      Implementation specifics left to member states.
+    references:
+      - title: "NIS2 Directive - Article 21"
+        url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32022L2555"
+
+  - standard: DMARC
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    authority: "ENISA / NIS2"
+    policy_document: "NIS2 Directive - Article 21"
+    notes: >
+      Referenced in ENISA guidance as part of email security best practices
+      under NIS2. Member states may impose stricter requirements.
+    references:
+      - title: "NIS2 Directive - Article 21"
+        url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32022L2555"
+
+  - standard: STARTTLS
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    authority: "ENISA / NIS2"
+    policy_document: "NIS2 Directive - Article 21"
+    notes: >
+      Encrypted email transport is implied by NIS2 Article 21 requirements for
+      "appropriate technical measures." Member states and implementing acts define specifics.
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    notes: "No EU-level mandate for DANE. Some member states (NL) mandate it independently."
+
+  - standard: MTA-STS
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    notes: "No EU-level mandate for MTA-STS."
+
+  - standard: TLS-RPT
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    notes: "No EU-level mandate for TLS-RPT."
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    notes: "No EU-level guidance on BIMI."

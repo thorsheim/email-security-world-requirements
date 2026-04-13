@@ -1,0 +1,27 @@
+name: Validate Data
+
+on:
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'data/schema/**'
+      - 'scripts/validate_data.py'
+
+jobs:
+  validate:
+    name: Validate country YAML files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: scripts/requirements.txt
+
+      - name: Install dependencies
+        run: pip install pyyaml jsonschema
+
+      - name: Validate all country YAML files
+        run: python scripts/validate_data.py

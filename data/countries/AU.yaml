@@ -1,0 +1,93 @@
+country_code: AU
+country_name: Australia
+last_reviewed: "2026-04-13"
+notes: >
+  The Australian Signals Directorate (ASD) through the Australian Cyber Security
+  Centre (ACSC) publishes email security guidance. The Protective Security Policy
+  Framework (PSPF) and the Information Security Manual (ISM) cover email security
+  for Commonwealth entities. The ISM recommends SPF, DKIM, and DMARC (p=reject)
+  for all Commonwealth entities. The ACSC "Strategies to Mitigate Cyber Security
+  Incidents" and associated advisories reinforce these recommendations.
+
+references:
+  - title: "ACSC - Email Security"
+    url: "https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/email-hardening/how-combat-fake-emails"
+    publisher: "Australian Signals Directorate / ACSC"
+    year: 2023
+  - title: "ISM - Australian Government Information Security Manual"
+    url: "https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism"
+    publisher: "Australian Signals Directorate"
+    year: 2024
+  - title: "PSPF - Protective Security Policy Framework"
+    url: "https://www.protectivesecurity.gov.au/"
+    publisher: "Attorney-General's Department"
+    year: 2023
+
+requirements:
+  - standard: SPF
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "ASD / ACSC"
+    policy_document: "ISM"
+    references:
+      - title: "ACSC - How to combat fake emails"
+        url: "https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/email-hardening/how-combat-fake-emails"
+
+  - standard: DKIM
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "ASD / ACSC"
+    policy_document: "ISM"
+    references:
+      - title: "ACSC - How to combat fake emails"
+        url: "https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/email-hardening/how-combat-fake-emails"
+
+  - standard: DMARC
+    status: recommended
+    level: reject
+    applies_to:
+      - government_agencies
+    authority: "ASD / ACSC"
+    policy_document: "ISM"
+    notes: >
+      ISM recommends DMARC with p=reject for all Commonwealth entities.
+      Not a binding mandate but strongly recommended through the ISM framework.
+    references:
+      - title: "ACSC - How to combat fake emails"
+        url: "https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/email-hardening/how-combat-fake-emails"
+
+  - standard: STARTTLS
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "ASD / ACSC"
+    policy_document: "ISM"
+    references:
+      - title: "ISM - Email security controls"
+        url: "https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism"
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No ASD/ACSC mandate or strong recommendation for DANE as of 2026."
+
+  - standard: MTA-STS
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No ASD/ACSC mandate for MTA-STS as of 2026."
+
+  - standard: TLS-RPT
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No ASD/ACSC mandate for TLS-RPT as of 2026."
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No ASD/ACSC guidance on BIMI as of 2026."

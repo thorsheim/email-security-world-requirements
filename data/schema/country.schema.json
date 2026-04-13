@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/thorsheim/email-security-world-requirements/blob/main/data/schema/country.schema.json",
+  "title": "Country Email Security Requirements",
+  "description": "Describes the email security standard requirements or recommendations in a given country.",
+  "type": "object",
+  "required": ["country_code", "country_name", "last_reviewed", "requirements"],
+  "additionalProperties": false,
+  "properties": {
+    "country_code": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 code (uppercase). Use 'EU' for the European Union.",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "country_name": {
+      "type": "string",
+      "description": "Full English name of the country or region."
+    },
+    "last_reviewed": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date (YYYY-MM-DD) when this data was last verified."
+    },
+    "notes": {
+      "type": "string",
+      "description": "General context about this country's email security posture."
+    },
+    "references": {
+      "type": "array",
+      "description": "Top-level policy or regulatory documents for this country.",
+      "items": {
+        "type": "object",
+        "required": ["title", "url"],
+        "additionalProperties": false,
+        "properties": {
+          "title": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "publisher": { "type": "string" },
+          "year": { "type": "integer", "minimum": 2000, "maximum": 2100 }
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "description": "One entry per standard that has any known status in this country.",
+      "items": {
+        "type": "object",
+        "required": ["standard", "status", "applies_to"],
+        "additionalProperties": false,
+        "properties": {
+          "standard": {
+            "type": "string",
+            "enum": ["SPF", "DKIM", "DMARC", "DANE", "MTA-STS", "TLS-RPT", "BIMI", "STARTTLS"],
+            "description": "Must match an ID in data/standards.yaml."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["mandatory", "recommended", "informational", "none", "unknown"],
+            "description": "mandatory = legally/policy required; recommended = official guidance; informational = mentioned without clear directive; none = explicitly not required; unknown = no data found."
+          },
+          "level": {
+            "type": "string",
+            "description": "For DMARC: the required policy level (reject, quarantine, none). Leave empty or omit for other standards.",
+            "enum": ["reject", "quarantine", "none", ""]
+          },
+          "applies_to": {
+            "type": "array",
+            "description": "Who this requirement applies to.",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "all_organizations",
+                "government_agencies",
+                "critical_infrastructure",
+                "federal_agencies",
+                "state_agencies",
+                "financial_sector",
+                "healthcare",
+                "education",
+                "private_sector",
+                "tld_registrants"
+              ]
+            }
+          },
+          "authority": {
+            "type": "string",
+            "description": "The government body or agency issuing this requirement."
+          },
+          "policy_document": {
+            "type": "string",
+            "description": "Specific policy/directive name, e.g. 'BOD 18-01', 'BIO', 'NIS2'."
+          },
+          "effective_date": {
+            "type": "string",
+            "format": "date",
+            "description": "ISO 8601 date when this requirement came into force."
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date",
+            "description": "Compliance deadline if specified."
+          },
+          "references": {
+            "type": "array",
+            "description": "Source URLs for this specific requirement. Required when status is mandatory or recommended.",
+            "items": {
+              "type": "object",
+              "required": ["title", "url"],
+              "additionalProperties": false,
+              "properties": {
+                "title": { "type": "string" },
+                "url": { "type": "string", "format": "uri" }
+              }
+            }
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional context or caveats for this requirement."
+          }
+        }
+      }
+    }
+  }
+}

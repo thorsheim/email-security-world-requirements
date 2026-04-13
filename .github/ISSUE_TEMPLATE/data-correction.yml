@@ -1,0 +1,59 @@
+name: Data Correction
+description: Report incorrect or outdated data for an existing country
+title: "[Correction] XX — brief description"
+labels: ["data-correction"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please help us keep the data accurate. If you have a fix ready,
+        you're welcome to open a Pull Request directly instead.
+
+  - type: input
+    id: country_code
+    attributes:
+      label: Country Code
+      description: The ISO 3166-1 alpha-2 code of the affected country
+      placeholder: "e.g., DE"
+    validations:
+      required: true
+
+  - type: input
+    id: standard
+    attributes:
+      label: Affected Standard
+      description: Which standard(s) are incorrect?
+      placeholder: "e.g., DMARC, or 'all'"
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_data
+    attributes:
+      label: Current (Incorrect) Data
+      description: What does the current entry say?
+    validations:
+      required: true
+
+  - type: textarea
+    id: correct_data
+    attributes:
+      label: Correct Data
+      description: What should it say?
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Source URL
+      description: Official document confirming the correct information
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Context
+      description: Any other relevant information

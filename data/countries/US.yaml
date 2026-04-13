@@ -1,0 +1,116 @@
+country_code: US
+country_name: United States
+last_reviewed: "2026-04-13"
+notes: >
+  CISA Binding Operational Directives (BODs) and M-Memoranda apply to Federal
+  Civilian Executive Branch (FCEB) agencies only. State, local, tribal, and
+  territorial (SLTT) governments and the private sector are not covered by BODs,
+  though CISA publishes guidance applicable to all. BOD 18-01 (October 2017) was
+  the landmark mandate requiring SPF, DMARC (p=reject), and STARTTLS for .gov
+  sending domains. BOD 20-01 expanded to all .gov domains.
+
+references:
+  - title: "BOD 18-01 - Enhance Email and Web Security"
+    url: "https://cyber.dhs.gov/bod/18-01/"
+    publisher: "CISA / DHS"
+    year: 2017
+  - title: "BOD 20-01 - Develop and Publish a Vulnerability Disclosure Policy"
+    url: "https://cyber.dhs.gov/bod/20-01/"
+    publisher: "CISA"
+    year: 2020
+  - title: "CISA Email Security Best Practices"
+    url: "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
+    publisher: "CISA"
+    year: 2024
+
+requirements:
+  - standard: SPF
+    status: mandatory
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    policy_document: "BOD 18-01"
+    effective_date: "2018-01-15"
+    references:
+      - title: "BOD 18-01 - Technical Implementation"
+        url: "https://cyber.dhs.gov/bod/18-01/"
+
+  - standard: DKIM
+    status: recommended
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    policy_document: "BOD 18-01"
+    notes: >
+      DKIM is strongly recommended in BOD 18-01 guidance but SPF + DMARC is
+      the minimum mandatory baseline. CISA guidance has increasingly emphasized
+      DKIM as a best practice.
+    references:
+      - title: "BOD 18-01 - Technical Implementation"
+        url: "https://cyber.dhs.gov/bod/18-01/"
+
+  - standard: DMARC
+    status: mandatory
+    level: reject
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    policy_document: "BOD 18-01"
+    effective_date: "2018-10-16"
+    deadline: "2018-10-16"
+    notes: >
+      p=reject was required within one year of the BOD issuance (by October 2018)
+      for all .gov sending domains. Applies to all FCEB agencies.
+    references:
+      - title: "BOD 18-01 - Enhance Email and Web Security"
+        url: "https://cyber.dhs.gov/bod/18-01/"
+
+  - standard: STARTTLS
+    status: mandatory
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    policy_document: "BOD 18-01"
+    effective_date: "2018-01-15"
+    references:
+      - title: "BOD 18-01 - Enhance Email and Web Security"
+        url: "https://cyber.dhs.gov/bod/18-01/"
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - federal_agencies
+    notes: >
+      No federal mandate for DANE as of 2026. CISA acknowledges DANE in general
+      guidance but it is not required. Many .gov domains lack DNSSEC, making
+      DANE deployment difficult at scale.
+
+  - standard: MTA-STS
+    status: recommended
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    notes: >
+      Recommended in CISA email security best practices as a complement to
+      STARTTLS. Not a BOD requirement.
+    references:
+      - title: "CISA Email Security Best Practices"
+        url: "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
+
+  - standard: TLS-RPT
+    status: recommended
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    notes: >
+      Recommended alongside MTA-STS. Provides visibility into TLS failures
+      but not a mandated requirement.
+    references:
+      - title: "CISA Email Security Best Practices"
+        url: "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - federal_agencies
+    notes: "No federal guidance on BIMI as of 2026."

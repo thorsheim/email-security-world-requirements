@@ -1,0 +1,50 @@
+name: Generate Map and Tables
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/**'
+      - 'assets/world-110m.svg'
+      - 'scripts/generate_map.py'
+      - 'scripts/generate_readme_table.py'
+      - 'scripts/generate_webversion.py'
+
+jobs:
+  generate:
+    name: Regenerate map, README table, and webversion
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: scripts/requirements.txt
+
+      - name: Install dependencies
+        run: pip install pyyaml lxml
+
+      - name: Generate map SVG and interactive HTML
+        run: python scripts/generate_map.py
+
+      - name: Update README matrix table
+        run: python scripts/generate_readme_table.py
+
+      - name: Generate webversion
+        run: python scripts/generate_webversion.py
+
+      - name: Commit generated files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: regenerate map and tables from data [skip ci]"
+          file_pattern: "docs/map.svg docs/index.html webversion/index.html webversion/map.svg README.md"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"

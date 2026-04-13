@@ -1,0 +1,93 @@
+country_code: DE
+country_name: Germany
+last_reviewed: "2026-04-13"
+notes: >
+  The German Federal Office for Information Security (BSI - Bundesamt für
+  Sicherheit in der Informationstechnik) publishes technical guidelines (TR)
+  and minimum standards for IT security. BSI TR-03108 covers the security of
+  email services. The Mindeststandard des BSI für den Einsatz von Transport
+  Layer Security (TLS) also covers email. German federal agencies are required
+  to follow BSI minimum standards; the recommendations extend to all organisations.
+  NIS2 transposition (NISG 2.0) adds obligations for critical infrastructure sectors.
+
+references:
+  - title: "BSI TR-03108 - Sicherer E-Mail-Transport"
+    url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"
+    publisher: "Bundesamt für Sicherheit in der Informationstechnik"
+    year: 2023
+  - title: "BSI Mindeststandard - E-Mail-Dienste"
+    url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Mindeststandards/mindeststandards_node.html"
+    publisher: "Bundesamt für Sicherheit in der Informationstechnik"
+    year: 2024
+
+requirements:
+  - standard: SPF
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "BSI"
+    policy_document: "BSI TR-03108"
+    references:
+      - title: "BSI TR-03108 - Sicherer E-Mail-Transport"
+        url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"
+
+  - standard: DKIM
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "BSI"
+    policy_document: "BSI TR-03108"
+    references:
+      - title: "BSI TR-03108 - Sicherer E-Mail-Transport"
+        url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"
+
+  - standard: DMARC
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "BSI"
+    policy_document: "BSI TR-03108"
+    references:
+      - title: "BSI TR-03108 - Sicherer E-Mail-Transport"
+        url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"
+
+  - standard: STARTTLS
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "BSI"
+    policy_document: "BSI TR-03108"
+    notes: >
+      BSI TR-03108 requires TLS-encrypted transport. STARTTLS with strong cipher
+      suites is mandated for email service providers qualifying under the BSI framework.
+    references:
+      - title: "BSI TR-03108 - Sicherer E-Mail-Transport"
+        url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "Mentioned in BSI TR-03108 context but not a formal requirement."
+
+  - standard: MTA-STS
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No formal BSI guidance on MTA-STS as of 2026."
+
+  - standard: TLS-RPT
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No formal BSI mandate for TLS-RPT as of 2026."
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No BSI guidance on BIMI as of 2026."

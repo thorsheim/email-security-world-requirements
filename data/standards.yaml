@@ -1,0 +1,172 @@
+version: "1"
+standards:
+  - id: SPF
+    name: Sender Policy Framework
+    rfcs:
+      - "RFC 7208"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc7208"
+    summary: >
+      SPF allows domain owners to specify which mail servers are authorized to send email
+      on behalf of their domain via a DNS TXT record. Receiving servers check the record
+      to detect forged sender addresses. SPF is typically the first step in email
+      authentication and is required by DMARC alignment.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: MXToolbox SPF Lookup
+        url: "https://mxtoolbox.com/spf.aspx"
+      - name: dmarcian SPF Surveyor
+        url: "https://dmarcian.com/spf-survey/"
+      - name: Mailcheck (thorsheim)
+        url: "https://passwordscon.org/mailcheck/"
+    docs_page: "docs/standards/spf.md"
+
+  - id: DKIM
+    name: DomainKeys Identified Mail
+    rfcs:
+      - "RFC 6376"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc6376"
+    summary: >
+      DKIM adds a cryptographic signature to outgoing email headers. The public key is
+      published in DNS; receiving servers use it to verify the message has not been
+      tampered with in transit and that it genuinely originates from the signing domain.
+      DKIM survives forwarding better than SPF and is essential for DMARC alignment.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: MXToolbox DKIM Lookup
+        url: "https://mxtoolbox.com/dkim.aspx"
+      - name: dmarcian DKIM Inspector
+        url: "https://dmarcian.com/dkim-inspector/"
+      - name: Mailcheck (thorsheim)
+        url: "https://passwordscon.org/mailcheck/"
+    docs_page: "docs/standards/dkim.md"
+
+  - id: DMARC
+    name: Domain-based Message Authentication, Reporting and Conformance
+    rfcs:
+      - "RFC 7489"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc7489"
+    summary: >
+      DMARC builds on SPF and DKIM by allowing domain owners to publish a policy
+      (none/quarantine/reject) instructing receiving servers how to handle messages that
+      fail authentication checks. It also provides a reporting mechanism so domain owners
+      can monitor email flows and detect abuse. p=reject is the gold standard.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: MXToolbox DMARC Lookup
+        url: "https://mxtoolbox.com/dmarc.aspx"
+      - name: dmarcian
+        url: "https://dmarcian.com"
+      - name: Postmark DMARC Digest
+        url: "https://dmarc.postmarkapp.com"
+      - name: DMARC Advisor
+        url: "https://dmarcadvisor.com"
+      - name: Mailcheck (thorsheim)
+        url: "https://passwordscon.org/mailcheck/"
+    docs_page: "docs/standards/dmarc.md"
+
+  - id: DANE
+    name: DNS-based Authentication of Named Entities
+    rfcs:
+      - "RFC 6698"
+      - "RFC 7671"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc6698"
+      - "https://datatracker.ietf.org/doc/html/rfc7671"
+    summary: >
+      DANE uses DNSSEC-secured TLSA records to bind a TLS certificate to a specific
+      domain. For email (SMTP), DANE/TLSA prevents downgrade attacks and certificate
+      substitution by opportunistic MiTM. It requires DNSSEC to be enabled on the domain.
+      The Netherlands mandates DANE for government mail servers.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: DANE SMTP Validator (SIDN)
+        url: "https://danetools.com/smtp"
+      - name: MXToolbox DANE Lookup
+        url: "https://mxtoolbox.com/dane.aspx"
+    docs_page: "docs/standards/dane.md"
+
+  - id: MTA-STS
+    name: Mail Transfer Agent Strict Transport Security
+    rfcs:
+      - "RFC 8461"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc8461"
+    summary: >
+      MTA-STS allows mail server operators to publish a policy via HTTPS declaring
+      that their server supports TLS and that sending servers should refuse to deliver
+      email if TLS cannot be established. Unlike DANE, MTA-STS does not require DNSSEC.
+      It is complementary to DANE, covering domains that lack DNSSEC infrastructure.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: MTA-STS Validator (hardenize)
+        url: "https://www.hardenize.com"
+      - name: Mailhardener MTA-STS
+        url: "https://www.mailhardener.com/tools/mta-sts-validator"
+    docs_page: "docs/standards/mta-sts.md"
+
+  - id: TLS-RPT
+    name: SMTP TLS Reporting
+    rfcs:
+      - "RFC 8460"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc8460"
+    summary: >
+      TLS-RPT (TLSRPT) provides a mechanism for receiving SMTP servers to send aggregate
+      reports to domain owners about TLS negotiation failures. This allows operators to
+      detect connectivity issues, certificate problems, and downgrade attacks. It is
+      published as a DNS TXT record at _smtp._tls.<domain>.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: MXToolbox TLS-RPT Lookup
+        url: "https://mxtoolbox.com/TLSRpt.aspx"
+    docs_page: "docs/standards/tls-rpt.md"
+
+  - id: BIMI
+    name: Brand Indicators for Message Identification
+    rfcs:
+      - "draft-brand-indicators-for-message-identification"
+    rfc_urls:
+      - "https://bimigroup.org/bimi-generator/"
+    summary: >
+      BIMI is an emerging standard that allows domain owners to publish a verified brand
+      logo that is displayed in supporting email clients next to authenticated messages.
+      It requires DMARC at p=quarantine or p=reject. Some implementations also require
+      a Verified Mark Certificate (VMC). Currently supported by Gmail, Apple Mail, Yahoo.
+    testing_tools:
+      - name: BIMI Group Checker
+        url: "https://bimigroup.org/bimi-generator/"
+      - name: MXToolbox BIMI Lookup
+        url: "https://mxtoolbox.com/bimi.aspx"
+    docs_page: "docs/standards/bimi.md"
+
+  - id: STARTTLS
+    name: SMTP STARTTLS (Opportunistic TLS)
+    rfcs:
+      - "RFC 3207"
+      - "RFC 8314"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc3207"
+      - "https://datatracker.ietf.org/doc/html/rfc8314"
+    summary: >
+      STARTTLS upgrades a plaintext SMTP connection to TLS-encrypted communication via
+      an in-band negotiation. It is the baseline for encrypted email transport. While
+      opportunistic (subject to downgrade attacks without DANE or MTA-STS), it is widely
+      supported and is the minimum expected standard for all mail servers. RFC 8314
+      updated guidance for submission (port 587) and access protocols.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: MXToolbox SMTP Test
+        url: "https://mxtoolbox.com/diagnostic.aspx"
+      - name: Mailcheck (thorsheim)
+        url: "https://passwordscon.org/mailcheck/"
+    docs_page: "docs/standards/starttls.md"

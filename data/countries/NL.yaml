@@ -1,0 +1,114 @@
+country_code: NL
+country_name: Netherlands
+last_reviewed: "2026-04-13"
+notes: >
+  The Netherlands has the most comprehensive government-level email security mandates
+  in the world. The Forum Standaardisatie publishes a mandatory "comply or explain"
+  (pas-toe-of-leg-uit) list of open standards for the public sector. SPF, DKIM, DMARC
+  (p=reject), DANE, STARTTLS, and TLS-RPT are all on this mandatory list. The BIO
+  (Baseline Informatiebeveiliging Overheid) reinforces these requirements for all
+  government organisations. The internet.nl platform, built by the Dutch government
+  (SIDN/ECP/NCSC), provides free public testing and is widely used internationally.
+
+references:
+  - title: "Forum Standaardisatie - Verplichte open standaarden"
+    url: "https://www.forumstandaardisatie.nl/open-standaarden/verplicht"
+    publisher: "Forum Standaardisatie"
+    year: 2024
+  - title: "BIO - Baseline Informatiebeveiliging Overheid"
+    url: "https://www.digitaleoverheid.nl/overzicht-van-alle-onderwerpen/cybersecurity/bio-en-ensia/"
+    publisher: "Ministerie van Binnenlandse Zaken en Koninkrijksrelaties"
+    year: 2023
+  - title: "NCSC - Beveilig e-mail met SPF, DKIM en DMARC"
+    url: "https://www.ncsc.nl/onderwerpen/dmarc"
+    publisher: "Nationaal Cyber Security Centrum"
+    year: 2023
+
+requirements:
+  - standard: SPF
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    references:
+      - title: "SPF - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/spf"
+
+  - standard: DKIM
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    references:
+      - title: "DKIM - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/dkim"
+
+  - standard: DMARC
+    status: mandatory
+    level: reject
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    notes: >
+      p=reject is the target policy. p=quarantine is accepted as a transition
+      state but p=reject is required for full compliance.
+    references:
+      - title: "DMARC - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/dmarc"
+
+  - standard: DANE
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    notes: >
+      DANE/TLSA required for both inbound (MX) and outbound SMTP.
+      DNSSEC must be enabled on the domain for DANE to function.
+    references:
+      - title: "DANE - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/dane"
+
+  - standard: STARTTLS
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    references:
+      - title: "STARTTLS - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/starttls-dane"
+
+  - standard: TLS-RPT
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    references:
+      - title: "SMTP MTA-STS and TLS-RPT - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/smtp-mta-sts"
+
+  - standard: MTA-STS
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      Recommended as complementary to DANE for domains that cannot immediately
+      deploy DNSSEC. Not on the mandatory list as of 2024.
+    references:
+      - title: "NCSC - Adviezen e-mailbeveiliging"
+        url: "https://www.ncsc.nl/onderwerpen/e-mailbeveiliging"
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      BIMI is not mandated. The NCSC has published awareness materials about BIMI
+      as an emerging standard. DMARC p=reject (required) is a prerequisite.

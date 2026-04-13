@@ -1,0 +1,104 @@
+country_code: GB
+country_name: United Kingdom
+last_reviewed: "2026-04-13"
+notes: >
+  The UK's National Cyber Security Centre (NCSC) has published strong guidance
+  on email security for UK government domains. The NCSC's "Email security and
+  anti-spoofing" collection mandates SPF, DKIM, and DMARC for .gov.uk domains
+  and public sector organisations. STARTTLS is also required. The NCSC's
+  Mail Check service (mailcheck.service.gov.uk) provides automated testing
+  for UK public sector domains.
+
+references:
+  - title: "NCSC - Email security and anti-spoofing"
+    url: "https://www.ncsc.gov.uk/collection/email-security-and-anti-spoofing"
+    publisher: "National Cyber Security Centre"
+    year: 2023
+  - title: "NCSC Mail Check Service"
+    url: "https://www.ncsc.gov.uk/information/mail-check"
+    publisher: "National Cyber Security Centre"
+    year: 2023
+  - title: "GOV.UK DNS - Email authentication requirements"
+    url: "https://www.gov.uk/guidance/protect-domains-that-dont-send-email"
+    publisher: "Cabinet Office / GDS"
+    year: 2024
+
+requirements:
+  - standard: SPF
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    policy_document: "Email security and anti-spoofing guidance"
+    references:
+      - title: "NCSC - Anti-spoofing: SPF"
+        url: "https://www.ncsc.gov.uk/collection/email-security-and-anti-spoofing/anti-spoofing-using-spf"
+
+  - standard: DKIM
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    policy_document: "Email security and anti-spoofing guidance"
+    references:
+      - title: "NCSC - Anti-spoofing: DKIM"
+        url: "https://www.ncsc.gov.uk/collection/email-security-and-anti-spoofing/anti-spoofing-using-dkim"
+
+  - standard: DMARC
+    status: mandatory
+    level: reject
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    policy_document: "Email security and anti-spoofing guidance"
+    notes: >
+      NCSC requires DMARC for all .gov.uk and public sector domains.
+      p=reject is the target; p=none is only acceptable as a monitoring phase.
+    references:
+      - title: "NCSC - Anti-spoofing: DMARC"
+        url: "https://www.ncsc.gov.uk/collection/email-security-and-anti-spoofing/anti-spoofing-using-dmarc"
+
+  - standard: STARTTLS
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    policy_document: "Email security and anti-spoofing guidance"
+    references:
+      - title: "NCSC - Securing email in transit"
+        url: "https://www.ncsc.gov.uk/collection/email-security-and-anti-spoofing/securing-email-in-transit"
+
+  - standard: MTA-STS
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      Recommended by NCSC Mail Check as a best practice for .gov.uk domains.
+    references:
+      - title: "NCSC Mail Check - MTA-STS"
+        url: "https://www.ncsc.gov.uk/information/mail-check"
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: >
+      DANE is mentioned in NCSC guidance but not mandated. DNSSEC adoption
+      across UK government domains is inconsistent.
+
+  - standard: TLS-RPT
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: "Recommended alongside MTA-STS in NCSC Mail Check guidance."
+    references:
+      - title: "NCSC Mail Check Service"
+        url: "https://www.ncsc.gov.uk/information/mail-check"
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No NCSC mandate for BIMI as of 2026."

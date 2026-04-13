@@ -1,0 +1,89 @@
+country_code: FR
+country_name: France
+last_reviewed: "2026-04-13"
+notes: >
+  The French National Agency for Information Systems Security (ANSSI - Agence
+  nationale de la sécurité des systèmes d'information) publishes security guides
+  and recommendations. ANSSI's "Guide de l'hygiène informatique" and specific
+  email security guides recommend SPF, DKIM, and DMARC for all organisations.
+  The NIS2 transposition (Loi de programmation militaire and related decrees)
+  adds obligations for operators of essential services (OES) and digital service
+  providers (DSP).
+
+references:
+  - title: "ANSSI - Recommandations pour la sécurisation des courriels"
+    url: "https://www.ssi.gouv.fr/guide/recommandations-pour-la-securisation-des-courriels/"
+    publisher: "ANSSI"
+    year: 2023
+  - title: "ANSSI - Guide de l'hygiène informatique"
+    url: "https://www.ssi.gouv.fr/guide/guide-de-lhygiene-informatique/"
+    publisher: "ANSSI"
+    year: 2022
+
+requirements:
+  - standard: SPF
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "ANSSI"
+    policy_document: "Recommandations pour la sécurisation des courriels"
+    references:
+      - title: "ANSSI - Recommandations pour la sécurisation des courriels"
+        url: "https://www.ssi.gouv.fr/guide/recommandations-pour-la-securisation-des-courriels/"
+
+  - standard: DKIM
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "ANSSI"
+    policy_document: "Recommandations pour la sécurisation des courriels"
+    references:
+      - title: "ANSSI - Recommandations pour la sécurisation des courriels"
+        url: "https://www.ssi.gouv.fr/guide/recommandations-pour-la-securisation-des-courriels/"
+
+  - standard: DMARC
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "ANSSI"
+    policy_document: "Recommandations pour la sécurisation des courriels"
+    references:
+      - title: "ANSSI - Recommandations pour la sécurisation des courriels"
+        url: "https://www.ssi.gouv.fr/guide/recommandations-pour-la-securisation-des-courriels/"
+
+  - standard: STARTTLS
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "ANSSI"
+    references:
+      - title: "ANSSI - Recommandations pour la sécurisation des courriels"
+        url: "https://www.ssi.gouv.fr/guide/recommandations-pour-la-securisation-des-courriels/"
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No ANSSI mandate for DANE as of 2026."
+
+  - standard: MTA-STS
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No ANSSI mandate for MTA-STS as of 2026."
+
+  - standard: TLS-RPT
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No ANSSI mandate for TLS-RPT as of 2026."
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No ANSSI guidance on BIMI as of 2026."

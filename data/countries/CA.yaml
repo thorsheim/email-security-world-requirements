@@ -1,0 +1,92 @@
+country_code: CA
+country_name: Canada
+last_reviewed: "2026-04-13"
+notes: >
+  The Canadian Centre for Cyber Security (CCCS), part of the Communications
+  Security Establishment (CSE), publishes security guidance for Canadian
+  government and organisations. The IT Security Guidance (ITSG) series and
+  "Email Security for Canadian Federal Government" publications recommend
+  SPF, DKIM, and DMARC. Treasury Board of Canada Secretariat directives
+  reference these standards for Government of Canada institutions.
+
+references:
+  - title: "CCCS - Email security"
+    url: "https://www.cyber.gc.ca/en/guidance/email-security"
+    publisher: "Canadian Centre for Cyber Security"
+    year: 2024
+  - title: "CCCS - Protecting Your Organization from Phishing"
+    url: "https://www.cyber.gc.ca/en/guidance/protecting-your-organization-phishing"
+    publisher: "Canadian Centre for Cyber Security"
+    year: 2023
+  - title: "Government of Canada IT PIN 11 - Email Security"
+    url: "https://www.canada.ca/en/government/system/digital-government/policies-standards/enterprise-it-service-common-configurations/email.html"
+    publisher: "Treasury Board of Canada Secretariat"
+    year: 2023
+
+requirements:
+  - standard: SPF
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "CCCS / Treasury Board"
+    policy_document: "Government of Canada Email Security"
+    references:
+      - title: "CCCS - Email security"
+        url: "https://www.cyber.gc.ca/en/guidance/email-security"
+
+  - standard: DKIM
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "CCCS / Treasury Board"
+    policy_document: "Government of Canada Email Security"
+    references:
+      - title: "CCCS - Email security"
+        url: "https://www.cyber.gc.ca/en/guidance/email-security"
+
+  - standard: DMARC
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "CCCS / Treasury Board"
+    policy_document: "Government of Canada Email Security"
+    notes: >
+      CCCS recommends DMARC and progression toward p=reject. Not a binding
+      directive as of 2026, but increasingly referenced in GC security
+      assessments.
+    references:
+      - title: "CCCS - Email security"
+        url: "https://www.cyber.gc.ca/en/guidance/email-security"
+
+  - standard: STARTTLS
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "CCCS"
+    references:
+      - title: "CCCS - Email security"
+        url: "https://www.cyber.gc.ca/en/guidance/email-security"
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No CCCS mandate for DANE as of 2026."
+
+  - standard: MTA-STS
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No CCCS mandate for MTA-STS as of 2026."
+
+  - standard: TLS-RPT
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No CCCS mandate for TLS-RPT as of 2026."
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No CCCS guidance on BIMI as of 2026."
