@@ -102,6 +102,18 @@ requirements:
       - government_agencies
     notes: "No specific CCCS mandate or strong recommendation for CAA as of 2026."
 
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No CCCS mandate for RPKI as of 2026."
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - government_agencies
+    notes: "No CCCS guidance on ASPA as of 2026."
+
   - standard: BIMI
     status: informational
     applies_to:

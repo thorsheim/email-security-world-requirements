@@ -116,6 +116,22 @@ requirements:
       - critical_infrastructure
     notes: "No EU-level mandate for CAA. ENISA mentions certificate security generally."
 
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    authority: "ENISA / NIS2"
+    notes: >
+      ENISA and NIS2 reference network security broadly; RPKI is mentioned in
+      ENISA routing security guidelines as a best practice for critical infrastructure.
+      No explicit NIS2 mandate for RPKI.
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - critical_infrastructure
+    notes: "No EU-level guidance on ASPA as of 2026. Standard still in IETF standardization."
+
   - standard: BIMI
     status: informational
     applies_to:

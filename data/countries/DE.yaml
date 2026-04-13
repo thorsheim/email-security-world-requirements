@@ -112,6 +112,23 @@ requirements:
       - title: "BSI TR-03108 - Sicherer E-Mail-Transport"
         url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"
 
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "BSI"
+    notes: >
+      BSI has published awareness materials on routing security and RPKI.
+      No formal mandate in BSI TR-03108 as of 2026, but BSI recommends RPKI
+      as part of network security hardening.
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - government_agencies
+    notes: "No known BSI guidance on ASPA as of 2026. Standard still in IETF standardization."
+
   - standard: BIMI
     status: informational
     applies_to:

@@ -199,6 +199,59 @@ standards:
         url: "https://www.hardenize.com"
     docs_page: "docs/standards/caa.md"
 
+  - id: RPKI
+    name: Resource Public Key Infrastructure
+    rfcs:
+      - "RFC 6480"
+      - "RFC 6481"
+      - "RFC 6482"
+      - "RFC 6483"
+      - "RFC 6811"
+      - "RFC 9582"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc6480"
+      - "https://datatracker.ietf.org/doc/html/rfc6811"
+      - "https://datatracker.ietf.org/doc/html/rfc9582"
+    summary: >
+      RPKI provides cryptographic attestations (Route Origin Authorizations, ROAs)
+      that bind IP address prefixes to Autonomous System Numbers (ASNs). Networks
+      implementing Route Origin Validation (ROV) can reject BGP routes that lack a
+      valid ROA, preventing BGP hijacking and route leaks that could intercept or
+      redirect email and DNS traffic. Relevant to email security because hijacked
+      routes can silently redirect SMTP connections, SPF lookups, and DMARC reports.
+    testing_tools:
+      - name: Cloudflare RPKI Validator
+        url: "https://rpki.cloudflare.com"
+      - name: RIPE NCC RPKI Validator
+        url: "https://rpki-validator.ripe.net"
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: IRRexplorer
+        url: "https://irrexplorer.nlnog.net"
+    docs_page: "docs/standards/rpki.md"
+
+  - id: ASPA
+    name: Autonomous System Provider Authorization
+    rfcs:
+      - "RFC 9582"
+      - "draft-ietf-sidrops-aspa-profile"
+      - "draft-ietf-sidrops-aspa-verification"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-profile/"
+      - "https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-verification/"
+    summary: >
+      ASPA extends RPKI by allowing an Autonomous System to cryptographically register
+      its upstream transit providers. This enables path validation — detecting not only
+      route origin hijacks (covered by RPKI ROA) but also route leaks and more
+      sophisticated BGP path manipulation attacks. ASPA is newer than RPKI ROA and
+      still in active IETF standardization; deployment is at an early stage globally.
+    testing_tools:
+      - name: RIPE NCC RPKI Dashboard
+        url: "https://rpki-validator.ripe.net"
+      - name: Cloudflare RPKI Validator
+        url: "https://rpki.cloudflare.com"
+    docs_page: "docs/standards/aspa.md"
+
   - id: STARTTLS
     name: SMTP STARTTLS (Opportunistic TLS)
     rfcs:

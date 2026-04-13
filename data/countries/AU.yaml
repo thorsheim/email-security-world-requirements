@@ -110,6 +110,21 @@ requirements:
       - title: "ISM - Australian Government Information Security Manual"
         url: "https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism"
 
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - government_agencies
+    authority: "ASD / ACSC"
+    notes: >
+      No ASD/ACSC mandate for RPKI as of 2026. ASD acknowledges routing security
+      in ISM context but RPKI is not yet a formal ISM requirement for government domains.
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - government_agencies
+    notes: "No ASD/ACSC guidance on ASPA as of 2026."
+
   - standard: BIMI
     status: informational
     applies_to:

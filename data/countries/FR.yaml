@@ -100,6 +100,19 @@ requirements:
       - government_agencies
     notes: "No specific ANSSI mandate or strong recommendation for CAA as of 2026."
 
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    notes: "No ANSSI mandate for RPKI as of 2026."
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - government_agencies
+    notes: "No ANSSI guidance on ASPA as of 2026."
+
   - standard: BIMI
     status: informational
     applies_to:

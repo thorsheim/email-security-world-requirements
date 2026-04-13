@@ -4,9 +4,9 @@ This file provides context for Claude Code or other AI assistants working in thi
 
 ## Project Purpose
 
-This repository documents government-level email security requirements and recommendations by country. The goal is an authoritative, community-maintained reference for which of the 10 tracked email security standards are **mandatory**, **recommended**, **informational**, or absent in each country — with source citations, a generated world map, and documentation for each standard.
+This repository documents government-level email security requirements and recommendations by country. The goal is an authoritative, community-maintained reference for which of the 12 tracked standards are **mandatory**, **recommended**, **informational**, or absent in each country — with source citations, a generated world map, and documentation for each standard.
 
-## Standards Tracked (10 total)
+## Standards Tracked (12 total)
 
 | ID | Full Name | RFC |
 |---|---|---|
@@ -19,6 +19,8 @@ This repository documents government-level email security requirements and recom
 | `MTA-STS` | Mail Transfer Agent Strict Transport Security | RFC 8461 |
 | `TLS-RPT` | SMTP TLS Reporting | RFC 8460 |
 | `CAA` | Certification Authority Authorization | RFC 8659 |
+| `RPKI` | Resource Public Key Infrastructure | RFC 6480, 9582 |
+| `ASPA` | Autonomous System Provider Authorization | IETF SIDROPS draft |
 | `BIMI` | Brand Indicators for Message Identification | BIMI Group draft |
 
 ## Repository Structure
@@ -29,7 +31,7 @@ data/countries/_template.yaml Starter file for contributors
 data/standards.yaml           Master registry: names, RFCs, testing tools
 data/schema/country.schema.json  JSON Schema v7 — the validation contract
 
-docs/standards/*.md           Human-written documentation per standard (10 files)
+docs/standards/*.md           Human-written documentation per standard (12 files)
 docs/map.svg                  GENERATED — do not edit directly
 docs/index.html               GENERATED — do not edit directly
 

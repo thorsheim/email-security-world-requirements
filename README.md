@@ -39,16 +39,16 @@ via Pull Request are welcome.
 
 <!-- BEGIN_MATRIX -->
 
-| Country | Authority | [SPF](docs/standards/spf.md) | [DKIM](docs/standards/dkim.md) | [DMARC](docs/standards/dmarc.md) | [STARTTLS](docs/standards/starttls.md) | [DANE](docs/standards/dane.md) | [DNSSEC](docs/standards/dnssec.md) | [MTA-STS](docs/standards/mta-sts.md) | [TLS-RPT](docs/standards/tls-rpt.md) | [CAA](docs/standards/caa.md) | [BIMI](docs/standards/bimi.md) | Applies To |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| 🇦🇺 Australia | ASD / ACSC | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | 🔶 R | ℹ️ | Government Agencies |
-| 🇨🇦 Canada | CCCS; CCCS / Treasury Board | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | Government Agencies |
-| 🇩🇪 Germany | BSI | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | 🔶 R | ℹ️ | Critical Infrastructure, Government Agencies |
-| 🇪🇺 European Union | ENISA / NIS2 | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | Critical Infrastructure |
-| 🇫🇷 France | ANSSI | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | Critical Infrastructure, Government Agencies |
-| 🇬🇧 United Kingdom | NCSC | ✅ M | ✅ M | ✅ M (reject) | ✅ M | ℹ️ | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | Government Agencies |
-| 🇳🇱 Netherlands | Forum Standaardisatie / NCSA; NCSC | ✅ M | ✅ M | ✅ M (reject) | ✅ M | ✅ M | ✅ M | 🔶 R | ✅ M | ✅ M | ℹ️ | Government Agencies |
-| 🇺🇸 United States | CISA | ✅ M | 🔶 R | ✅ M (reject) | ✅ M | ℹ️ | ✅ M | 🔶 R | 🔶 R | 🔶 R | ℹ️ | Federal Agencies |
+| Country | Authority | [SPF](docs/standards/spf.md) | [DKIM](docs/standards/dkim.md) | [DMARC](docs/standards/dmarc.md) | [STARTTLS](docs/standards/starttls.md) | [DANE](docs/standards/dane.md) | [DNSSEC](docs/standards/dnssec.md) | [MTA-STS](docs/standards/mta-sts.md) | [TLS-RPT](docs/standards/tls-rpt.md) | [CAA](docs/standards/caa.md) | [RPKI](docs/standards/rpki.md) | [ASPA](docs/standards/aspa.md) | [BIMI](docs/standards/bimi.md) | Applies To |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| 🇦🇺 Australia | ASD / ACSC | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | 🔶 R | ℹ️ | ❓ | ℹ️ | Government Agencies |
+| 🇨🇦 Canada | CCCS; CCCS / Treasury Board | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ❓ | ℹ️ | Government Agencies |
+| 🇩🇪 Germany | BSI | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | 🔶 R | ℹ️ | ❓ | ℹ️ | Critical Infrastructure, Government Agencies |
+| 🇪🇺 European Union | ENISA / NIS2 | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ❓ | ℹ️ | Critical Infrastructure |
+| 🇫🇷 France | ANSSI | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ❓ | ℹ️ | Critical Infrastructure, Government Agencies |
+| 🇬🇧 United Kingdom | NCSC | ✅ M | ✅ M | ✅ M (reject) | ✅ M | ℹ️ | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | ❓ | ℹ️ | Government Agencies |
+| 🇳🇱 Netherlands | Forum Standaardisatie / NCSA; NCSC | ✅ M | ✅ M | ✅ M (reject) | ✅ M | ✅ M | ✅ M | 🔶 R | ✅ M | ✅ M | 🔶 R | ℹ️ | ℹ️ | Government Agencies |
+| 🇺🇸 United States | CISA | ✅ M | 🔶 R | ✅ M (reject) | ✅ M | ℹ️ | ✅ M | 🔶 R | 🔶 R | 🔶 R | ℹ️ | ❓ | ℹ️ | Federal Agencies |
 
 ### Legend
 
@@ -69,15 +69,16 @@ via Pull Request are welcome.
 | Sender authentication | SPF · DKIM · DMARC | Verify who sent the message |
 | Transport security | STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT | Encrypt and secure delivery |
 | Infrastructure | CAA | Restrict certificate issuance |
+| Routing security | RPKI · ASPA | Protect against BGP hijacking and route leaks |
 | Emerging | BIMI | Visual brand verification |
 
-> STARTTLS is already included in this repository. DANE requires DNSSEC — if a country mandates DANE, DNSSEC is implicitly required too.
+> DANE requires DNSSEC — if a country mandates DANE, DNSSEC is implicitly required too. ASPA extends RPKI ROA and is still in IETF standardization as of 2026.
 
 <!-- END_MATRIX -->
 
 ---
 
-## Standards Covered (10)
+## Standards Covered (12)
 
 | Standard | Full Name | RFC / Spec | Purpose |
 |---|---|---|---|
@@ -90,6 +91,8 @@ via Pull Request are welcome.
 | [MTA-STS](docs/standards/mta-sts.md) | Mail Transfer Agent Strict Transport Security | [RFC 8461](https://datatracker.ietf.org/doc/html/rfc8461) | Enforce TLS on delivery without requiring DNSSEC |
 | [TLS-RPT](docs/standards/tls-rpt.md) | SMTP TLS Reporting | [RFC 8460](https://datatracker.ietf.org/doc/html/rfc8460) | Aggregate reports on TLS connection failures |
 | [CAA](docs/standards/caa.md) | Certification Authority Authorization | [RFC 8659](https://datatracker.ietf.org/doc/html/rfc8659) | Restrict which CAs may issue certificates for a domain |
+| [RPKI](docs/standards/rpki.md) | Resource Public Key Infrastructure | [RFC 6480](https://datatracker.ietf.org/doc/html/rfc6480) / [RFC 9582](https://datatracker.ietf.org/doc/html/rfc9582) | Prevent BGP hijacking via cryptographic route origin validation |
+| [ASPA](docs/standards/aspa.md) | Autonomous System Provider Authorization | [IETF SIDROPS draft](https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-profile/) | Extend RPKI to detect route leaks via provider relationship validation |
 | [BIMI](docs/standards/bimi.md) | Brand Indicators for Message Identification | [BIMI Group](https://bimigroup.org) | Display a verified brand logo in supporting mail clients |
 
 ---

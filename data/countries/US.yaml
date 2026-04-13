@@ -136,6 +136,25 @@ requirements:
       - title: "CISA Email Security Best Practices"
         url: "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
 
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    notes: >
+      CISA has referenced RPKI in routing security guidance and advisories as an
+      important emerging protection. No BOD-level mandate for RPKI as of 2026.
+      The MANRS initiative and internet exchange community have been pushing adoption
+      more broadly.
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - federal_agencies
+    notes: >
+      No known federal guidance on ASPA as of 2026. Standard is still in IETF
+      standardization.
+
   - standard: BIMI
     status: informational
     applies_to:

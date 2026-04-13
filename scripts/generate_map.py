@@ -28,9 +28,9 @@ STANDARDS_PATH = REPO_ROOT / "data" / "standards.yaml"
 OUTPUT_SVG = REPO_ROOT / "docs" / "map.svg"
 OUTPUT_HTML = REPO_ROOT / "docs" / "index.html"
 
-STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "BIMI"]
+STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "RPKI", "ASPA", "BIMI"]
 
-# Dark-theme color scale (mandatory count, scale 0–10)
+# Dark-theme color scale (mandatory count, scale 0–12)
 DARK_COLORS = {
     "no_data": "#2a2a3e",
     0: "#7f0000",           # dark red — no requirements
@@ -44,7 +44,9 @@ DARK_COLORS = {
     7: "#33cc33",
     8: "#00dd55",
     9: "#00ee77",
-    10: "#00ff88",          # bright green — all mandatory
+    10: "#00ff88",
+    11: "#00ffaa",
+    12: "#00ffcc",          # bright green — all mandatory
 }
 
 
@@ -55,8 +57,8 @@ def score_color_dark(mandatory_count, recommended_count, has_data):
         return DARK_COLORS[0]
     if mandatory_count == 0:
         return DARK_COLORS["rec_only"]
-    count = min(mandatory_count, 10)
-    return DARK_COLORS.get(count, DARK_COLORS[10])
+    count = min(mandatory_count, 12)
+    return DARK_COLORS.get(count, DARK_COLORS[12])
 
 
 def load_country_data():
@@ -249,9 +251,11 @@ def generate_index_html(countries, scores, svg_content):
 
     legend_html = """
         <div class="legend">
-          <h3>Map Legend — Mandatory Standards Count (out of 10)</h3>
+          <h3>Map Legend — Mandatory Standards Count (out of 12)</h3>
           <div class="legend-grid">
-            <div class="legend-item"><span class="swatch" style="background:#00ff88"></span> 10 — All mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#00ffcc"></span> 12 — All mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#00ffaa"></span> 11 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#00ff88"></span> 10 mandatory</div>
             <div class="legend-item"><span class="swatch" style="background:#00ee77"></span> 9 mandatory</div>
             <div class="legend-item"><span class="swatch" style="background:#00dd55"></span> 8 mandatory</div>
             <div class="legend-item"><span class="swatch" style="background:#33cc33"></span> 7 mandatory</div>
@@ -273,7 +277,7 @@ def generate_index_html(countries, scores, svg_content):
             <span class="status-unknown">❓ Unknown / No data</span>
           </div>
           <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text-muted)">
-            Standards: SPF · DKIM · DMARC · STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT · CAA · BIMI
+            Standards: SPF · DKIM · DMARC · STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT · CAA · RPKI · ASPA · BIMI
           </p>
         </div>
     """
@@ -424,7 +428,7 @@ def generate_index_html(countries, scores, svg_content):
   <header>
     <h1>Email Security World Requirements</h1>
     <p>
-      Which countries require or recommend SPF, DKIM, DMARC, DANE, MTA-STS, TLS-RPT, BIMI, and STARTTLS?
+      Which countries require or recommend SPF, DKIM, DMARC, DANE, MTA-STS, TLS-RPT, BIMI, STARTTLS, RPKI, and ASPA?
       &nbsp;·&nbsp;
       <a href="https://github.com/thorsheim/email-security-world-requirements">GitHub</a>
       &nbsp;·&nbsp;
@@ -489,6 +493,8 @@ def generate_index_html(countries, scores, svg_content):
           <tr><td><a href="standards/mta-sts.md">MTA-STS</a></td><td>Mail Transfer Agent Strict Transport Security</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8461" target="_blank">RFC 8461</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://www.hardenize.com" target="_blank">Hardenize</a></td></tr>
           <tr><td><a href="standards/tls-rpt.md">TLS-RPT</a></td><td>SMTP TLS Reporting</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8460" target="_blank">RFC 8460</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/TLSRpt.aspx" target="_blank">MXToolbox</a></td></tr>
           <tr><td><a href="standards/caa.md">CAA</a></td><td>Certification Authority Authorization</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8659" target="_blank">RFC 8659</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/caa.aspx" target="_blank">MXToolbox</a></td></tr>
+          <tr><td><a href="standards/rpki.md">RPKI</a></td><td>Resource Public Key Infrastructure</td><td><a href="https://datatracker.ietf.org/doc/html/rfc6480" target="_blank">RFC 6480 / 9582</a></td><td><a href="https://rpki.cloudflare.com" target="_blank">Cloudflare RPKI</a>, <a href="https://rpki-validator.ripe.net" target="_blank">RIPE NCC</a></td></tr>
+          <tr><td><a href="standards/aspa.md">ASPA</a></td><td>Autonomous System Provider Authorization</td><td><a href="https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-profile/" target="_blank">IETF SIDROPS draft</a></td><td><a href="https://rpki-validator.ripe.net" target="_blank">RIPE NCC RPKI</a></td></tr>
           <tr><td><a href="standards/bimi.md">BIMI</a></td><td>Brand Indicators for Message Identification</td><td><a href="https://bimigroup.org" target="_blank">BIMI Group</a></td><td><a href="https://bimigroup.org/bimi-generator/" target="_blank">BIMI Checker</a></td></tr>
         </tbody>
       </table>

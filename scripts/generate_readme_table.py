@@ -22,7 +22,7 @@ README_PATH = REPO_ROOT / "README.md"
 BEGIN_SENTINEL = "<!-- BEGIN_MATRIX -->"
 END_SENTINEL = "<!-- END_MATRIX -->"
 
-STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "BIMI"]
+STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "RPKI", "ASPA", "BIMI"]
 STANDARDS_DOCS = {
     "SPF": "docs/standards/spf.md",
     "DKIM": "docs/standards/dkim.md",
@@ -33,6 +33,8 @@ STANDARDS_DOCS = {
     "MTA-STS": "docs/standards/mta-sts.md",
     "TLS-RPT": "docs/standards/tls-rpt.md",
     "CAA": "docs/standards/caa.md",
+    "RPKI": "docs/standards/rpki.md",
+    "ASPA": "docs/standards/aspa.md",
     "BIMI": "docs/standards/bimi.md",
 }
 
@@ -133,10 +135,11 @@ def build_matrix_table(countries):
     rows.append("| Sender authentication | SPF · DKIM · DMARC | Verify who sent the message |")
     rows.append("| Transport security | STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT | Encrypt and secure delivery |")
     rows.append("| Infrastructure | CAA | Restrict certificate issuance |")
+    rows.append("| Routing security | RPKI · ASPA | Protect against BGP hijacking and route leaks |")
     rows.append("| Emerging | BIMI | Visual brand verification |")
     rows.append("")
-    rows.append("> STARTTLS is already included in this repository. "
-                "DANE requires DNSSEC — if a country mandates DANE, DNSSEC is implicitly required too.")
+    rows.append("> DANE requires DNSSEC — if a country mandates DANE, DNSSEC is implicitly required too. "
+                "ASPA extends RPKI ROA and is still in IETF standardization as of 2026.")
 
     return "\n".join(rows)
 

@@ -122,6 +122,22 @@ requirements:
       - title: "NCSC Mail Check Service"
         url: "https://www.ncsc.gov.uk/information/mail-check"
 
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      NCSC has published guidance on network-level security including routing security.
+      No formal mandate for RPKI as of 2026, but NCSC acknowledges its importance for
+      protecting against BGP hijacking.
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - government_agencies
+    notes: "No known NCSC guidance on ASPA as of 2026. Standard still in IETF standardization."
+
   - standard: BIMI
     status: informational
     applies_to:

@@ -130,6 +130,28 @@ requirements:
       - title: "CAA - Forum Standaardisatie"
         url: "https://www.forumstandaardisatie.nl/open-standaarden/caa"
 
+  - standard: RPKI
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      The NCSC and Forum Standaardisatie have published guidance on routing security
+      including RPKI ROA. Not yet on the mandatory "pas-toe-of-leg-uit" list as of 2026,
+      but recommended as part of network security hardening for government domains.
+    references:
+      - title: "NCSC - Beveilig je netwerk met RPKI"
+        url: "https://www.ncsc.nl/onderwerpen/routebeveiliging"
+
+  - standard: ASPA
+    status: informational
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      ASPA is not yet mandated or formally recommended. The NCSC monitors routing
+      security standards development. ASPA is still in IETF standardization as of 2026.
+
   - standard: BIMI
     status: informational
     applies_to:
