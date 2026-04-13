@@ -4,7 +4,7 @@ This file provides context for Claude Code or other AI assistants working in thi
 
 ## Project Purpose
 
-This repository documents government-level email security requirements and recommendations by country. The goal is an authoritative, community-maintained reference for which of the 13 tracked standards are **mandatory**, **recommended**, **informational**, or absent in each country — with source citations, a generated world map, and documentation for each standard.
+This repository documents government-level email security requirements and recommendations by country. The goal is an authoritative, community-maintained reference for which of the 13 tracked standards are **mandatory**, **recommended**, **informational**, or absent in each country — with source citations, a generated interactive requirements matrix, and documentation for each standard.
 
 ## Standards Tracked (13 total)
 
@@ -41,7 +41,7 @@ scripts/validate_data.py      Validate all YAML against schema
 scripts/generate_map.py       Write docs/index.html (GitHub Pages interactive page)
 scripts/generate_readme_table.py  Inject matrix table into README.md (between sentinels)
 scripts/generate_webversion.py    Write webversion/index.html (light theme, self-contained HTML)
-scripts/requirements.txt      pip dependencies: pyyaml, jsonschema
+scripts/requirements.txt      pip dependencies: pyyaml, jsonschema[format], requests
 ```
 
 **Never edit generated files directly.** Always edit `data/` and re-run scripts.
@@ -75,6 +75,12 @@ The README matrix is bounded by `<!-- BEGIN_MATRIX -->` and `<!-- END_MATRIX -->
 - **Valid standard IDs**: `SPF`, `DKIM`, `DMARC`, `STARTTLS`, `DANE`, `DNSSEC`, `MTA-STS`, `TLS-RPT`, `CAA`, `IPv6`, `RPKI`, `ASPA`, `BIMI`
 - **`level`** (DMARC only): `reject` | `quarantine` | `none` — the required DMARC policy enforcement level
 - **`scope`** (DNSSEC only): `signing` | `validation` | `both` — which aspect is mandated; `signing` = zones must be signed, `validation` = resolvers must validate, `both` = both; shown in the Policy Details table as a suffix on the status icon
+- **Display icons** (generated output only — do not put in YAML):
+  - `✅ M` — Mandatory
+  - `🟡 R` — Recommended
+  - `ℹ️` — Informational
+  - `➖` — None (explicitly confirmed not required)
+  - `✗` — Unknown (no official data found)
 - **Sources**: Only official government/agency documents count as valid references for `mandatory` or `recommended` status
 
 ## Schema
@@ -86,7 +92,7 @@ The README matrix is bounded by `<!-- BEGIN_MATRIX -->` and `<!-- END_MATRIX -->
 | Workflow | Trigger | Action |
 |---|---|---|
 | `validate.yml` | PR touching `data/**` | Runs `validate_data.py`; fails on schema errors |
-| `generate-map.yml` | Push to `main` touching `data/**` or `scripts/generate_*.py` | Regenerates map, README table, webversion; auto-commits |
+| `generate-map.yml` | Push to `main` touching `data/**` or `scripts/generate_*.py` | Regenerates README table, interactive page, and webversion; auto-commits |
 | `pages.yml` | Push to `main` touching `docs/**` | Deploys `docs/` to GitHub Pages |
 
 ## Webversion Deployment

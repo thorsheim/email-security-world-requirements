@@ -7,7 +7,7 @@
 [![Validate Data](https://github.com/thorsheim/email-security-world-requirements/actions/workflows/validate.yml/badge.svg)](https://github.com/thorsheim/email-security-world-requirements/actions/workflows/validate.yml)
 [![Countries](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fthorsheim%2Femail-security-world-requirements%2Fmain%2Fdata%2Fcountries%2FNL.yaml&label=countries&query=%24.country_code&color=blue)](data/countries/)
 
-**Live interactive map:** [thorsheim.github.io/email-security-world-requirements](https://thorsheim.github.io/email-security-world-requirements/)  
+**Live interactive version:** [thorsheim.github.io/email-security-world-requirements](https://thorsheim.github.io/email-security-world-requirements/)  
 **Web version:** [passwordscon.org/mailrequirements/](https://passwordscon.org/mailrequirements/)
 
 ---
