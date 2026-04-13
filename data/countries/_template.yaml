@@ -19,7 +19,7 @@ references: []
 
 requirements: []
 # Add one entry per standard. Valid standard IDs:
-#   SPF, DKIM, DMARC, DANE, MTA-STS, TLS-RPT, BIMI, STARTTLS
+#   SPF, DKIM, DMARC, STARTTLS, DANE, DNSSEC, MTA-STS, TLS-RPT, CAA, IPv6, RPKI, ASPA, BIMI
 #
 # Valid status values:
 #   mandatory     - Legally or policy-required

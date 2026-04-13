@@ -80,12 +80,12 @@ The README matrix is bounded by `<!-- BEGIN_MATRIX -->` and `<!-- END_MATRIX -->
 - **Country codes**: ISO 3166-1 alpha-2, uppercase (`NL`, `US`, `GB`). Use `EU` for the European Union.
 - **Dates**: ISO 8601, `YYYY-MM-DD`
 - **Status values**: `mandatory` | `recommended` | `informational` | `none` | `unknown`
-- **Valid standard IDs**: `SPF`, `DKIM`, `DMARC`, `STARTTLS`, `DANE`, `DNSSEC`, `MTA-STS`, `TLS-RPT`, `CAA`, `BIMI`
+- **Valid standard IDs**: `SPF`, `DKIM`, `DMARC`, `STARTTLS`, `DANE`, `DNSSEC`, `MTA-STS`, `TLS-RPT`, `CAA`, `IPv6`, `RPKI`, `ASPA`, `BIMI`
 - **Sources**: Only official government/agency documents count as valid references for `mandatory` or `recommended` status
 
 ## Schema
 
-`data/schema/country.schema.json` — JSON Schema v7. All country YAML files are validated against this. The `standard` field uses a closed enum matching the 10 IDs above.
+`data/schema/country.schema.json` — JSON Schema v7. All country YAML files are validated against this. The `standard` field uses a closed enum matching the 13 IDs above.
 
 ## CI / GitHub Actions
 

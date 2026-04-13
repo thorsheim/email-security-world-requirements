@@ -1,7 +1,7 @@
 # Email Security World Requirements
 
 > A community-maintained reference documenting which countries require or recommend
-> SPF, DKIM, DMARC, STARTTLS, DANE, DNSSEC, MTA-STS, TLS-RPT, CAA, and BIMI
+> SPF, DKIM, DMARC, STARTTLS, DANE, DNSSEC, MTA-STS, TLS-RPT, CAA, IPv6, RPKI, ASPA, and BIMI
 > at government or national policy level.
 
 [![Validate Data](https://github.com/thorsheim/email-security-world-requirements/actions/workflows/validate.yml/badge.svg)](https://github.com/thorsheim/email-security-world-requirements/actions/workflows/validate.yml)
@@ -188,7 +188,7 @@ Test your own domain against these standards:
 
 | Tool | URL | What it tests |
 |---|---|---|
-| **internet.nl** | https://internet.nl | SPF, DKIM, DMARC, DANE, DNSSEC, STARTTLS, TLS-RPT, MTA-STS — full suite; operated by the Dutch government |
+| **internet.nl** | https://internet.nl | SPF, DKIM, DMARC, DANE, DNSSEC, STARTTLS, TLS-RPT, MTA-STS, IPv6 — full suite; operated by the Dutch government |
 | **Mailcheck** | https://passwordscon.org/mailcheck/ | SPF, DKIM, DMARC, STARTTLS, headers — quick combined tester |
 | **MXToolbox** | https://mxtoolbox.com | Individual lookups for all standards |
 | **dmarcian** | https://dmarcian.com | DMARC management, reporting, and SPF/DKIM analysis |
