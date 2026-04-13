@@ -9,6 +9,9 @@ notes: >
   for all Commonwealth entities. The ACSC "Strategies to Mitigate Cyber Security
   Incidents" and associated advisories reinforce these recommendations.
 
+authorities:
+  "ASD / ACSC": "https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/email-hardening/how-combat-fake-emails"
+
 references:
   - title: "ACSC - Email Security"
     url: "https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/email-hardening/how-combat-fake-emails"

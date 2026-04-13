@@ -9,6 +9,10 @@ notes: >
   the landmark mandate requiring SPF, DMARC (p=reject), and STARTTLS for .gov
   sending domains. BOD 20-01 expanded to all .gov domains.
 
+authorities:
+  "CISA": "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
+  "ONCD": "https://www.whitehouse.gov/oncd/"
+
 references:
   - title: "BOD 18-01 - Enhance Email and Web Security"
     url: "https://cyber.dhs.gov/bod/18-01/"
@@ -144,16 +148,56 @@ requirements:
     notes: >
       CISA has referenced RPKI in routing security guidance and advisories as an
       important emerging protection. No BOD-level mandate for RPKI as of 2026.
-      The MANRS initiative and internet exchange community have been pushing adoption
-      more broadly.
 
-  - standard: ASPA
-    status: unknown
+  - standard: RPKI
+    status: recommended
     applies_to:
       - federal_agencies
+      - private_sector
+    authority: "ONCD"
+    policy_document: "Roadmap to Enhancing Internet Routing Security"
+    effective_date: "2024-03-01"
     notes: >
-      No known federal guidance on ASPA as of 2026. Standard is still in IETF
-      standardization.
+      The White House Office of the National Cyber Director (ONCD) published a
+      "Roadmap to Enhancing Internet Routing Security" in March 2024. It calls on
+      network operators, ISPs, and federal agencies to deploy RPKI Route Origin
+      Authorizations (ROAs) and enable Route Origin Validation (ROV) to protect
+      against BGP hijacking. The roadmap targets near-term RPKI adoption across
+      critical infrastructure and federal networks.
+    references:
+      - title: "Roadmap to Enhancing Internet Routing Security — ONCD (March 2024)"
+        url: "https://www.whitehouse.gov/wp-content/uploads/2024/03/Roadmap-to-Enhancing-Internet-Routing-Security.pdf"
+
+  - standard: ASPA
+    status: informational
+    applies_to:
+      - federal_agencies
+      - private_sector
+    authority: "ONCD"
+    policy_document: "Roadmap to Enhancing Internet Routing Security"
+    notes: >
+      The ONCD routing security roadmap acknowledges ASPA and path validation as a
+      longer-term complement to RPKI ROA. It is listed as a future capability that
+      operators should monitor as the standard matures through IETF.
+    references:
+      - title: "Roadmap to Enhancing Internet Routing Security — ONCD (March 2024)"
+        url: "https://www.whitehouse.gov/wp-content/uploads/2024/03/Roadmap-to-Enhancing-Internet-Routing-Security.pdf"
+
+  - standard: DNSSEC
+    status: recommended
+    applies_to:
+      - federal_agencies
+      - private_sector
+    authority: "ONCD"
+    policy_document: "Roadmap to Enhancing Internet Routing Security"
+    notes: >
+      The ONCD roadmap calls out DNSSEC as critical infrastructure-level protection
+      needed to secure the DNS lookups that underpin email routing, SPF, and DMARC.
+      DNSSEC is already mandatory for federal agencies under CISA BOD 18-01; the
+      ONCD roadmap extends the recommendation to network operators and ISPs broadly.
+    references:
+      - title: "Roadmap to Enhancing Internet Routing Security — ONCD (March 2024)"
+        url: "https://www.whitehouse.gov/wp-content/uploads/2024/03/Roadmap-to-Enhancing-Internet-Routing-Security.pdf"
 
   - standard: BIMI
     status: informational

@@ -10,6 +10,10 @@ notes: >
   government organisations. The internet.nl platform, built by the Dutch government
   (SIDN/ECP/NCSC), provides free public testing and is widely used internationally.
 
+authorities:
+  "Forum Standaardisatie / NCSA": "https://www.forumstandaardisatie.nl/open-standaarden/verplicht"
+  "NCSC": "https://www.ncsc.nl/onderwerpen/e-mailbeveiliging"
+
 references:
   - title: "Forum Standaardisatie - Verplichte open standaarden"
     url: "https://www.forumstandaardisatie.nl/open-standaarden/verplicht"

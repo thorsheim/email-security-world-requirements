@@ -25,6 +25,14 @@
       "type": "string",
       "description": "General context about this country's email security posture."
     },
+    "authorities": {
+      "type": "object",
+      "description": "Map of authority short names to their policy/recommendation landing page URLs. Keys must match authority values used in requirements entries.",
+      "additionalProperties": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
     "references": {
       "type": "array",
       "description": "Top-level policy or regulatory documents for this country.",

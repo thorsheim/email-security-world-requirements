@@ -10,6 +10,9 @@ notes: >
   adds obligations for operators of essential services (OES) and digital service
   providers (DSP).
 
+authorities:
+  "ANSSI": "https://www.ssi.gouv.fr/guide/recommandations-pour-la-securisation-des-courriels/"
+
 references:
   - title: "ANSSI - Recommandations pour la sécurisation des courriels"
     url: "https://www.ssi.gouv.fr/guide/recommandations-pour-la-securisation-des-courriels/"

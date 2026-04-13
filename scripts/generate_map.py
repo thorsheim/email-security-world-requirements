@@ -76,12 +76,13 @@ def load_country_data():
 
 
 def compute_scores(countries):
-    """For each country, compute mandatory and recommended counts."""
+    """For each country, compute mandatory and recommended counts.
+    When multiple authorities cover the same standard, only the highest status counts."""
     scores = {}
     for code, data in countries.items():
         mandatory = 0
         recommended = 0
-        for req in data.get("requirements", []):
+        for req in best_req_per_standard(data.get("requirements", [])).values():
             s = req.get("status", "")
             if s == "mandatory":
                 mandatory += 1
@@ -171,6 +172,37 @@ def write_svg(tree, output_path):
     print(f"Written: {output_path}")
 
 
+STATUS_PRIORITY = {
+    "mandatory": 4,
+    "recommended": 3,
+    "informational": 2,
+    "none": 1,
+    "unknown": 0,
+}
+
+
+def best_req_per_standard(requirements):
+    """For each standard return the entry with the highest status."""
+    groups = {}
+    for req in requirements:
+        std = req.get("standard")
+        if not std:
+            continue
+        if std not in groups:
+            groups[std] = req
+        else:
+            if STATUS_PRIORITY.get(req.get("status", "unknown"), 0) > STATUS_PRIORITY.get(groups[std].get("status", "unknown"), 0):
+                groups[std] = req
+    return groups
+
+
+def link_authority_html(name, authority_urls):
+    url = authority_urls.get(name)
+    if url:
+        return f'<a href="{url}" target="_blank">{name}</a>'
+    return name
+
+
 def build_table_rows_html(countries, scores):
     """Build HTML table rows for the interactive page."""
     STATUS_ICONS = {
@@ -186,12 +218,13 @@ def build_table_rows_html(countries, scores):
         data = countries[code]
         s = scores[code]
         name = data.get("country_name", code)
+        authority_urls = data.get("authorities", {})
 
-        # Build per-standard cells
-        req_map = {r["standard"]: r for r in data.get("requirements", [])}
+        best_map = best_req_per_standard(data.get("requirements", []))
+
         cells = []
         for std in STANDARDS_ORDER:
-            req = req_map.get(std)
+            req = best_map.get(std)
             if req:
                 icon = STATUS_ICONS.get(req.get("status", "unknown"), "❓")
                 level = req.get("level", "")
@@ -204,18 +237,19 @@ def build_table_rows_html(countries, scores):
             else:
                 cells.append('<td class="status-unknown">❓</td>')
 
-        # Applies-to summary
         applies_set = set()
         for req in data.get("requirements", []):
             for a in req.get("applies_to", []):
                 applies_set.add(a.replace("_", " ").title())
         applies_str = ", ".join(sorted(applies_set)) if applies_set else "—"
 
-        authority_set = set()
+        # Collect unique authorities in order of appearance, linked
+        seen_auths = []
         for req in data.get("requirements", []):
-            if req.get("authority"):
-                authority_set.add(req["authority"])
-        authority_str = "; ".join(sorted(authority_set)) if authority_set else "—"
+            auth = req.get("authority")
+            if auth and auth not in seen_auths:
+                seen_auths.append(auth)
+        authority_str = " · ".join(link_authority_html(a, authority_urls) for a in seen_auths) if seen_auths else "—"
 
         row = (
             f'<tr data-mandatory="{s["mandatory"]}" data-recommended="{s["recommended"]}">'
@@ -227,6 +261,63 @@ def build_table_rows_html(countries, scores):
             f'</tr>'
         )
         rows.append(row)
+    return "\n".join(rows)
+
+
+def build_details_rows_html(countries):
+    """Build HTML rows for the per-(country, authority, standard) details table."""
+    STATUS_LABELS = {
+        "mandatory": ("✅ Mandatory", "status-mandatory"),
+        "recommended": ("🔶 Recommended", "status-recommended"),
+    }
+    rows = []
+    for code in sorted(countries.keys()):
+        data = countries[code]
+        name = data.get("country_name", code)
+        authority_urls = data.get("authorities", {})
+        first = True
+
+        for req in data.get("requirements", []):
+            status = req.get("status", "unknown")
+            if status not in ("mandatory", "recommended"):
+                continue
+
+            authority = req.get("authority", "—")
+            auth_html = link_authority_html(authority, authority_urls)
+            standard = req.get("standard", "")
+            level = req.get("level", "")
+            label, css = STATUS_LABELS[status]
+            if level and status == "mandatory":
+                label += f" ({level})"
+            policy = req.get("policy_document", "")
+            notes_raw = req.get("notes", "")
+            notes = " ".join(notes_raw.split())[:140] if notes_raw else ""
+            if len(" ".join(notes_raw.split())) > 140:
+                notes = notes.rsplit(" ", 1)[0] + "…"
+
+            refs = req.get("references", [])
+            if refs:
+                r0 = refs[0]
+                rtitle = r0.get("title", "Source")
+                rurl = r0.get("url", "")
+                source_html = f'<a href="{rurl}" target="_blank">{rtitle}</a>' if rurl else rtitle
+            else:
+                source_html = "—"
+
+            country_cell = f"<strong>{code}</strong> {name}" if first else ""
+            first = False
+
+            rows.append(
+                f'<tr>'
+                f'<td>{country_cell}</td>'
+                f'<td>{auth_html}</td>'
+                f'<td>{standard}</td>'
+                f'<td class="{css}">{label}</td>'
+                f'<td>{policy}</td>'
+                f'<td class="details-notes">{notes}</td>'
+                f'<td>{source_html}</td>'
+                f'</tr>'
+            )
     return "\n".join(rows)
 
 
@@ -244,6 +335,7 @@ def generate_index_html(countries, scores, svg_content):
     """Generate the GitHub Pages index.html."""
 
     table_rows = build_table_rows_html(countries, scores)
+    details_rows = build_details_rows_html(countries)
 
     std_header_cells = "".join(
         f'<th class="std-header" title="{s}">{s}</th>' for s in STANDARDS_ORDER
@@ -408,6 +500,7 @@ def generate_index_html(countries, scores, svg_content):
     .status-informational {{ color: #94a3b8; }}
     .status-none {{ color: #475569; }}
     .status-unknown {{ color: #64748b; }}
+    .details-notes {{ font-size: 0.8rem; color: var(--text-muted); max-width: 320px; }}
     footer {{
       text-align: center;
       padding: 2rem;
@@ -468,6 +561,30 @@ def generate_index_html(countries, scores, svg_content):
         </thead>
         <tbody>
 {table_rows}
+        </tbody>
+      </table>
+    </section>
+
+    <section id="details-section">
+      <h2>Policy Details — Mandatory &amp; Recommended</h2>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">
+        Per-country, per-authority breakdown of each mandatory or recommended standard with policy document names and direct source links.
+        Where multiple authorities cover the same standard, each entry is listed separately.
+      </p>
+      <table id="details-table">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>Authority</th>
+            <th>Standard</th>
+            <th>Status</th>
+            <th>Policy Document</th>
+            <th>Description</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+{details_rows}
         </tbody>
       </table>
     </section>

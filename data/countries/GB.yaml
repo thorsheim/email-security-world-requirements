@@ -9,6 +9,9 @@ notes: >
   Mail Check service (mailcheck.service.gov.uk) provides automated testing
   for UK public sector domains.
 
+authorities:
+  "NCSC": "https://www.ncsc.gov.uk/collection/email-security-and-anti-spoofing"
+
 references:
   - title: "NCSC - Email security and anti-spoofing"
     url: "https://www.ncsc.gov.uk/collection/email-security-and-anti-spoofing"

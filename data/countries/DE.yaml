@@ -10,6 +10,9 @@ notes: >
   to follow BSI minimum standards; the recommendations extend to all organisations.
   NIS2 transposition (NISG 2.0) adds obligations for critical infrastructure sectors.
 
+authorities:
+  "BSI": "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"
+
 references:
   - title: "BSI TR-03108 - Sicherer E-Mail-Transport"
     url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"

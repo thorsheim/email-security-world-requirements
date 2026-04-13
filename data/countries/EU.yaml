@@ -13,6 +13,9 @@ notes: >
   own levels (see individual country entries for DE, FR, NL, etc.).
   This entry captures EU-level guidance only.
 
+authorities:
+  "ENISA / NIS2": "https://www.enisa.europa.eu/topics/cybersecurity-policy/nis-directive-new"
+
 references:
   - title: "NIS2 Directive (EU) 2022/2555"
     url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32022L2555"

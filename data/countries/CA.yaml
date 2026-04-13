@@ -9,6 +9,10 @@ notes: >
   SPF, DKIM, and DMARC. Treasury Board of Canada Secretariat directives
   reference these standards for Government of Canada institutions.
 
+authorities:
+  "CCCS": "https://www.cyber.gc.ca/en/guidance/email-security"
+  "CCCS / Treasury Board": "https://www.canada.ca/en/government/system/digital-government/policies-standards/enterprise-it-service-common-configurations/email.html"
+
 references:
   - title: "CCCS - Email security"
     url: "https://www.cyber.gc.ca/en/guidance/email-security"

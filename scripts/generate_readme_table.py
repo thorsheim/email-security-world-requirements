@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-Inject the requirements matrix table into README.md between sentinel comments:
-    <!-- BEGIN_MATRIX -->
-    <!-- END_MATRIX -->
+Inject the requirements matrix table and policy details table into README.md.
+
+Sentinels:
+    <!-- BEGIN_MATRIX --> ... <!-- END_MATRIX -->
+    <!-- BEGIN_DETAILS --> ... <!-- END_DETAILS -->
 
 Usage:
     python scripts/generate_readme_table.py
 
-The table is regenerated from data/countries/*.yaml on every run.
+The tables are regenerated from data/countries/*.yaml on every run.
 """
 
 import sys
@@ -19,8 +21,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 COUNTRIES_DIR = REPO_ROOT / "data" / "countries"
 README_PATH = REPO_ROOT / "README.md"
 
-BEGIN_SENTINEL = "<!-- BEGIN_MATRIX -->"
-END_SENTINEL = "<!-- END_MATRIX -->"
+BEGIN_MATRIX = "<!-- BEGIN_MATRIX -->"
+END_MATRIX = "<!-- END_MATRIX -->"
+BEGIN_DETAILS = "<!-- BEGIN_DETAILS -->"
+END_DETAILS = "<!-- END_DETAILS -->"
 
 STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "RPKI", "ASPA", "BIMI"]
 STANDARDS_DOCS = {
@@ -46,6 +50,14 @@ STATUS_ICONS = {
     "unknown": "❓",
 }
 
+STATUS_PRIORITY = {
+    "mandatory": 4,
+    "recommended": 3,
+    "informational": 2,
+    "none": 1,
+    "unknown": 0,
+}
+
 FLAG_EMOJI = {
     "NL": "🇳🇱", "US": "🇺🇸", "GB": "🇬🇧", "DE": "🇩🇪",
     "AU": "🇦🇺", "FR": "🇫🇷", "CA": "🇨🇦", "EU": "🇪🇺",
@@ -65,8 +77,45 @@ def load_country_data():
     return countries
 
 
+def best_req_per_standard(requirements):
+    """For each standard, return the single requirement entry with the highest status.
+    When two authorities cover the same standard, the highest status wins."""
+    groups = {}
+    for req in requirements:
+        std = req.get("standard")
+        if not std:
+            continue
+        if std not in groups:
+            groups[std] = req
+        else:
+            existing_priority = STATUS_PRIORITY.get(groups[std].get("status", "unknown"), 0)
+            new_priority = STATUS_PRIORITY.get(req.get("status", "unknown"), 0)
+            if new_priority > existing_priority:
+                groups[std] = req
+    return groups
+
+
+def link_authority(name, authority_urls):
+    """Return a markdown link if a URL is available, otherwise plain text."""
+    url = authority_urls.get(name)
+    if url:
+        return f"[{name}]({url})"
+    return name
+
+
+def build_authority_str(requirements, authority_urls):
+    """Build a linked authority string showing all unique authorities for a country."""
+    seen = []
+    for req in requirements:
+        auth = req.get("authority")
+        if auth and auth not in seen:
+            seen.append(auth)
+    if not seen:
+        return "—"
+    return " · ".join(link_authority(a, authority_urls) for a in seen)
+
+
 def build_matrix_table(countries):
-    # Header row
     std_headers = " | ".join(
         f"[{s}]({STANDARDS_DOCS[s]})" for s in STANDARDS_ORDER
     )
@@ -82,20 +131,14 @@ def build_matrix_table(countries):
         name = data.get("country_name", code)
         flag = FLAG_EMOJI.get(code, "")
         display_name = f"{flag} {name}".strip()
+        authority_urls = data.get("authorities", {})
 
-        req_map = {r["standard"]: r for r in data.get("requirements", [])}
+        best_map = best_req_per_standard(data.get("requirements", []))
+        authority_str = build_authority_str(data.get("requirements", []), authority_urls)
 
-        # Authority summary
-        authority_set = set()
-        for req in data.get("requirements", []):
-            if req.get("authority"):
-                authority_set.add(req["authority"])
-        authority_str = "; ".join(sorted(authority_set)) if authority_set else "—"
-
-        # Per-standard cells
         cells = []
         for std in STANDARDS_ORDER:
-            req = req_map.get(std)
+            req = best_map.get(std)
             if req:
                 icon = STATUS_ICONS.get(req.get("status", "unknown"), "❓")
                 level = req.get("level", "")
@@ -105,7 +148,6 @@ def build_matrix_table(countries):
                 icon = "❓"
             cells.append(icon)
 
-        # Applies-to summary
         applies_set = set()
         for req in data.get("requirements", []):
             for a in req.get("applies_to", []):
@@ -144,37 +186,102 @@ def build_matrix_table(countries):
     return "\n".join(rows)
 
 
-def inject_table(readme_content, table_content):
-    begin_idx = readme_content.find(BEGIN_SENTINEL)
-    end_idx = readme_content.find(END_SENTINEL)
+def truncate(text, max_len=140):
+    """Truncate text to max_len characters, preserving word boundaries."""
+    if not text:
+        return ""
+    text = " ".join(text.split())  # normalise whitespace
+    if len(text) <= max_len:
+        return text
+    cut = text[:max_len].rsplit(" ", 1)[0]
+    return cut + "…"
+
+
+def build_details_table(countries):
+    """Build per-(country, authority, standard) details for mandatory/recommended entries."""
+
+    rows = []
+    rows.append("| Country | Authority | Standard | Status | Policy Document | Description | Source |")
+    rows.append("| :--- | :--- | :--- | :---: | :--- | :--- | :--- |")
+
+    for code in sorted(countries.keys()):
+        data = countries[code]
+        name = data.get("country_name", code)
+        flag = FLAG_EMOJI.get(code, "")
+        display_name = f"{flag} {name}".strip()
+        authority_urls = data.get("authorities", {})
+
+        first_row_for_country = True
+
+        for req in data.get("requirements", []):
+            status = req.get("status", "unknown")
+            if status not in ("mandatory", "recommended"):
+                continue
+
+            authority = req.get("authority", "—")
+            auth_linked = link_authority(authority, authority_urls)
+            standard = req.get("standard", "")
+            std_doc = STANDARDS_DOCS.get(standard, "")
+            std_linked = f"[{standard}]({std_doc})" if std_doc else standard
+
+            status_icon = STATUS_ICONS.get(status, "❓")
+            level = req.get("level", "")
+            if level and status == "mandatory":
+                status_icon += f" ({level})"
+
+            policy_doc = req.get("policy_document", "")
+
+            notes = req.get("notes", "")
+            description = truncate(notes) if notes else ""
+
+            refs = req.get("references", [])
+            if refs:
+                first_ref = refs[0]
+                ref_title = first_ref.get("title", "Source")
+                ref_url = first_ref.get("url", "")
+                source = f"[{ref_title}]({ref_url})" if ref_url else ref_title
+            else:
+                source = ""
+
+            country_cell = display_name if first_row_for_country else ""
+            first_row_for_country = False
+
+            row = f"| {country_cell} | {auth_linked} | {std_linked} | {status_icon} | {policy_doc} | {description} | {source} |"
+            rows.append(row)
+
+    return "\n".join(rows)
+
+
+def inject_section(content, begin_sentinel, end_sentinel, new_content):
+    begin_idx = content.find(begin_sentinel)
+    end_idx = content.find(end_sentinel)
 
     if begin_idx == -1 or end_idx == -1:
-        print(
-            f"ERROR: Could not find sentinels '{BEGIN_SENTINEL}' and/or '{END_SENTINEL}' in README.md"
-        )
-        sys.exit(1)
+        print(f"WARNING: Could not find sentinels '{begin_sentinel}' / '{end_sentinel}' — skipping.")
+        return content
 
-    before = readme_content[: begin_idx + len(BEGIN_SENTINEL)]
-    after = readme_content[end_idx:]
-
-    return before + "\n\n" + table_content + "\n\n" + after
+    before = content[: begin_idx + len(begin_sentinel)]
+    after = content[end_idx:]
+    return before + "\n\n" + new_content + "\n\n" + after
 
 
 def main():
     countries = load_country_data()
     print(f"Loaded {len(countries)} country files.")
 
-    table = build_matrix_table(countries)
+    matrix = build_matrix_table(countries)
+    details = build_details_table(countries)
 
     with open(README_PATH, encoding="utf-8") as f:
         readme = f.read()
 
-    updated = inject_table(readme, table)
+    readme = inject_section(readme, BEGIN_MATRIX, END_MATRIX, matrix)
+    readme = inject_section(readme, BEGIN_DETAILS, END_DETAILS, details)
 
     with open(README_PATH, "w", encoding="utf-8") as f:
-        f.write(updated)
+        f.write(readme)
 
-    print(f"Updated matrix table in {README_PATH}")
+    print(f"Updated matrix and details tables in {README_PATH}")
 
 
 if __name__ == "__main__":
