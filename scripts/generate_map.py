@@ -244,24 +244,63 @@ def generate_index_html(countries, scores):
     )
 
     html = f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Email Security World Requirements</title>
+  <script>
+    // Restore saved theme before first paint to avoid flash
+    (function() {{
+      const t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    }})();
+  </script>
   <style>
-    :root {{
-      --bg: #0f1117;
-      --surface: #1a1a2e;
-      --border: #2e3050;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --green: #00ff88;
-      --yellow: #fbbf24;
-      --red: #f87171;
-      --blue: #60a5fa;
-      --accent: #7c3aed;
+    /* ── Dark theme (default) ── */
+    :root, html[data-theme="dark"] {{
+      --bg:               #0f1117;
+      --surface:          #1a1a2e;
+      --surface-alt:      #0f1117;
+      --border:           #2e3050;
+      --text:             #e2e8f0;
+      --text-muted:       #94a3b8;
+      --text-heading:     #00e676;
+      --blue:             #60a5fa;
+      --hover-bg:         rgba(255,255,255,0.04);
+      --color-mandatory:  #4ade80;
+      --color-recommended:#fbbf24;
+      --color-info:       #94a3b8;
+      --color-none:       #475569;
+      --color-unknown:    #f87171;
+      --btn-bg:           #2e3050;
+      --btn-text:         #e2e8f0;
+      --btn-border:       #4a4f7a;
+      --btn-hover-bg:     #3d4270;
     }}
+
+    /* ── Light theme ── */
+    html[data-theme="light"] {{
+      --bg:               #f0f4f8;
+      --surface:          #ffffff;
+      --surface-alt:      #e8edf3;
+      --border:           #c8d3df;
+      --text:             #1e293b;
+      --text-muted:       #4a5568;
+      --text-heading:     #1a5c96;
+      --blue:             #1d4ed8;
+      --hover-bg:         rgba(0,0,0,0.03);
+      --color-mandatory:  #15803d;
+      --color-recommended:#92400e;
+      --color-info:       #475569;
+      --color-none:       #94a3b8;
+      --color-unknown:    #b91c1c;
+      --btn-bg:           #ffffff;
+      --btn-text:         #1e293b;
+      --btn-border:       #c8d3df;
+      --btn-hover-bg:     #e8edf3;
+    }}
+
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -272,21 +311,39 @@ def generate_index_html(countries, scores):
     header {{
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 1.5rem 2rem;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }}
-    header h1 {{ font-size: 1.6rem; color: var(--green); margin-bottom: 0.25rem; }}
-    header p {{ color: var(--text-muted); font-size: 0.9rem; }}
+    .header-text h1 {{ font-size: 1.5rem; color: var(--text-heading); margin-bottom: 0.2rem; }}
+    .header-text p {{ color: var(--text-muted); font-size: 0.875rem; }}
     header a {{ color: var(--blue); text-decoration: none; }}
     header a:hover {{ text-decoration: underline; }}
+    #theme-btn {{
+      flex-shrink: 0;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--btn-text);
+      border-radius: 6px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }}
+    #theme-btn:hover {{ background: var(--btn-hover-bg); }}
     main {{ padding: 2rem; max-width: 1600px; margin: 0 auto; }}
     section {{ margin-bottom: 3rem; }}
-    h2 {{ font-size: 1.2rem; color: var(--text-muted); text-transform: uppercase;
-          letter-spacing: 0.1em; margin-bottom: 1rem; border-bottom: 1px solid var(--border);
+    h2 {{ font-size: 1.1rem; color: var(--text-muted); text-transform: uppercase;
+          letter-spacing: 0.08em; margin-bottom: 1rem; border-bottom: 1px solid var(--border);
           padding-bottom: 0.5rem; }}
     .controls {{
       display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; align-items: center;
     }}
-    .controls input {{
+    .controls input[type="text"] {{
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 6px;
@@ -295,6 +352,7 @@ def generate_index_html(countries, scores):
       font-size: 0.9rem;
       min-width: 220px;
     }}
+    .controls input[type="text"]::placeholder {{ color: var(--text-muted); }}
     .controls label {{ font-size: 0.85rem; color: var(--text-muted); }}
     table {{
       width: 100%;
@@ -306,10 +364,10 @@ def generate_index_html(countries, scores):
       overflow: hidden;
     }}
     thead th {{
-      background: #0f1117;
+      background: var(--surface-alt);
       padding: 0.6rem 0.75rem;
       text-align: left;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
@@ -322,14 +380,14 @@ def generate_index_html(countries, scores):
     thead th.std-header {{ text-align: center; }}
     tbody tr {{ border-bottom: 1px solid var(--border); }}
     tbody tr:last-child {{ border-bottom: none; }}
-    tbody tr:hover {{ background: rgba(255,255,255,0.03); }}
+    tbody tr:hover {{ background: var(--hover-bg); }}
     tbody td {{ padding: 0.55rem 0.75rem; vertical-align: middle; }}
     tbody td.std-header, td[class^="status-"] {{ text-align: center; }}
-    .status-mandatory {{ color: #4ade80; }}
-    .status-recommended {{ color: #fbbf24; }}
-    .status-informational {{ color: #94a3b8; }}
-    .status-none {{ color: #475569; }}
-    .status-unknown {{ color: #f87171; }}
+    .status-mandatory    {{ color: var(--color-mandatory); }}
+    .status-recommended  {{ color: var(--color-recommended); }}
+    .status-informational {{ color: var(--color-info); }}
+    .status-none         {{ color: var(--color-none); }}
+    .status-unknown      {{ color: var(--color-unknown); }}
     .matrix-legend {{
       display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem;
       font-size: 0.82rem; margin-bottom: 0.75rem;
@@ -351,28 +409,32 @@ def generate_index_html(countries, scores):
       main {{ padding: 1rem; }}
       table {{ font-size: 0.75rem; }}
       thead th, tbody td {{ padding: 0.4rem 0.5rem; }}
+      header {{ padding: 1rem; }}
     }}
   </style>
 </head>
 <body>
   <header>
-    <h1>Email Security World Requirements</h1>
-    <p>
-      Which countries require or recommend SPF, DKIM, DMARC, DANE, MTA-STS, TLS-RPT, BIMI, STARTTLS, RPKI, and ASPA?
-      &nbsp;·&nbsp;
-      <a href="https://github.com/thorsheim/email-security-world-requirements">GitHub</a>
-      &nbsp;·&nbsp;
-      <a href="https://internet.nl">Test with internet.nl</a>
-      &nbsp;·&nbsp;
-      <a href="https://passwordscon.org/mailcheck/">Test with Mailcheck</a>
-    </p>
+    <div class="header-text">
+      <h1>Email Security World Requirements</h1>
+      <p>
+        Which countries require or recommend SPF, DKIM, DMARC, DANE, MTA-STS, TLS-RPT, BIMI, STARTTLS, RPKI, and ASPA?
+        &nbsp;·&nbsp;
+        <a href="https://github.com/thorsheim/email-security-world-requirements">GitHub</a>
+        &nbsp;·&nbsp;
+        <a href="https://internet.nl">Test with internet.nl</a>
+        &nbsp;·&nbsp;
+        <a href="https://passwordscon.org/mailcheck/">Test with Mailcheck</a>
+      </p>
+    </div>
+    <button id="theme-btn" onclick="toggleTheme()" aria-label="Toggle light/dark theme">☀️ Light</button>
   </header>
 
   <main>
     <section id="table-section">
       <h2>Requirements Matrix</h2>
       <div class="matrix-legend">
-        <span>✅ Mandatory</span>
+        <span class="status-mandatory">✅ Mandatory</span>
         <span class="status-recommended">🟡 Recommended</span>
         <span class="status-informational">ℹ️ Informational</span>
         <span class="status-none">➖ None confirmed</span>
@@ -465,21 +527,32 @@ def generate_index_html(countries, scores):
   </footer>
 
   <script>
+    // ── Theme toggle ──
+    function updateThemeBtn() {{
+      const dark = document.documentElement.dataset.theme === 'dark';
+      document.getElementById('theme-btn').textContent = dark ? '☀️ Light' : '🌙 Dark';
+    }}
+    function toggleTheme() {{
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem('theme', next);
+      updateThemeBtn();
+    }}
+    updateThemeBtn();
+
+    // ── Filter ──
     function filterTable() {{
       const q = document.getElementById('search').value.toLowerCase();
       const hideNoData = document.getElementById('hide-no-data').checked;
-      const rows = document.querySelectorAll('#matrix-table tbody tr');
-      rows.forEach(row => {{
+      document.querySelectorAll('#matrix-table tbody tr').forEach(row => {{
         const text = row.textContent.toLowerCase();
-        const mandatory = parseInt(row.dataset.mandatory || '0');
-        const recommended = parseInt(row.dataset.recommended || '0');
-        const noData = mandatory === 0 && recommended === 0;
-        const matchesSearch = !q || text.includes(q);
-        const matchesFilter = !hideNoData || !noData;
-        row.classList.toggle('hidden', !matchesSearch || !matchesFilter);
+        const noData = parseInt(row.dataset.mandatory || '0') === 0
+                    && parseInt(row.dataset.recommended || '0') === 0;
+        row.classList.toggle('hidden', (q && !text.includes(q)) || (hideNoData && noData));
       }});
     }}
 
+    // ── Sort ──
     let sortDir = {{}};
     function sortTable(col) {{
       const table = document.getElementById('matrix-table');
