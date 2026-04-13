@@ -12,7 +12,9 @@ Usage:
 Requirements: pyyaml
 """
 
+import html as _html
 from pathlib import Path
+from urllib.parse import urlparse
 
 import yaml
 
@@ -23,6 +25,32 @@ OUTPUT_DIR = REPO_ROOT / "webversion"
 OUTPUT_HTML = OUTPUT_DIR / "index.html"
 
 STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "IPv6", "RPKI", "ASPA", "BIMI"]
+
+_SAFE_SCHEMES = {"http", "https"}
+
+
+def h(s) -> str:
+    """HTML-escape a value before insertion into an HTML context."""
+    return _html.escape(str(s), quote=True)
+
+
+def safe_url(url: str) -> str:
+    """Return url only if scheme is http/https, else empty string."""
+    try:
+        scheme = urlparse(url).scheme.lower()
+    except Exception:
+        return ""
+    return url if scheme in _SAFE_SCHEMES else ""
+
+
+def truncate(text, max_len=140) -> str:
+    """Truncate to max_len chars on a word boundary."""
+    if not text:
+        return ""
+    text = " ".join(str(text).split())
+    if len(text) <= max_len:
+        return text
+    return text[:max_len].rsplit(" ", 1)[0] + "…"
 
 
 def load_country_data():
@@ -63,10 +91,10 @@ def best_req_per_standard(requirements):
 
 
 def link_authority_html(name, authority_urls):
-    url = authority_urls.get(name)
+    url = safe_url(authority_urls.get(name, ""))
     if url:
-        return f'<a href="{url}" target="_blank">{name}</a>'
-    return name
+        return f'<a href="{h(url)}" target="_blank">{h(name)}</a>'
+    return h(name)
 
 
 def compute_scores(countries):
@@ -124,7 +152,7 @@ def build_table_rows(countries, scores):
                 icon = STATUS_ICONS.get(req.get("status", "unknown"), "❓")
                 level = req.get("level", "")
                 level_str = f" ({level})" if level and req.get("status") == "mandatory" else ""
-                title_attr = req.get("status", "").capitalize() + level_str
+                title_attr = h(req.get("status", "").capitalize() + level_str)
                 cells.append(
                     f'<td title="{title_attr}" class="status-{req.get("status", "unknown")}">'
                     f'{icon}</td>'
@@ -132,23 +160,22 @@ def build_table_rows(countries, scores):
             else:
                 cells.append('<td class="status-unknown">❓</td>')
 
-        seen_auths = []
-        for req in data.get("requirements", []):
-            auth = req.get("authority")
-            if auth and auth not in seen_auths:
-                seen_auths.append(auth)
+        seen_auths = list(dict.fromkeys(
+            req.get("authority") for req in data.get("requirements", [])
+            if req.get("authority")
+        ))
         authority_str = " · ".join(link_authority_html(a, authority_urls) for a in seen_auths) if seen_auths else "—"
 
         applies_set = set()
         for req in data.get("requirements", []):
             for a in req.get("applies_to", []):
-                applies_set.add(a.replace("_", " ").title())
+                applies_set.add(h(a.replace("_", " ").title()))
         applies_str = ", ".join(sorted(applies_set)) if applies_set else "—"
 
         row = (
             f'<tr data-mandatory="{s["mandatory"]}" data-recommended="{s["recommended"]}">'
-            f'<td><strong>{code}</strong></td>'
-            f'<td>{display_name}</td>'
+            f'<td><strong>{h(code)}</strong></td>'
+            f'<td>{h(display_name)}</td>'
             f'<td>{authority_str}</td>'
             f"{''.join(cells)}"
             f'<td class="applies-col">{applies_str}</td>'
@@ -188,30 +215,27 @@ def build_details_rows(countries):
                 label += f" ({level})"
             elif scope:
                 label += f" ({scope})"
-            policy = req.get("policy_document", "")
-            notes_raw = req.get("notes", "")
-            notes = " ".join(notes_raw.split())[:140] if notes_raw else ""
-            if notes_raw and len(" ".join(notes_raw.split())) > 140:
-                notes = notes.rsplit(" ", 1)[0] + "…"
+            policy = h(req.get("policy_document", ""))
+            notes = h(truncate(req.get("notes", "") or ""))
 
             refs = req.get("references", [])
             if refs:
                 r0 = refs[0]
-                rtitle = r0.get("title", "Source")
-                rurl = r0.get("url", "")
-                source_html = f'<a href="{rurl}" target="_blank">{rtitle}</a>' if rurl else rtitle
+                rtitle = h(r0.get("title", "Source"))
+                rurl = safe_url(r0.get("url", ""))
+                source_html = f'<a href="{h(rurl)}" target="_blank">{rtitle}</a>' if rurl else rtitle
             else:
                 source_html = "—"
 
-            country_cell = f"<strong>{display_name}</strong>" if first else ""
+            country_cell = f"<strong>{h(display_name)}</strong>" if first else ""
             first = False
 
             rows.append(
                 f'<tr>'
                 f'<td class="details-country">{country_cell}</td>'
                 f'<td>{auth_html}</td>'
-                f'<td><strong>{standard}</strong></td>'
-                f'<td class="{css}">{label}</td>'
+                f'<td><strong>{h(standard)}</strong></td>'
+                f'<td class="{css}">{h(label)}</td>'
                 f'<td class="details-policy">{policy}</td>'
                 f'<td class="details-notes">{notes}</td>'
                 f'<td>{source_html}</td>'
@@ -486,9 +510,7 @@ def generate_webversion_html(countries, scores):
         const mandatory = parseInt(row.dataset.mandatory || '0');
         const recommended = parseInt(row.dataset.recommended || '0');
         const noData = mandatory === 0 && recommended === 0;
-        row.classList.toggle('hidden', (!q || !text.includes(q)) && q
-          || (hideNoData && noData)
-          || (q && !text.includes(q)));
+        row.classList.toggle('hidden', (q && !text.includes(q)) || (hideNoData && noData));
       }});
     }}
 

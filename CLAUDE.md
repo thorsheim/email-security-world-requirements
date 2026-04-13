@@ -91,11 +91,20 @@ The README matrix is bounded by `<!-- BEGIN_MATRIX -->` and `<!-- END_MATRIX -->
 
 ## Webversion Deployment
 
-After `python scripts/generate_webversion.py`, upload **two files** to the WordPress server:
+After `python scripts/generate_webversion.py`, upload the generated file to the WordPress server:
 
 ```
 webversion/index.html  →  passwordscon.org/mailrequirements/index.html
-webversion/map.svg     →  passwordscon.org/mailrequirements/map.svg
 ```
 
 No WordPress plugin or shortcode needed — WordPress serves static files from subfolders automatically.
+
+## Security Notes
+
+The generate scripts sanitize all YAML-sourced data before insertion into HTML or Markdown output:
+
+- **HTML generators** (`generate_map.py`, `generate_webversion.py`): all text fields are passed through `html.escape()` before insertion; all URLs are checked against an `http`/`https` allowlist before use in `href` attributes.
+- **Markdown generator** (`generate_readme_table.py`): pipe characters are escaped in table cells; URLs are scheme-validated before use in links.
+- **Validator** (`validate_data.py`): runs `Draft7Validator` with `format_checker=FormatChecker()` so `"format": "uri"` constraints on URL fields are actually enforced.
+
+When adding data, never disable these checks. Do not add `javascript:` or `data:` URLs to YAML files — they will be silently stripped from generated output.

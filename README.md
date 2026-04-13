@@ -245,10 +245,10 @@ webversion/
   index.html          Generated self-contained page for passwordscon.org/mailrequirements/
 
 scripts/
-  validate_data.py        Validate all country YAML files
-  generate_map.py         Generate docs/index.html
+  validate_data.py          Validate all country YAML files against JSON Schema
+  generate_map.py           Generate docs/index.html (GitHub Pages)
   generate_readme_table.py  Inject requirements matrix into README.md
-  generate_webversion.py    Generate webversion/index.html
+  generate_webversion.py    Generate webversion/index.html (passwordscon.org deploy)
 ```
 
 ---

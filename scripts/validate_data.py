@@ -23,9 +23,6 @@ SCHEMA_PATH = REPO_ROOT / "data" / "schema" / "country.schema.json"
 COUNTRIES_DIR = REPO_ROOT / "data" / "countries"
 STALE_THRESHOLD_DAYS = 365
 
-STANDARDS_IDS = {"SPF", "DKIM", "DMARC", "DANE", "MTA-STS", "TLS-RPT", "BIMI", "STARTTLS"}
-
-
 def load_schema():
     with open(SCHEMA_PATH) as f:
         return json.load(f)
@@ -46,8 +43,8 @@ def validate_country_file(path, schema):
         errors.append(f"YAML parse error: {e}")
         return errors, warnings
 
-    # Schema validation
-    validator = jsonschema.Draft7Validator(schema)
+    # Schema validation (format_checker enforces "format": "uri" on URL fields)
+    validator = jsonschema.Draft7Validator(schema, format_checker=jsonschema.FormatChecker())
     for error in sorted(validator.iter_errors(data), key=str):
         errors.append(f"Schema: {error.json_path} — {error.message}")
 
@@ -110,8 +107,6 @@ def main():
             print(f"\n[FAIL] {path.name}")
             for e in errors:
                 print(f"  ERROR: {e}")
-        elif warnings:
-            print(f"[ OK ] {path.name}")
         else:
             print(f"[ OK ] {path.name}")
 

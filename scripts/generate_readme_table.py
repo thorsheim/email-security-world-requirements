@@ -14,6 +14,7 @@ The tables are regenerated from data/countries/*.yaml on every run.
 
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 import yaml
 
@@ -67,6 +68,23 @@ FLAG_EMOJI = {
 }
 
 
+_SAFE_SCHEMES = {"http", "https"}
+
+
+def safe_url(url: str) -> str:
+    """Return url only if scheme is http/https, else empty string."""
+    try:
+        scheme = urlparse(url).scheme.lower()
+    except Exception:
+        return ""
+    return url if scheme in _SAFE_SCHEMES else ""
+
+
+def md_cell(text: str) -> str:
+    """Escape characters that break GFM table cells."""
+    return str(text).replace("|", "\\|").replace("\n", " ")
+
+
 def load_country_data():
     countries = {}
     for path in sorted(COUNTRIES_DIR.glob("*.yaml")):
@@ -100,10 +118,10 @@ def best_req_per_standard(requirements):
 
 def link_authority(name, authority_urls):
     """Return a markdown link if a URL is available, otherwise plain text."""
-    url = authority_urls.get(name)
+    url = safe_url(authority_urls.get(name, ""))
     if url:
-        return f"[{name}]({url})"
-    return name
+        return f"[{md_cell(name)}]({url})"
+    return md_cell(name)
 
 
 def build_authority_str(requirements, authority_urls):
@@ -235,16 +253,16 @@ def build_details_table(countries):
             elif scope:
                 status_icon += f" ({scope})"
 
-            policy_doc = req.get("policy_document", "")
+            policy_doc = md_cell(req.get("policy_document", ""))
 
             notes = req.get("notes", "")
-            description = truncate(notes) if notes else ""
+            description = md_cell(truncate(notes)) if notes else ""
 
             refs = req.get("references", [])
             if refs:
                 first_ref = refs[0]
-                ref_title = first_ref.get("title", "Source")
-                ref_url = first_ref.get("url", "")
+                ref_title = md_cell(first_ref.get("title", "Source"))
+                ref_url = safe_url(first_ref.get("url", ""))
                 source = f"[{ref_title}]({ref_url})" if ref_url else ref_title
             else:
                 source = ""
