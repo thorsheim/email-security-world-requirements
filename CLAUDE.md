@@ -4,65 +4,101 @@ This file provides context for Claude Code or other AI assistants working in thi
 
 ## Project Purpose
 
-This repository documents government-level email security requirements and recommendations by country. The goal is to provide an authoritative, community-maintained reference for which email security standards (SPF, DKIM, DMARC, DANE, MTA-STS, TLS-RPT, BIMI, STARTTLS) are required or recommended in each country.
+This repository documents government-level email security requirements and recommendations by country. The goal is an authoritative, community-maintained reference for which of the 10 tracked email security standards are **mandatory**, **recommended**, **informational**, or absent in each country — with source citations, a generated world map, and documentation for each standard.
+
+## Standards Tracked (10 total)
+
+| ID | Full Name | RFC |
+|---|---|---|
+| `SPF` | Sender Policy Framework | RFC 7208 |
+| `DKIM` | DomainKeys Identified Mail | RFC 6376 |
+| `DMARC` | Domain-based Message Authentication, Reporting and Conformance | RFC 7489 |
+| `STARTTLS` | SMTP STARTTLS (Opportunistic TLS) | RFC 3207 |
+| `DANE` | DNS-based Authentication of Named Entities | RFC 6698, 7671 |
+| `DNSSEC` | DNS Security Extensions | RFC 4033–4035, 9364 |
+| `MTA-STS` | Mail Transfer Agent Strict Transport Security | RFC 8461 |
+| `TLS-RPT` | SMTP TLS Reporting | RFC 8460 |
+| `CAA` | Certification Authority Authorization | RFC 8659 |
+| `BIMI` | Brand Indicators for Message Identification | BIMI Group draft |
 
 ## Repository Structure
 
 ```
-data/countries/XX.yaml   — Country data files (one per country, XX = ISO A2 code)
-data/standards.yaml      — Master standards registry with RFC links and tools
-data/schema/             — JSON Schema for validation
-docs/standards/*.md      — Human-written documentation per standard
-docs/map.svg             — GENERATED: do not edit directly
-docs/index.html          — GENERATED: do not edit directly
-webversion/              — GENERATED: do not edit directly
-scripts/                 — Python generation and validation scripts
+data/countries/XX.yaml        Country data files (one per country, XX = ISO 3166-1 alpha-2)
+data/countries/_template.yaml Starter file for contributors
+data/standards.yaml           Master registry: names, RFCs, testing tools
+data/schema/country.schema.json  JSON Schema v7 — the validation contract
+
+docs/standards/*.md           Human-written documentation per standard (10 files)
+docs/map.svg                  GENERATED — do not edit directly
+docs/index.html               GENERATED — do not edit directly
+
+webversion/index.html         GENERATED — do not edit directly (passwordscon.org deploy)
+webversion/map.svg            GENERATED — do not edit directly
+
+scripts/fetch_basemap.py      One-time: download Natural Earth GeoJSON → assets/world-110m.svg
+scripts/validate_data.py      Validate all YAML against schema
+scripts/generate_map.py       Write docs/map.svg + docs/index.html
+scripts/generate_readme_table.py  Inject matrix table into README.md (between sentinels)
+scripts/generate_webversion.py    Write webversion/ (light theme, self-contained HTML)
+scripts/requirements.txt      pip dependencies: pyyaml, jsonschema, lxml, requests
+
+assets/world-110m.svg         Basemap SVG (Natural Earth, CC0) — generated once by fetch_basemap.py
 ```
 
-**Never edit generated files directly.** Always edit data/ and re-run scripts.
+**Never edit generated files directly.** Always edit `data/` and re-run scripts.
 
-## Adding Country Data
+## Adding or Updating Country Data
 
-1. Copy `data/countries/_template.yaml` to `data/countries/XX.yaml`
-2. Fill all required fields (see the template and schema)
-3. Every `mandatory`/`recommended` entry needs at least one `references` URL
+1. Copy `data/countries/_template.yaml` → `data/countries/XX.yaml`
+2. Fill all required fields (`country_code`, `country_name`, `last_reviewed`, `requirements`)
+3. Every `mandatory` or `recommended` entry must have at least one URL in `references` pointing to an official government or agency document
 4. Validate: `python scripts/validate_data.py`
+5. Open a Pull Request
 
 ## Regenerating Outputs
 
 ```bash
 pip install -r scripts/requirements.txt
 
-# One-time basemap download (run once, then reuse)
+# One-time basemap setup (only needed when assets/world-110m.svg is missing)
 python scripts/fetch_basemap.py
 
 # Regenerate everything
-python scripts/generate_map.py              # docs/map.svg + docs/index.html
-python scripts/generate_readme_table.py     # README.md matrix table
-python scripts/generate_webversion.py       # webversion/ (for passwordscon.org)
+python scripts/generate_map.py              # → docs/map.svg + docs/index.html
+python scripts/generate_readme_table.py     # → injects matrix into README.md
+python scripts/generate_webversion.py       # → webversion/index.html + webversion/map.svg
 ```
+
+The README matrix is bounded by `<!-- BEGIN_MATRIX -->` and `<!-- END_MATRIX -->` sentinels. Only `generate_readme_table.py` should modify that section.
 
 ## Key Conventions
 
-- Country codes: ISO 3166-1 alpha-2 (uppercase, e.g., `NL`, `US`, `GB`)
-- Dates: ISO 8601 (`YYYY-MM-DD`)
-- All mandatory/recommended sources must be official government/agency documents
-- Valid status values: `mandatory`, `recommended`, `informational`, `none`, `unknown`
-- Valid standard IDs: `SPF`, `DKIM`, `DMARC`, `DANE`, `MTA-STS`, `TLS-RPT`, `BIMI`, `STARTTLS`
+- **Country codes**: ISO 3166-1 alpha-2, uppercase (`NL`, `US`, `GB`). Use `EU` for the European Union.
+- **Dates**: ISO 8601, `YYYY-MM-DD`
+- **Status values**: `mandatory` | `recommended` | `informational` | `none` | `unknown`
+- **Valid standard IDs**: `SPF`, `DKIM`, `DMARC`, `STARTTLS`, `DANE`, `DNSSEC`, `MTA-STS`, `TLS-RPT`, `CAA`, `BIMI`
+- **Sources**: Only official government/agency documents count as valid references for `mandatory` or `recommended` status
 
-## Schema Location
+## Schema
 
-`data/schema/country.schema.json` — JSON Schema v7, defines all valid fields and values.
+`data/schema/country.schema.json` — JSON Schema v7. All country YAML files are validated against this. The `standard` field uses a closed enum matching the 10 IDs above.
 
-## CI Behavior
+## CI / GitHub Actions
 
-- On every PR touching `data/**`: validates YAML against schema
-- On push to main: regenerates map, README table, and webversion; auto-commits
-- On push to main (docs/ changed): deploys to GitHub Pages
+| Workflow | Trigger | Action |
+|---|---|---|
+| `validate.yml` | PR touching `data/**` | Runs `validate_data.py`; fails on schema errors |
+| `generate-map.yml` | Push to `main` touching `data/**` or `scripts/generate_*.py` | Regenerates map, README table, webversion; auto-commits |
+| `pages.yml` | Push to `main` touching `docs/**` | Deploys `docs/` to GitHub Pages |
 
 ## Webversion Deployment
 
-The `webversion/` directory contains files for manual upload to `passwordscon.org/mailrequirements/`.
-After running `python scripts/generate_webversion.py`, upload `webversion/index.html` and
-`webversion/map.svg` to the server via FTP/SFTP. WordPress serves static files from subfolders
-without any additional configuration.
+After `python scripts/generate_webversion.py`, upload **two files** to the WordPress server:
+
+```
+webversion/index.html  →  passwordscon.org/mailrequirements/index.html
+webversion/map.svg     →  passwordscon.org/mailrequirements/map.svg
+```
+
+No WordPress plugin or shortcode needed — WordPress serves static files from subfolders automatically.

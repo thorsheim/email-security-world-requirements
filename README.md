@@ -1,13 +1,28 @@
 # Email Security World Requirements
 
-> Which countries require or recommend SPF, DKIM, DMARC, DANE, MTA-STS, TLS-RPT, BIMI, and STARTTLS at government or national policy level?
+> A community-maintained reference documenting which countries require or recommend
+> SPF, DKIM, DMARC, STARTTLS, DANE, DNSSEC, MTA-STS, TLS-RPT, CAA, and BIMI
+> at government or national policy level.
 
 [![Validate Data](https://github.com/thorsheim/email-security-world-requirements/actions/workflows/validate.yml/badge.svg)](https://github.com/thorsheim/email-security-world-requirements/actions/workflows/validate.yml)
+[![Countries](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fthorsheim%2Femail-security-world-requirements%2Fmain%2Fdata%2Fcountries%2FNL.yaml&label=countries&query=%24.country_code&color=blue)](data/countries/)
 
-This repository documents government-level email security requirements and recommendations by country. Data is stored in machine-readable YAML files, contributions are welcome via Pull Request, and a generated world map provides a visual overview.
-
-**Live site:** [thorsheim.github.io/email-security-world-requirements](https://thorsheim.github.io/email-security-world-requirements/)  
+**Live interactive map:** [thorsheim.github.io/email-security-world-requirements](https://thorsheim.github.io/email-security-world-requirements/)  
 **Web version:** [passwordscon.org/mailrequirements/](https://passwordscon.org/mailrequirements/)
+
+---
+
+## Why this exists
+
+Phishing, spam, and email impersonation remain among the most effective attack vectors globally.
+A growing number of governments have responded by mandating or formally recommending technical
+email security standards for public sector organisations and critical infrastructure.
+
+This project answers a simple question: **who requires what, and under which policy?**
+
+The data is stored as machine-readable YAML, validated against a JSON Schema, and rendered as
+an interactive world map and sortable requirements matrix. All sources are cited; contributions
+via Pull Request are welcome.
 
 ---
 
@@ -15,7 +30,8 @@ This repository documents government-level email security requirements and recom
 
 [![Email Security Requirements Map](docs/map.svg)](https://thorsheim.github.io/email-security-world-requirements/)
 
-*Click the map for the interactive version. Green = more standards mandatory, red = no requirements, gray = no data.*
+*Green = more mandatory standards · Red = no requirements · Grey = no data yet*  
+*[Open interactive version →](https://thorsheim.github.io/email-security-world-requirements/)*
 
 ---
 
@@ -61,64 +77,107 @@ This repository documents government-level email security requirements and recom
 
 ---
 
-## Standards Covered
+## Standards Covered (10)
 
-| Standard | Full Name | RFC | Purpose |
+| Standard | Full Name | RFC / Spec | Purpose |
 |---|---|---|---|
-| [SPF](docs/standards/spf.md) | Sender Policy Framework | [RFC 7208](https://datatracker.ietf.org/doc/html/rfc7208) | Authorize mail servers per domain |
+| [SPF](docs/standards/spf.md) | Sender Policy Framework | [RFC 7208](https://datatracker.ietf.org/doc/html/rfc7208) | Authorize which servers may send mail for a domain |
 | [DKIM](docs/standards/dkim.md) | DomainKeys Identified Mail | [RFC 6376](https://datatracker.ietf.org/doc/html/rfc6376) | Cryptographic signature on outgoing mail |
-| [DMARC](docs/standards/dmarc.md) | Domain-based Message Authentication, Reporting and Conformance | [RFC 7489](https://datatracker.ietf.org/doc/html/rfc7489) | Policy + reporting for SPF/DKIM |
-| [STARTTLS](docs/standards/starttls.md) | SMTP STARTTLS (Opportunistic TLS) | [RFC 3207](https://datatracker.ietf.org/doc/html/rfc3207) | Encrypted mail transport baseline |
-| [DANE](docs/standards/dane.md) | DNS-based Authentication of Named Entities | [RFC 6698](https://datatracker.ietf.org/doc/html/rfc6698) | TLS cert binding via DNSSEC |
-| [DNSSEC](docs/standards/dnssec.md) | DNS Security Extensions | [RFC 4033–4035](https://datatracker.ietf.org/doc/html/rfc4033) | Signed DNS — required for DANE |
-| [MTA-STS](docs/standards/mta-sts.md) | Mail Transfer Agent Strict Transport Security | [RFC 8461](https://datatracker.ietf.org/doc/html/rfc8461) | Enforce TLS without DNSSEC |
-| [TLS-RPT](docs/standards/tls-rpt.md) | SMTP TLS Reporting | [RFC 8460](https://datatracker.ietf.org/doc/html/rfc8460) | Report TLS failures |
-| [CAA](docs/standards/caa.md) | Certification Authority Authorization | [RFC 8659](https://datatracker.ietf.org/doc/html/rfc8659) | Restrict which CAs may issue certificates |
-| [BIMI](docs/standards/bimi.md) | Brand Indicators for Message Identification | [BIMI Group](https://bimigroup.org) | Verified logo in email clients |
+| [DMARC](docs/standards/dmarc.md) | Domain-based Message Authentication, Reporting and Conformance | [RFC 7489](https://datatracker.ietf.org/doc/html/rfc7489) | Policy enforcement and reporting for SPF/DKIM |
+| [STARTTLS](docs/standards/starttls.md) | SMTP STARTTLS | [RFC 3207](https://datatracker.ietf.org/doc/html/rfc3207) | Encrypted mail transport baseline |
+| [DANE](docs/standards/dane.md) | DNS-based Authentication of Named Entities | [RFC 6698](https://datatracker.ietf.org/doc/html/rfc6698) | Bind TLS certificates to DNS via DNSSEC |
+| [DNSSEC](docs/standards/dnssec.md) | DNS Security Extensions | [RFC 4033–4035](https://datatracker.ietf.org/doc/html/rfc4033) | Cryptographically sign DNS responses; required for DANE |
+| [MTA-STS](docs/standards/mta-sts.md) | Mail Transfer Agent Strict Transport Security | [RFC 8461](https://datatracker.ietf.org/doc/html/rfc8461) | Enforce TLS on delivery without requiring DNSSEC |
+| [TLS-RPT](docs/standards/tls-rpt.md) | SMTP TLS Reporting | [RFC 8460](https://datatracker.ietf.org/doc/html/rfc8460) | Aggregate reports on TLS connection failures |
+| [CAA](docs/standards/caa.md) | Certification Authority Authorization | [RFC 8659](https://datatracker.ietf.org/doc/html/rfc8659) | Restrict which CAs may issue certificates for a domain |
+| [BIMI](docs/standards/bimi.md) | Brand Indicators for Message Identification | [BIMI Group](https://bimigroup.org) | Display a verified brand logo in supporting mail clients |
 
 ---
 
 ## Testing Tools
 
-Test your own domain's email security configuration:
+Test your own domain against these standards:
 
-| Tool | URL | Notes |
+| Tool | URL | What it tests |
 |---|---|---|
-| **internet.nl** | https://internet.nl | Full test suite; operated by Dutch government |
-| **Mailcheck** | https://passwordscon.org/mailcheck/ | Combined email security tester |
+| **internet.nl** | https://internet.nl | SPF, DKIM, DMARC, DANE, DNSSEC, STARTTLS, TLS-RPT, MTA-STS — full suite; operated by the Dutch government |
+| **Mailcheck** | https://passwordscon.org/mailcheck/ | SPF, DKIM, DMARC, STARTTLS, headers — quick combined tester |
 | **MXToolbox** | https://mxtoolbox.com | Individual lookups for all standards |
-| **dmarcian** | https://dmarcian.com | DMARC management and analysis |
-| **Hardenize** | https://www.hardenize.com | Comprehensive security posture |
-| **DMARC Advisor** | https://dmarcadvisor.com | Enterprise DMARC |
+| **dmarcian** | https://dmarcian.com | DMARC management, reporting, and SPF/DKIM analysis |
+| **Hardenize** | https://www.hardenize.com | Comprehensive posture including MTA-STS and CAA |
+| **DNSViz** | https://dnsviz.net | Visual DNSSEC chain analysis |
+| **Verisign DNSSEC Analyzer** | https://dnssec-analyzer.verisignlabs.com | DNSSEC validation |
+| **SSLMate CAA Generator** | https://sslmate.com/caa/ | Generate and validate CAA records |
 
 ---
 
 ## Contributing
 
-Found a missing country? Have an update to an existing entry? **Contributions are very welcome!**
+Found a country that's missing? Have newer policy information? **Contributions are very welcome.**
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions. The short version:
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full instructions. Quick start:
 
-1. Copy [`data/countries/_template.yaml`](data/countries/_template.yaml) to `data/countries/XX.yaml`
-2. Fill in the fields with references to official government documents
-3. Run `python scripts/validate_data.py` to check your work
-4. Open a Pull Request
+1. Copy [`data/countries/_template.yaml`](data/countries/_template.yaml) to `data/countries/XX.yaml`  
+   (where `XX` is the ISO 3166-1 alpha-2 country code)
+2. Fill in the fields — refer to an existing file like [NL.yaml](data/countries/NL.yaml) for examples
+3. Every `mandatory` or `recommended` entry needs at least one source URL in `references`  
+   pointing to an official government or agency document
+4. Run `python scripts/validate_data.py` — all files must pass before opening a PR
+5. Open a Pull Request using the [PR template](.github/PULL_REQUEST_TEMPLATE.md)
 
-Every `mandatory` or `recommended` entry requires at least one source URL pointing to an official government or agency document.
+**Unknown data is also valuable.** If you researched a country and found nothing, create the file
+with `status: unknown` for all standards and note what you searched. This tells others not to
+duplicate the effort.
 
 ---
 
 ## Data Format
 
-Country data lives in [`data/countries/`](data/countries/) as individual YAML files. The schema is defined in [`data/schema/country.schema.json`](data/schema/country.schema.json).
+Country data lives in [`data/countries/`](data/countries/) — one YAML file per country, validated
+against [`data/schema/country.schema.json`](data/schema/country.schema.json).
 
-Each file covers:
-- Which standards have requirements (SPF, DKIM, DMARC, etc.)
-- Whether each is **mandatory**, **recommended**, **informational**, or has **no requirement**
-- Who it applies to (government agencies, federal agencies, critical infrastructure, etc.)
-- The issuing authority and policy document name
-- Source URLs for verification
-- Last-reviewed date
+Each file records, per standard:
+
+| Field | Example values |
+|---|---|
+| `status` | `mandatory` · `recommended` · `informational` · `none` · `unknown` |
+| `applies_to` | `government_agencies` · `federal_agencies` · `critical_infrastructure` · `all_organizations` · … |
+| `authority` | `"CISA"`, `"NCSC"`, `"Forum Standaardisatie / NCSA"` |
+| `policy_document` | `"BOD 18-01"`, `"BIO"`, `"BSI TR-03108"` |
+| `effective_date` | `"2018-10-16"` |
+| `references` | List of `{title, url}` pointing to official documents |
+
+See [`data/countries/_template.yaml`](data/countries/_template.yaml) for the full annotated template.
+
+---
+
+## Repository Structure
+
+```
+data/
+  countries/          One YAML file per country (XX.yaml, ISO alpha-2)
+  standards.yaml      Master standards registry with RFC links and testing tools
+  schema/             JSON Schema for validation
+
+docs/
+  standards/          Documentation page per standard (spf.md, dkim.md, …)
+  map.svg             Generated world map (dark theme, for GitHub display)
+  index.html          Generated interactive GitHub Pages page
+
+webversion/
+  index.html          Generated self-contained page for passwordscon.org/mailrequirements/
+  map.svg             Generated world map (light theme)
+
+scripts/
+  validate_data.py        Validate all country YAML files
+  fetch_basemap.py        One-time: download basemap from Natural Earth
+  generate_map.py         Generate docs/map.svg + docs/index.html
+  generate_readme_table.py  Inject requirements matrix into README.md
+  generate_webversion.py    Generate webversion/
+
+assets/
+  world-110m.svg      Natural Earth 110m basemap (CC0)
+```
 
 ---
 
@@ -131,6 +190,10 @@ Each file covers:
 
 ## About
 
-Created by [Per Thorsheim](https://passwordscon.org) as part of an ongoing effort to document the global email security landscape. If you maintain email infrastructure for a government, bank, hospital, or other organization — test yourself at [internet.nl](https://internet.nl) and [Mailcheck](https://passwordscon.org/mailcheck/).
+Created by [Per Thorsheim](https://passwordscon.org) as part of an ongoing effort to document
+the global email security policy landscape.
 
-Issues and discussions welcome via [GitHub Issues](https://github.com/thorsheim/email-security-world-requirements/issues).
+If you operate email infrastructure for a government agency, hospital, bank, or other organisation —
+test your domain today at [internet.nl](https://internet.nl) and [Mailcheck](https://passwordscon.org/mailcheck/).
+
+Issues and discussion welcome via [GitHub Issues](https://github.com/thorsheim/email-security-world-requirements/issues).
