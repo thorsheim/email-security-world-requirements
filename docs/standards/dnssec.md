@@ -34,6 +34,27 @@ For email security, DNSSEC serves two critical functions:
 | [RFC 6781](https://datatracker.ietf.org/doc/html/rfc6781) | DNSSEC operational practices |
 | [RFC 9364](https://datatracker.ietf.org/doc/html/rfc9364) | DNSSEC tutorial and deployment guide (2023) |
 
+## Signing vs. Resolver Validation
+
+DNSSEC requirements come in two distinct forms, and some countries mandate both:
+
+| Scope | What it means | Who it applies to |
+|---|---|---|
+| **Zone signing** | The domain's DNS zone must be signed with DNSSEC keys, and a DS record published in the parent zone | Domain owners / DNS operators (government agencies publishing DNS) |
+| **Resolver validation** | Recursive DNS resolvers must be configured to validate DNSSEC signatures and return `SERVFAIL` for unsigned or tampered responses | Network/IT infrastructure operators (government resolver fleets, ISPs) |
+
+Zone signing without resolver validation means the records are signed but nobody checks the signatures — deployments of either alone provide incomplete protection. A requirement for **both** means the full trust chain is enforced end-to-end.
+
+In this repository the optional `scope` field on a DNSSEC requirement entry captures this distinction:
+
+```yaml
+- standard: DNSSEC
+  status: mandatory
+  scope: signing      # signing | validation | both
+```
+
+The Policy Details table shows the scope as a suffix on the status icon (e.g., `✅ M (signing)`, `✅ M (both)`). The requirements matrix column shows only the highest status regardless of scope, since both forms of DNSSEC deployment contribute to the overall security posture.
+
 ## Deployment Considerations
 
 - DNSSEC must be enabled at the **registrar level** (DS record delegation) as well as at the **authoritative nameserver level** (DNSKEY + RRSIGs).

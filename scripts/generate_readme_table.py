@@ -229,8 +229,11 @@ def build_details_table(countries):
 
             status_icon = STATUS_ICONS.get(status, "❓")
             level = req.get("level", "")
+            scope = req.get("scope", "")
             if level and status == "mandatory":
                 status_icon += f" ({level})"
+            elif scope:
+                status_icon += f" ({scope})"
 
             policy_doc = req.get("policy_document", "")
 

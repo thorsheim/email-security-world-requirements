@@ -287,9 +287,12 @@ def build_details_rows_html(countries):
             auth_html = link_authority_html(authority, authority_urls)
             standard = req.get("standard", "")
             level = req.get("level", "")
+            scope = req.get("scope", "")
             label, css = STATUS_LABELS[status]
             if level and status == "mandatory":
                 label += f" ({level})"
+            elif scope:
+                label += f" ({scope})"
             policy = req.get("policy_document", "")
             notes_raw = req.get("notes", "")
             notes = " ".join(notes_raw.split())[:140] if notes_raw else ""

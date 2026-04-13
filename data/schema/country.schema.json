@@ -71,6 +71,11 @@
             "description": "For DMARC: the required policy level (reject, quarantine, none). Leave empty or omit for other standards.",
             "enum": ["reject", "quarantine", "none", ""]
           },
+          "scope": {
+            "type": "string",
+            "description": "For DNSSEC: which aspect is required. 'signing' = DNS zones must be DNSSEC-signed; 'validation' = recursive resolvers must validate DNSSEC; 'both' = both aspects are required. Omit for other standards.",
+            "enum": ["signing", "validation", "both"]
+          },
           "applies_to": {
             "type": "array",
             "description": "Who this requirement applies to.",

@@ -81,6 +81,8 @@ The README matrix is bounded by `<!-- BEGIN_MATRIX -->` and `<!-- END_MATRIX -->
 - **Dates**: ISO 8601, `YYYY-MM-DD`
 - **Status values**: `mandatory` | `recommended` | `informational` | `none` | `unknown`
 - **Valid standard IDs**: `SPF`, `DKIM`, `DMARC`, `STARTTLS`, `DANE`, `DNSSEC`, `MTA-STS`, `TLS-RPT`, `CAA`, `IPv6`, `RPKI`, `ASPA`, `BIMI`
+- **`level`** (DMARC only): `reject` | `quarantine` | `none` — the required DMARC policy enforcement level
+- **`scope`** (DNSSEC only): `signing` | `validation` | `both` — which aspect is mandated; `signing` = zones must be signed, `validation` = resolvers must validate, `both` = both; shown in the Policy Details table as a suffix on the status icon
 - **Sources**: Only official government/agency documents count as valid references for `mandatory` or `recommended` status
 
 ## Schema

@@ -38,6 +38,14 @@ requirements: []
 #   status: mandatory
 #   level: reject          # Only for DMARC: reject | quarantine | none
 #   applies_to:
+#
+# - standard: DNSSEC
+#   status: mandatory
+#   scope: signing         # Only for DNSSEC: signing | validation | both
+#                          #   signing    = DNS zones must be DNSSEC-signed
+#                          #   validation = recursive resolvers must validate DNSSEC
+#                          #   both       = both aspects are required
+#   applies_to:
 #     - government_agencies
 #   authority: "National Cyber Security Centre"
 #   policy_document: "Email Security Policy v2"
