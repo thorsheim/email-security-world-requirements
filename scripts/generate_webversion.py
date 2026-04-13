@@ -32,21 +32,23 @@ OUTPUT_DIR = REPO_ROOT / "webversion"
 OUTPUT_HTML = OUTPUT_DIR / "index.html"
 OUTPUT_SVG = OUTPUT_DIR / "map.svg"
 
-STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "DANE", "MTA-STS", "TLS-RPT", "BIMI", "STARTTLS"]
+STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "BIMI"]
 
-# Light-theme color scale (mandatory count → pastel-shifted colors)
+# Light-theme color scale (mandatory count → pastel-shifted colors, scale 0–10)
 LIGHT_COLORS = {
     "no_data": "#e8e8e8",
     0: "#c0392b",           # deep red — no requirements
     "rec_only": "#d35400",  # dark orange — recommendations only
-    1: "#e67e22",
-    2: "#f39c12",
-    3: "#d4c000",
-    4: "#a8c000",
-    5: "#5cb85c",
-    6: "#27ae60",
-    7: "#1a9945",
-    8: "#0e7a35",           # dark green — all mandatory
+    1: "#e05000",
+    2: "#e67e22",
+    3: "#f39c12",
+    4: "#d4c000",
+    5: "#a8c000",
+    6: "#5cb85c",
+    7: "#27ae60",
+    8: "#1a9945",
+    9: "#0f8838",
+    10: "#0e7a35",          # dark green — all mandatory
 }
 
 
@@ -57,8 +59,8 @@ def score_color_light(mandatory_count, recommended_count, has_data):
         return LIGHT_COLORS[0]
     if mandatory_count == 0:
         return LIGHT_COLORS["rec_only"]
-    count = min(mandatory_count, 8)
-    return LIGHT_COLORS.get(count, LIGHT_COLORS[8])
+    count = min(mandatory_count, 10)
+    return LIGHT_COLORS.get(count, LIGHT_COLORS[10])
 
 
 def load_country_data():
@@ -418,12 +420,13 @@ def generate_webversion_html(countries, scores, svg_content):
         {svg_content}
       </div>
       <div class="legend">
-        <div class="legend-title">Map Legend — Mandatory Standards</div>
+        <div class="legend-title">Map Legend — Mandatory Standards Count (out of 10)</div>
         <div class="legend-scale">
-          <div class="legend-item"><span class="swatch" style="background:#0e7a35"></span> All standards mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#27ae60"></span> Most standards mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#5cb85c"></span> Several standards mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#f39c12"></span> Few standards mandatory</div>
+          <div class="legend-item"><span class="swatch" style="background:#0e7a35"></span> 10 — All mandatory</div>
+          <div class="legend-item"><span class="swatch" style="background:#1a9945"></span> 7–9 mandatory</div>
+          <div class="legend-item"><span class="swatch" style="background:#5cb85c"></span> 5–6 mandatory</div>
+          <div class="legend-item"><span class="swatch" style="background:#d4c000"></span> 3–4 mandatory</div>
+          <div class="legend-item"><span class="swatch" style="background:#e67e22"></span> 1–2 mandatory</div>
           <div class="legend-item"><span class="swatch" style="background:#d35400"></span> Recommendations only</div>
           <div class="legend-item"><span class="swatch" style="background:#c0392b"></span> No requirements</div>
           <div class="legend-item"><span class="swatch" style="background:#e8e8e8"></span> No data</div>
@@ -435,6 +438,9 @@ def generate_webversion_html(countries, scores, svg_content):
           <span>➖ None</span>
           <span>❓ Unknown / No data</span>
         </div>
+        <p style="margin-top:0.5rem;font-size:0.8rem;color:#64748b">
+          Standards: SPF · DKIM · DMARC · STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT · CAA · BIMI
+        </p>
       </div>
     </section>
 
@@ -481,11 +487,13 @@ def generate_webversion_html(countries, scores, svg_content):
             <tr><td><strong>SPF</strong></td><td>Sender Policy Framework</td><td><a href="https://datatracker.ietf.org/doc/html/rfc7208" target="_blank">RFC 7208</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/spf.aspx" target="_blank">MXToolbox</a>, <a href="https://passwordscon.org/mailcheck/" target="_blank">Mailcheck</a></td></tr>
             <tr><td><strong>DKIM</strong></td><td>DomainKeys Identified Mail</td><td><a href="https://datatracker.ietf.org/doc/html/rfc6376" target="_blank">RFC 6376</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/dkim.aspx" target="_blank">MXToolbox</a>, <a href="https://passwordscon.org/mailcheck/" target="_blank">Mailcheck</a></td></tr>
             <tr><td><strong>DMARC</strong></td><td>Domain-based Message Authentication, Reporting and Conformance</td><td><a href="https://datatracker.ietf.org/doc/html/rfc7489" target="_blank">RFC 7489</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://dmarcian.com" target="_blank">dmarcian</a>, <a href="https://dmarc.postmarkapp.com" target="_blank">Postmark DMARC</a></td></tr>
+            <tr><td><strong>STARTTLS</strong></td><td>SMTP STARTTLS (Opportunistic TLS)</td><td><a href="https://datatracker.ietf.org/doc/html/rfc3207" target="_blank">RFC 3207</a>, <a href="https://datatracker.ietf.org/doc/html/rfc8314" target="_blank">RFC 8314</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://passwordscon.org/mailcheck/" target="_blank">Mailcheck</a></td></tr>
             <tr><td><strong>DANE</strong></td><td>DNS-based Authentication of Named Entities</td><td><a href="https://datatracker.ietf.org/doc/html/rfc6698" target="_blank">RFC 6698</a>, <a href="https://datatracker.ietf.org/doc/html/rfc7671" target="_blank">RFC 7671</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a></td></tr>
+            <tr><td><strong>DNSSEC</strong></td><td>DNS Security Extensions</td><td><a href="https://datatracker.ietf.org/doc/html/rfc4033" target="_blank">RFC 4033–4035</a>, <a href="https://datatracker.ietf.org/doc/html/rfc9364" target="_blank">RFC 9364</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://dnsviz.net" target="_blank">DNSViz</a>, <a href="https://dnssec-analyzer.verisignlabs.com" target="_blank">Verisign Analyzer</a></td></tr>
             <tr><td><strong>MTA-STS</strong></td><td>Mail Transfer Agent Strict Transport Security</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8461" target="_blank">RFC 8461</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://www.hardenize.com" target="_blank">Hardenize</a></td></tr>
             <tr><td><strong>TLS-RPT</strong></td><td>SMTP TLS Reporting</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8460" target="_blank">RFC 8460</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/TLSRpt.aspx" target="_blank">MXToolbox</a></td></tr>
+            <tr><td><strong>CAA</strong></td><td>Certification Authority Authorization</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8659" target="_blank">RFC 8659</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/caa.aspx" target="_blank">MXToolbox</a>, <a href="https://sslmate.com/caa/" target="_blank">SSLMate CAA Gen</a></td></tr>
             <tr><td><strong>BIMI</strong></td><td>Brand Indicators for Message Identification</td><td><a href="https://bimigroup.org" target="_blank">BIMI Group</a></td><td><a href="https://bimigroup.org/bimi-generator/" target="_blank">BIMI Checker</a>, <a href="https://mxtoolbox.com/bimi.aspx" target="_blank">MXToolbox</a></td></tr>
-            <tr><td><strong>STARTTLS</strong></td><td>SMTP STARTTLS (Opportunistic TLS)</td><td><a href="https://datatracker.ietf.org/doc/html/rfc3207" target="_blank">RFC 3207</a>, <a href="https://datatracker.ietf.org/doc/html/rfc8314" target="_blank">RFC 8314</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://passwordscon.org/mailcheck/" target="_blank">Mailcheck</a></td></tr>
           </tbody>
         </table>
       </div>

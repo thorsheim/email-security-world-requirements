@@ -98,6 +98,24 @@ requirements:
       - critical_infrastructure
     notes: "No EU-level mandate for TLS-RPT."
 
+  - standard: DNSSEC
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    authority: "ENISA / NIS2"
+    notes: >
+      DNSSEC is referenced in ENISA guidelines as a DNS security best practice for
+      essential entities under NIS2. Member states may impose stricter requirements.
+    references:
+      - title: "NIS2 Directive - Article 21"
+        url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32022L2555"
+
+  - standard: CAA
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    notes: "No EU-level mandate for CAA. ENISA mentions certificate security generally."
+
   - standard: BIMI
     status: informational
     applies_to:

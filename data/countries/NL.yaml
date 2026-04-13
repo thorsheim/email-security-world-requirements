@@ -104,6 +104,32 @@ requirements:
       - title: "NCSC - Adviezen e-mailbeveiliging"
         url: "https://www.ncsc.nl/onderwerpen/e-mailbeveiliging"
 
+  - standard: DNSSEC
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    notes: >
+      DNSSEC is required for all government domains and is a prerequisite for DANE,
+      which is also mandatory. Both inbound and outbound mail domains must be DNSSEC-signed.
+    references:
+      - title: "DNSSEC - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/dnssec"
+
+  - standard: CAA
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    notes: >
+      CAA records are required for all government domains to restrict certificate
+      issuance to authorized Certificate Authorities only.
+    references:
+      - title: "CAA - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/caa"
+
   - standard: BIMI
     status: informational
     applies_to:

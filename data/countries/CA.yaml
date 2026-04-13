@@ -85,6 +85,23 @@ requirements:
       - government_agencies
     notes: "No CCCS mandate for TLS-RPT as of 2026."
 
+  - standard: DNSSEC
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "CCCS"
+    notes: >
+      CCCS recommends DNSSEC for government domains as part of DNS infrastructure security.
+    references:
+      - title: "CCCS - Email security"
+        url: "https://www.cyber.gc.ca/en/guidance/email-security"
+
+  - standard: CAA
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No specific CCCS mandate or strong recommendation for CAA as of 2026."
+
   - standard: BIMI
     status: informational
     applies_to:

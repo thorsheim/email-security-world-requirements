@@ -22,16 +22,18 @@ README_PATH = REPO_ROOT / "README.md"
 BEGIN_SENTINEL = "<!-- BEGIN_MATRIX -->"
 END_SENTINEL = "<!-- END_MATRIX -->"
 
-STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "DANE", "MTA-STS", "TLS-RPT", "BIMI", "STARTTLS"]
+STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "BIMI"]
 STANDARDS_DOCS = {
     "SPF": "docs/standards/spf.md",
     "DKIM": "docs/standards/dkim.md",
     "DMARC": "docs/standards/dmarc.md",
+    "STARTTLS": "docs/standards/starttls.md",
     "DANE": "docs/standards/dane.md",
+    "DNSSEC": "docs/standards/dnssec.md",
     "MTA-STS": "docs/standards/mta-sts.md",
     "TLS-RPT": "docs/standards/tls-rpt.md",
+    "CAA": "docs/standards/caa.md",
     "BIMI": "docs/standards/bimi.md",
-    "STARTTLS": "docs/standards/starttls.md",
 }
 
 STATUS_ICONS = {
@@ -112,13 +114,29 @@ def build_matrix_table(countries):
         rows.append(row)
 
     rows.append("")
-    rows.append(
-        "**Legend:** ✅ M = Mandatory &nbsp;·&nbsp; "
-        "🔶 R = Recommended &nbsp;·&nbsp; "
-        "ℹ️ = Informational &nbsp;·&nbsp; "
-        "➖ = No requirement &nbsp;·&nbsp; "
-        "❓ = No data / Unknown"
-    )
+    rows.append("### Legend")
+    rows.append("")
+    rows.append("**Status icons**")
+    rows.append("")
+    rows.append("| Icon | Status | Meaning |")
+    rows.append("| :---: | :--- | :--- |")
+    rows.append("| ✅ M | **Mandatory** | Legally or policy-required; non-compliance has consequences |")
+    rows.append("| 🔶 R | **Recommended** | Official guidance or best-practice document published by a government body |")
+    rows.append("| ℹ️ | **Informational** | Mentioned in an official document but no clear directive |")
+    rows.append("| ➖ | **None** | Explicitly confirmed as not required |")
+    rows.append("| ❓ | **Unknown** | No official data found |")
+    rows.append("")
+    rows.append("**Standards grouping**")
+    rows.append("")
+    rows.append("| Group | Standards | Purpose |")
+    rows.append("| :--- | :--- | :--- |")
+    rows.append("| Sender authentication | SPF · DKIM · DMARC | Verify who sent the message |")
+    rows.append("| Transport security | STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT | Encrypt and secure delivery |")
+    rows.append("| Infrastructure | CAA | Restrict certificate issuance |")
+    rows.append("| Emerging | BIMI | Visual brand verification |")
+    rows.append("")
+    rows.append("> STARTTLS is already included in this repository. "
+                "DANE requires DNSSEC — if a country mandates DANE, DNSSEC is implicitly required too.")
 
     return "\n".join(rows)
 

@@ -28,21 +28,23 @@ STANDARDS_PATH = REPO_ROOT / "data" / "standards.yaml"
 OUTPUT_SVG = REPO_ROOT / "docs" / "map.svg"
 OUTPUT_HTML = REPO_ROOT / "docs" / "index.html"
 
-STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "DANE", "MTA-STS", "TLS-RPT", "BIMI", "STARTTLS"]
+STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "BIMI"]
 
-# Dark-theme color scale (mandatory count)
+# Dark-theme color scale (mandatory count, scale 0–10)
 DARK_COLORS = {
     "no_data": "#2a2a3e",
     0: "#7f0000",           # dark red — no requirements
     "rec_only": "#994400",  # orange-red — recommendations only
-    1: "#c05000",
-    2: "#d07000",
-    3: "#b8a000",
-    4: "#88bb00",
-    5: "#55aa00",
-    6: "#33cc33",
-    7: "#00dd55",
-    8: "#00ff88",           # bright green — all mandatory
+    1: "#b04000",
+    2: "#c05000",
+    3: "#d07000",
+    4: "#b8a000",
+    5: "#88bb00",
+    6: "#55aa00",
+    7: "#33cc33",
+    8: "#00dd55",
+    9: "#00ee77",
+    10: "#00ff88",          # bright green — all mandatory
 }
 
 
@@ -53,8 +55,8 @@ def score_color_dark(mandatory_count, recommended_count, has_data):
         return DARK_COLORS[0]
     if mandatory_count == 0:
         return DARK_COLORS["rec_only"]
-    count = min(mandatory_count, 8)
-    return DARK_COLORS.get(count, DARK_COLORS[8])
+    count = min(mandatory_count, 10)
+    return DARK_COLORS.get(count, DARK_COLORS[10])
 
 
 def load_country_data():
@@ -247,12 +249,18 @@ def generate_index_html(countries, scores, svg_content):
 
     legend_html = """
         <div class="legend">
-          <h3>Legend</h3>
+          <h3>Map Legend — Mandatory Standards Count (out of 10)</h3>
           <div class="legend-grid">
-            <div class="legend-item"><span class="swatch" style="background:#00ff88"></span> All standards mandatory</div>
-            <div class="legend-item"><span class="swatch" style="background:#33cc33"></span> Most standards mandatory</div>
-            <div class="legend-item"><span class="swatch" style="background:#88bb00"></span> Several standards mandatory</div>
-            <div class="legend-item"><span class="swatch" style="background:#d07000"></span> Few standards mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#00ff88"></span> 10 — All mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#00ee77"></span> 9 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#00dd55"></span> 8 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#33cc33"></span> 7 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#55aa00"></span> 6 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#88bb00"></span> 5 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#b8a000"></span> 4 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#d07000"></span> 3 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#c05000"></span> 2 mandatory</div>
+            <div class="legend-item"><span class="swatch" style="background:#b04000"></span> 1 mandatory</div>
             <div class="legend-item"><span class="swatch" style="background:#994400"></span> Recommendations only</div>
             <div class="legend-item"><span class="swatch" style="background:#7f0000"></span> No requirements</div>
             <div class="legend-item"><span class="swatch" style="background:#2a2a3e"></span> No data</div>
@@ -262,8 +270,11 @@ def generate_index_html(countries, scores, svg_content):
             <span class="status-recommended">🔶 Recommended</span>
             <span class="status-informational">ℹ️ Informational</span>
             <span class="status-none">➖ None</span>
-            <span class="status-unknown">❓ Unknown</span>
+            <span class="status-unknown">❓ Unknown / No data</span>
           </div>
+          <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text-muted)">
+            Standards: SPF · DKIM · DMARC · STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT · CAA · BIMI
+          </p>
         </div>
     """
 
@@ -472,11 +483,13 @@ def generate_index_html(countries, scores, svg_content):
           <tr><td><a href="standards/spf.md">SPF</a></td><td>Sender Policy Framework</td><td><a href="https://datatracker.ietf.org/doc/html/rfc7208" target="_blank">RFC 7208</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/spf.aspx" target="_blank">MXToolbox</a></td></tr>
           <tr><td><a href="standards/dkim.md">DKIM</a></td><td>DomainKeys Identified Mail</td><td><a href="https://datatracker.ietf.org/doc/html/rfc6376" target="_blank">RFC 6376</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/dkim.aspx" target="_blank">MXToolbox</a></td></tr>
           <tr><td><a href="standards/dmarc.md">DMARC</a></td><td>Domain-based Message Authentication, Reporting and Conformance</td><td><a href="https://datatracker.ietf.org/doc/html/rfc7489" target="_blank">RFC 7489</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://dmarcian.com" target="_blank">dmarcian</a></td></tr>
+          <tr><td><a href="standards/starttls.md">STARTTLS</a></td><td>SMTP STARTTLS (Opportunistic TLS)</td><td><a href="https://datatracker.ietf.org/doc/html/rfc3207" target="_blank">RFC 3207</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://passwordscon.org/mailcheck/" target="_blank">Mailcheck</a></td></tr>
           <tr><td><a href="standards/dane.md">DANE</a></td><td>DNS-based Authentication of Named Entities</td><td><a href="https://datatracker.ietf.org/doc/html/rfc6698" target="_blank">RFC 6698</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a></td></tr>
+          <tr><td><a href="standards/dnssec.md">DNSSEC</a></td><td>DNS Security Extensions</td><td><a href="https://datatracker.ietf.org/doc/html/rfc4033" target="_blank">RFC 4033–4035</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://dnsviz.net" target="_blank">DNSViz</a></td></tr>
           <tr><td><a href="standards/mta-sts.md">MTA-STS</a></td><td>Mail Transfer Agent Strict Transport Security</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8461" target="_blank">RFC 8461</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://www.hardenize.com" target="_blank">Hardenize</a></td></tr>
           <tr><td><a href="standards/tls-rpt.md">TLS-RPT</a></td><td>SMTP TLS Reporting</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8460" target="_blank">RFC 8460</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/TLSRpt.aspx" target="_blank">MXToolbox</a></td></tr>
+          <tr><td><a href="standards/caa.md">CAA</a></td><td>Certification Authority Authorization</td><td><a href="https://datatracker.ietf.org/doc/html/rfc8659" target="_blank">RFC 8659</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://mxtoolbox.com/caa.aspx" target="_blank">MXToolbox</a></td></tr>
           <tr><td><a href="standards/bimi.md">BIMI</a></td><td>Brand Indicators for Message Identification</td><td><a href="https://bimigroup.org" target="_blank">BIMI Group</a></td><td><a href="https://bimigroup.org/bimi-generator/" target="_blank">BIMI Checker</a></td></tr>
-          <tr><td><a href="standards/starttls.md">STARTTLS</a></td><td>SMTP STARTTLS (Opportunistic TLS)</td><td><a href="https://datatracker.ietf.org/doc/html/rfc3207" target="_blank">RFC 3207</a></td><td><a href="https://internet.nl" target="_blank">internet.nl</a>, <a href="https://passwordscon.org/mailcheck/" target="_blank">Mailcheck</a></td></tr>
         </tbody>
       </table>
     </section>

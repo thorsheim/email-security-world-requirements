@@ -148,6 +148,57 @@ standards:
         url: "https://mxtoolbox.com/bimi.aspx"
     docs_page: "docs/standards/bimi.md"
 
+  - id: DNSSEC
+    name: DNS Security Extensions
+    rfcs:
+      - "RFC 4033"
+      - "RFC 4034"
+      - "RFC 4035"
+      - "RFC 9364"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc4033"
+      - "https://datatracker.ietf.org/doc/html/rfc4034"
+      - "https://datatracker.ietf.org/doc/html/rfc4035"
+      - "https://datatracker.ietf.org/doc/html/rfc9364"
+    summary: >
+      DNSSEC adds cryptographic signatures to DNS responses, allowing resolvers to verify
+      that DNS data has not been tampered with. For email, DNSSEC is a prerequisite for
+      DANE/TLSA and protects against DNS spoofing attacks that could redirect mail or
+      forge SPF/DKIM records. Domains without DNSSEC cannot implement DANE.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: DNSSEC Analyzer (Verisign)
+        url: "https://dnssec-analyzer.verisignlabs.com"
+      - name: SIDN DNSSEC Check
+        url: "https://check.sidnlabs.nl"
+      - name: MXToolbox DNSSEC Lookup
+        url: "https://mxtoolbox.com/dnssec.aspx"
+    docs_page: "docs/standards/dnssec.md"
+
+  - id: CAA
+    name: Certification Authority Authorization
+    rfcs:
+      - "RFC 8659"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc8659"
+    summary: >
+      CAA DNS records allow domain owners to specify which Certificate Authorities (CAs)
+      are authorized to issue TLS certificates for their domain. This prevents any rogue
+      or mis-issuing CA from issuing certificates for your domain without authorization.
+      Relevant to email security as it protects the certificates used by STARTTLS, MTA-STS,
+      and BIMI. CAs are required to check CAA records before issuing certificates.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: MXToolbox CAA Lookup
+        url: "https://mxtoolbox.com/caa.aspx"
+      - name: SSLMate CAA Record Generator
+        url: "https://sslmate.com/caa/"
+      - name: Hardenize
+        url: "https://www.hardenize.com"
+    docs_page: "docs/standards/caa.md"
+
   - id: STARTTLS
     name: SMTP STARTTLS (Opportunistic TLS)
     rfcs:

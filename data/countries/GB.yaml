@@ -97,6 +97,31 @@ requirements:
       - title: "NCSC Mail Check Service"
         url: "https://www.ncsc.gov.uk/information/mail-check"
 
+  - standard: DNSSEC
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      NCSC guidance recommends DNSSEC for government domains. Required for DANE
+      deployment. Adoption across UK government domains varies; NCSC Mail Check
+      includes DNSSEC validation.
+    references:
+      - title: "NCSC - Protecting domains that don't send email"
+        url: "https://www.ncsc.gov.uk/collection/email-security-and-anti-spoofing"
+
+  - standard: CAA
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      NCSC recommends CAA records as part of domain security guidance to restrict
+      certificate issuance to authorized CAs.
+    references:
+      - title: "NCSC Mail Check Service"
+        url: "https://www.ncsc.gov.uk/information/mail-check"
+
   - standard: BIMI
     status: informational
     applies_to:

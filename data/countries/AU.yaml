@@ -86,6 +86,30 @@ requirements:
       - government_agencies
     notes: "No ASD/ACSC mandate for TLS-RPT as of 2026."
 
+  - standard: DNSSEC
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "ASD / ACSC"
+    policy_document: "ISM"
+    notes: >
+      The ISM recommends DNSSEC for government domains as part of DNS hardening.
+    references:
+      - title: "ISM - Australian Government Information Security Manual"
+        url: "https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism"
+
+  - standard: CAA
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "ASD / ACSC"
+    policy_document: "ISM"
+    notes: >
+      CAA records recommended in ISM guidance to restrict certificate issuance.
+    references:
+      - title: "ISM - Australian Government Information Security Manual"
+        url: "https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism"
+
   - standard: BIMI
     status: informational
     applies_to:

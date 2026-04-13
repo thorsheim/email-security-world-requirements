@@ -23,18 +23,39 @@ This repository documents government-level email security requirements and recom
 
 <!-- BEGIN_MATRIX -->
 
-| Country | Authority | [SPF](docs/standards/spf.md) | [DKIM](docs/standards/dkim.md) | [DMARC](docs/standards/dmarc.md) | [DANE](docs/standards/dane.md) | [MTA-STS](docs/standards/mta-sts.md) | [TLS-RPT](docs/standards/tls-rpt.md) | [BIMI](docs/standards/bimi.md) | [STARTTLS](docs/standards/starttls.md) | Applies To |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| 🇦🇺 Australia | ASD / ACSC | 🔶 R | 🔶 R | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | 🔶 R | Government Agencies |
-| 🇨🇦 Canada | CCCS; CCCS / Treasury Board | 🔶 R | 🔶 R | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | 🔶 R | Government Agencies |
-| 🇩🇪 Germany | BSI | 🔶 R | 🔶 R | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | 🔶 R | Critical Infrastructure, Government Agencies |
-| 🇪🇺 European Union | ENISA / NIS2 | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | Critical Infrastructure |
-| 🇫🇷 France | ANSSI | 🔶 R | 🔶 R | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | 🔶 R | Critical Infrastructure, Government Agencies |
-| 🇬🇧 United Kingdom | NCSC | ✅ M | ✅ M | ✅ M (reject) | ℹ️ | 🔶 R | 🔶 R | ℹ️ | ✅ M | Government Agencies |
-| 🇳🇱 Netherlands | Forum Standaardisatie / NCSA; NCSC | ✅ M | ✅ M | ✅ M (reject) | ✅ M | 🔶 R | ✅ M | ℹ️ | ✅ M | Government Agencies |
-| 🇺🇸 United States | CISA | ✅ M | 🔶 R | ✅ M (reject) | ℹ️ | 🔶 R | 🔶 R | ℹ️ | ✅ M | Federal Agencies |
+| Country | Authority | [SPF](docs/standards/spf.md) | [DKIM](docs/standards/dkim.md) | [DMARC](docs/standards/dmarc.md) | [STARTTLS](docs/standards/starttls.md) | [DANE](docs/standards/dane.md) | [DNSSEC](docs/standards/dnssec.md) | [MTA-STS](docs/standards/mta-sts.md) | [TLS-RPT](docs/standards/tls-rpt.md) | [CAA](docs/standards/caa.md) | [BIMI](docs/standards/bimi.md) | Applies To |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| 🇦🇺 Australia | ASD / ACSC | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | 🔶 R | ℹ️ | Government Agencies |
+| 🇨🇦 Canada | CCCS; CCCS / Treasury Board | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | Government Agencies |
+| 🇩🇪 Germany | BSI | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | 🔶 R | ℹ️ | Critical Infrastructure, Government Agencies |
+| 🇪🇺 European Union | ENISA / NIS2 | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | ℹ️ | Critical Infrastructure |
+| 🇫🇷 France | ANSSI | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | 🔶 R | ℹ️ | ℹ️ | ℹ️ | ℹ️ | Critical Infrastructure, Government Agencies |
+| 🇬🇧 United Kingdom | NCSC | ✅ M | ✅ M | ✅ M (reject) | ✅ M | ℹ️ | 🔶 R | 🔶 R | 🔶 R | 🔶 R | ℹ️ | Government Agencies |
+| 🇳🇱 Netherlands | Forum Standaardisatie / NCSA; NCSC | ✅ M | ✅ M | ✅ M (reject) | ✅ M | ✅ M | ✅ M | 🔶 R | ✅ M | ✅ M | ℹ️ | Government Agencies |
+| 🇺🇸 United States | CISA | ✅ M | 🔶 R | ✅ M (reject) | ✅ M | ℹ️ | ✅ M | 🔶 R | 🔶 R | 🔶 R | ℹ️ | Federal Agencies |
 
-**Legend:** ✅ M = Mandatory &nbsp;·&nbsp; 🔶 R = Recommended &nbsp;·&nbsp; ℹ️ = Informational &nbsp;·&nbsp; ➖ = No requirement &nbsp;·&nbsp; ❓ = No data / Unknown
+### Legend
+
+**Status icons**
+
+| Icon | Status | Meaning |
+| :---: | :--- | :--- |
+| ✅ M | **Mandatory** | Legally or policy-required; non-compliance has consequences |
+| 🔶 R | **Recommended** | Official guidance or best-practice document published by a government body |
+| ℹ️ | **Informational** | Mentioned in an official document but no clear directive |
+| ➖ | **None** | Explicitly confirmed as not required |
+| ❓ | **Unknown** | No official data found |
+
+**Standards grouping**
+
+| Group | Standards | Purpose |
+| :--- | :--- | :--- |
+| Sender authentication | SPF · DKIM · DMARC | Verify who sent the message |
+| Transport security | STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT | Encrypt and secure delivery |
+| Infrastructure | CAA | Restrict certificate issuance |
+| Emerging | BIMI | Visual brand verification |
+
+> STARTTLS is already included in this repository. DANE requires DNSSEC — if a country mandates DANE, DNSSEC is implicitly required too.
 
 <!-- END_MATRIX -->
 
@@ -47,11 +68,13 @@ This repository documents government-level email security requirements and recom
 | [SPF](docs/standards/spf.md) | Sender Policy Framework | [RFC 7208](https://datatracker.ietf.org/doc/html/rfc7208) | Authorize mail servers per domain |
 | [DKIM](docs/standards/dkim.md) | DomainKeys Identified Mail | [RFC 6376](https://datatracker.ietf.org/doc/html/rfc6376) | Cryptographic signature on outgoing mail |
 | [DMARC](docs/standards/dmarc.md) | Domain-based Message Authentication, Reporting and Conformance | [RFC 7489](https://datatracker.ietf.org/doc/html/rfc7489) | Policy + reporting for SPF/DKIM |
+| [STARTTLS](docs/standards/starttls.md) | SMTP STARTTLS (Opportunistic TLS) | [RFC 3207](https://datatracker.ietf.org/doc/html/rfc3207) | Encrypted mail transport baseline |
 | [DANE](docs/standards/dane.md) | DNS-based Authentication of Named Entities | [RFC 6698](https://datatracker.ietf.org/doc/html/rfc6698) | TLS cert binding via DNSSEC |
+| [DNSSEC](docs/standards/dnssec.md) | DNS Security Extensions | [RFC 4033–4035](https://datatracker.ietf.org/doc/html/rfc4033) | Signed DNS — required for DANE |
 | [MTA-STS](docs/standards/mta-sts.md) | Mail Transfer Agent Strict Transport Security | [RFC 8461](https://datatracker.ietf.org/doc/html/rfc8461) | Enforce TLS without DNSSEC |
 | [TLS-RPT](docs/standards/tls-rpt.md) | SMTP TLS Reporting | [RFC 8460](https://datatracker.ietf.org/doc/html/rfc8460) | Report TLS failures |
+| [CAA](docs/standards/caa.md) | Certification Authority Authorization | [RFC 8659](https://datatracker.ietf.org/doc/html/rfc8659) | Restrict which CAs may issue certificates |
 | [BIMI](docs/standards/bimi.md) | Brand Indicators for Message Identification | [BIMI Group](https://bimigroup.org) | Verified logo in email clients |
-| [STARTTLS](docs/standards/starttls.md) | SMTP STARTTLS | [RFC 3207](https://datatracker.ietf.org/doc/html/rfc3207) | Encrypted mail transport baseline |
 
 ---
 

@@ -109,6 +109,33 @@ requirements:
       - title: "CISA Email Security Best Practices"
         url: "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
 
+  - standard: DNSSEC
+    status: mandatory
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    policy_document: "BOD 18-01"
+    effective_date: "2018-01-15"
+    notes: >
+      BOD 18-01 requires DNSSEC for all .gov second-level domains. This predates
+      the email-specific requirements and covers all federal civilian executive branch
+      agency domains.
+    references:
+      - title: "BOD 18-01 - Enhance Email and Web Security"
+        url: "https://cyber.dhs.gov/bod/18-01/"
+
+  - standard: CAA
+    status: recommended
+    applies_to:
+      - federal_agencies
+    authority: "CISA"
+    notes: >
+      CISA recommends CAA records as part of general domain security best practices.
+      Not a BOD-level mandate but referenced in CISA guidance on certificate security.
+    references:
+      - title: "CISA Email Security Best Practices"
+        url: "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
+
   - standard: BIMI
     status: informational
     applies_to:

@@ -82,6 +82,24 @@ requirements:
       - government_agencies
     notes: "No ANSSI mandate for TLS-RPT as of 2026."
 
+  - standard: DNSSEC
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "ANSSI"
+    notes: >
+      ANSSI recommends DNSSEC as part of general DNS security guidance.
+    references:
+      - title: "ANSSI - Recommandations pour la sécurisation des noms de domaine"
+        url: "https://www.ssi.gouv.fr/guide/recommandations-pour-la-securisation-des-noms-de-domaine/"
+
+  - standard: CAA
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No specific ANSSI mandate or strong recommendation for CAA as of 2026."
+
   - standard: BIMI
     status: informational
     applies_to:
