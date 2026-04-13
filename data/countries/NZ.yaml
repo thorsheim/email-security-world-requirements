@@ -1,0 +1,151 @@
+country_code: NZ
+country_name: New Zealand
+last_reviewed: "2026-04-13"
+notes: >
+  New Zealand's government email security requirements are set by the Department
+  of Internal Affairs (DIA) through the Digital.govt.nz "Secure Government Email
+  Common Implementation Framework". This framework requires SPF, DKIM, DMARC,
+  MTA-STS, TLS-RPT, and STARTTLS for all New Zealand government agencies. The
+  framework is part of the broader New Zealand Government ICT strategy. The
+  govt.nz domain is DNSSEC-signed, and DNSSEC is recommended for government
+  domains. The GCSB/NCSC NZ publishes the New Zealand Information Security Manual
+  (NZISM), which sets broader security requirements for Crown entities.
+
+authorities:
+  "DIA / Digital.govt.nz": "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework"
+  "GCSB / NCSC NZ": "https://www.gcsb.govt.nz/ncsc/"
+
+references:
+  - title: "Secure Government Email Common Implementation Framework"
+    url: "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework"
+    publisher: "Department of Internal Affairs / Digital.govt.nz"
+    year: 2024
+  - title: "New Zealand Information Security Manual (NZISM)"
+    url: "https://www.nzism.gcsb.govt.nz/"
+    publisher: "Government Communications Security Bureau (GCSB)"
+    year: 2024
+
+requirements:
+  - standard: SPF
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "DIA / Digital.govt.nz"
+    policy_document: "Secure Government Email Common Implementation Framework"
+    references:
+      - title: "Secure Government Email Common Implementation Framework"
+        url: "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework#46"
+
+  - standard: DKIM
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "DIA / Digital.govt.nz"
+    policy_document: "Secure Government Email Common Implementation Framework"
+    references:
+      - title: "Secure Government Email Common Implementation Framework"
+        url: "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework#46"
+
+  - standard: DMARC
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "DIA / Digital.govt.nz"
+    policy_document: "Secure Government Email Common Implementation Framework"
+    references:
+      - title: "Secure Government Email Common Implementation Framework"
+        url: "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework#46"
+
+  - standard: STARTTLS
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "DIA / Digital.govt.nz"
+    policy_document: "Secure Government Email Common Implementation Framework"
+    notes: >
+      STARTTLS is required as the transport-layer TLS mechanism underpinning
+      MTA-STS enforcement. The framework mandates TLS-encrypted mail transport
+      for government email.
+    references:
+      - title: "Secure Government Email Common Implementation Framework"
+        url: "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework#46"
+
+  - standard: DANE
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No known mandate for DANE in the New Zealand government email framework as of 2026."
+
+  - standard: DNSSEC
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "DIA / Digital.govt.nz"
+    notes: >
+      The govt.nz domain is DNSSEC-signed. DNSSEC is recommended for all government
+      domains as it is a prerequisite for DANE and provides authenticated DNS responses
+      for SPF and DMARC lookups.
+    references:
+      - title: "Secure Government Email Common Implementation Framework"
+        url: "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework"
+
+  - standard: MTA-STS
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "DIA / Digital.govt.nz"
+    policy_document: "Secure Government Email Common Implementation Framework"
+    notes: >
+      MTA-STS is required under the framework to enforce TLS for inbound mail
+      delivery to government domains, preventing opportunistic downgrade attacks
+      without requiring DNSSEC.
+    references:
+      - title: "Secure Government Email Common Implementation Framework"
+        url: "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework#46"
+
+  - standard: TLS-RPT
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "DIA / Digital.govt.nz"
+    policy_document: "Secure Government Email Common Implementation Framework"
+    notes: >
+      TLS-RPT is required alongside MTA-STS to provide visibility into TLS
+      negotiation failures and ensure government agencies can detect delivery
+      problems and downgrade attempts.
+    references:
+      - title: "Secure Government Email Common Implementation Framework"
+        url: "https://www.digital.govt.nz/products-and-services/products-and-services-a-z/secure-government-email/secure-government-email-common-implementation-framework#46"
+
+  - standard: CAA
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No specific mandate for CAA records in the New Zealand government email framework as of 2026."
+
+  - standard: IPv6
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: >
+      No specific IPv6 mandate for government email infrastructure found in the
+      Secure Government Email framework as of 2026. New Zealand has broader IPv6
+      transition goals but no email-specific mandate has been identified.
+
+  - standard: RPKI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No known government mandate or recommendation for RPKI as of 2026."
+
+  - standard: ASPA
+    status: unknown
+    applies_to:
+      - government_agencies
+    notes: "No known New Zealand government guidance on ASPA as of 2026."
+
+  - standard: BIMI
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: "No known mandate for BIMI in the New Zealand government email framework as of 2026."
