@@ -120,10 +120,10 @@ def build_table_rows_html(countries, scores):
     """Build HTML table rows for the interactive page."""
     STATUS_ICONS = {
         "mandatory": "✅",
-        "recommended": "🔶",
+        "recommended": "🟡",
         "informational": "ℹ️",
         "none": "➖",
-        "unknown": "❓",
+        "unknown": "✗",
     }
 
     rows = []
@@ -148,7 +148,7 @@ def build_table_rows_html(countries, scores):
                     f'{icon}</td>'
                 )
             else:
-                cells.append('<td class="status-unknown">❓</td>')
+                cells.append('<td class="status-unknown">✗</td>')
 
         applies_set = set()
         for req in data.get("requirements", []):
@@ -180,7 +180,7 @@ def build_details_rows_html(countries):
     """Build HTML rows for the per-(country, authority, standard) details table."""
     STATUS_LABELS = {
         "mandatory": ("✅ Mandatory", "status-mandatory"),
-        "recommended": ("🔶 Recommended", "status-recommended"),
+        "recommended": ("🟡 Recommended", "status-recommended"),
     }
     rows = []
     for code in sorted(countries.keys()):
@@ -329,7 +329,14 @@ def generate_index_html(countries, scores):
     .status-recommended {{ color: #fbbf24; }}
     .status-informational {{ color: #94a3b8; }}
     .status-none {{ color: #475569; }}
-    .status-unknown {{ color: #64748b; }}
+    .status-unknown {{ color: #f87171; }}
+    .matrix-legend {{
+      display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem;
+      font-size: 0.82rem; margin-bottom: 0.75rem;
+      padding: 0.6rem 1rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    }}
+    .matrix-legend span {{ white-space: nowrap; }}
     .details-notes {{ font-size: 0.8rem; color: var(--text-muted); max-width: 320px; }}
     footer {{
       text-align: center;
@@ -364,6 +371,13 @@ def generate_index_html(countries, scores):
   <main>
     <section id="table-section">
       <h2>Requirements Matrix</h2>
+      <div class="matrix-legend">
+        <span>✅ Mandatory</span>
+        <span class="status-recommended">🟡 Recommended</span>
+        <span class="status-informational">ℹ️ Informational</span>
+        <span class="status-none">➖ None confirmed</span>
+        <span class="status-unknown">✗ No data found</span>
+      </div>
       <div class="controls">
         <input type="text" id="search" placeholder="Filter by country or authority…" oninput="filterTable()">
         <label>

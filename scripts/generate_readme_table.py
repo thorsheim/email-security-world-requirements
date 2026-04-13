@@ -46,10 +46,10 @@ STANDARDS_DOCS = {
 
 STATUS_ICONS = {
     "mandatory": "✅ M",
-    "recommended": "🔶 R",
+    "recommended": "🟡 R",
     "informational": "ℹ️",
     "none": "➖",
-    "unknown": "❓",
+    "unknown": "✗",
 }
 
 STATUS_PRIORITY = {
@@ -137,15 +137,28 @@ def build_authority_str(requirements, authority_urls):
 
 
 def build_matrix_table(countries):
+    # --- Legend (above the table) ---
+    legend = []
+    legend.append("**Legend**")
+    legend.append("")
+    legend.append("| Icon | Status | Meaning |")
+    legend.append("| :---: | :--- | :--- |")
+    legend.append("| ✅ M | **Mandatory** | Legally or policy-required; non-compliance has consequences |")
+    legend.append("| 🟡 R | **Recommended** | Official guidance or best-practice document published by a government body |")
+    legend.append("| ℹ️ | **Informational** | Mentioned in an official document but no clear directive |")
+    legend.append("| ➖ | **None** | Explicitly confirmed as not required |")
+    legend.append("| ✗ | **Unknown** | No official data found for this standard |")
+    legend.append("")
+
+    # --- Matrix table ---
     std_headers = " | ".join(
         f"[{s}]({STANDARDS_DOCS[s]})" for s in STANDARDS_ORDER
     )
     header = f"| Country | Authority | {std_headers} | Applies To |"
-
     sep_stds = " | ".join(":---:" for _ in STANDARDS_ORDER)
     separator = f"| :--- | :--- | {sep_stds} | :--- |"
 
-    rows = [header, separator]
+    rows = legend + [header, separator]
 
     for code in sorted(countries.keys()):
         data = countries[code]
@@ -161,12 +174,12 @@ def build_matrix_table(countries):
         for std in STANDARDS_ORDER:
             req = best_map.get(std)
             if req:
-                icon = STATUS_ICONS.get(req.get("status", "unknown"), "❓")
+                icon = STATUS_ICONS.get(req.get("status", "unknown"), "✗")
                 level = req.get("level", "")
                 if level and req.get("status") == "mandatory":
                     icon += f" ({level})"
             else:
-                icon = "❓"
+                icon = "✗"
             cells.append(icon)
 
         applies_set = set()
@@ -178,18 +191,7 @@ def build_matrix_table(countries):
         row = f"| {display_name} | {authority_str} | " + " | ".join(cells) + f" | {applies_str} |"
         rows.append(row)
 
-    rows.append("")
-    rows.append("### Legend")
-    rows.append("")
-    rows.append("**Status icons**")
-    rows.append("")
-    rows.append("| Icon | Status | Meaning |")
-    rows.append("| :---: | :--- | :--- |")
-    rows.append("| ✅ M | **Mandatory** | Legally or policy-required; non-compliance has consequences |")
-    rows.append("| 🔶 R | **Recommended** | Official guidance or best-practice document published by a government body |")
-    rows.append("| ℹ️ | **Informational** | Mentioned in an official document but no clear directive |")
-    rows.append("| ➖ | **None** | Explicitly confirmed as not required |")
-    rows.append("| ❓ | **Unknown** | No official data found |")
+    # --- Standards grouping (below the table) ---
     rows.append("")
     rows.append("**Standards grouping**")
     rows.append("")

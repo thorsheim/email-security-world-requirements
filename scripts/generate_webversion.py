@@ -128,10 +128,10 @@ FLAG_EMOJI = {
 def build_table_rows(countries, scores):
     STATUS_ICONS = {
         "mandatory": "✅",
-        "recommended": "🔶",
+        "recommended": "🟡",
         "informational": "ℹ️",
         "none": "➖",
-        "unknown": "❓",
+        "unknown": "✗",
     }
 
     rows = []
@@ -158,7 +158,7 @@ def build_table_rows(countries, scores):
                     f'{icon}</td>'
                 )
             else:
-                cells.append('<td class="status-unknown">❓</td>')
+                cells.append('<td class="status-unknown">✗</td>')
 
         seen_auths = list(dict.fromkeys(
             req.get("authority") for req in data.get("requirements", [])
@@ -189,7 +189,7 @@ def build_details_rows(countries):
     """Build HTML rows for the per-(country, authority, standard) details table."""
     STATUS_LABELS = {
         "mandatory": ("✅ Mandatory", "status-mandatory"),
-        "recommended": ("🔶 Recommended", "status-recommended"),
+        "recommended": ("🟡 Recommended", "status-recommended"),
     }
     rows = []
     for code in sorted(countries.keys()):
@@ -362,10 +362,17 @@ def generate_webversion_html(countries, scores):
     tbody td {{ padding: 0.55rem 0.75rem; vertical-align: middle; }}
     td[class^="status-"] {{ text-align: center; }}
     .status-mandatory {{ color: #15803d; }}
-    .status-recommended {{ color: #b45309; }}
+    .status-recommended {{ color: #a16207; }}
     .status-informational {{ color: #64748b; }}
     .status-none {{ color: #94a3b8; }}
-    .status-unknown {{ color: #cbd5e1; }}
+    .status-unknown {{ color: #dc2626; }}
+    .matrix-legend {{
+      display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem;
+      font-size: 0.82rem; margin-bottom: 0.75rem;
+      padding: 0.6rem 1rem;
+      background: white; border: 1px solid #e2e8f0; border-radius: 6px;
+    }}
+    .matrix-legend span {{ white-space: nowrap; }}
     .applies-col {{ font-size: 0.8rem; color: #64748b; }}
     .details-country {{ font-weight: 600; white-space: nowrap; }}
     .details-policy {{ font-size: 0.8rem; color: #475569; white-space: nowrap; }}
@@ -408,6 +415,13 @@ def generate_webversion_html(countries, scores):
   <div class="container">
     <section>
       <h2>Requirements Matrix</h2>
+      <div class="matrix-legend">
+        <span>✅ Mandatory</span>
+        <span class="status-recommended">🟡 Recommended</span>
+        <span class="status-informational">ℹ️ Informational</span>
+        <span class="status-none">➖ None confirmed</span>
+        <span class="status-unknown">✗ No data found</span>
+      </div>
       <div class="controls">
         <input type="text" id="search" placeholder="Filter by country or authority…" oninput="filterTable()">
         <label>
