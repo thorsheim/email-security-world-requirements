@@ -199,6 +199,32 @@ standards:
         url: "https://www.hardenize.com"
     docs_page: "docs/standards/caa.md"
 
+  - id: IPv6
+    name: IPv6 Support for Email
+    rfcs:
+      - "RFC 8200"
+      - "RFC 3596"
+      - "RFC 5321"
+    rfc_urls:
+      - "https://datatracker.ietf.org/doc/html/rfc8200"
+      - "https://datatracker.ietf.org/doc/html/rfc3596"
+      - "https://datatracker.ietf.org/doc/html/rfc5321"
+    summary: >
+      IPv6 support for email requires that mail servers are reachable over IPv6
+      (AAAA DNS records for MX hosts) and accept inbound SMTP connections on IPv6.
+      Several governments mandate IPv6 for public sector infrastructure as part of
+      broader modernisation policies. Without IPv6, mail servers are unreachable from
+      IPv6-only networks, which are growing in prevalence. internet.nl tests this
+      as part of its full email standards check.
+    testing_tools:
+      - name: internet.nl
+        url: "https://internet.nl"
+      - name: MXToolbox Email Health
+        url: "https://mxtoolbox.com/emailhealth.aspx"
+      - name: test-ipv6.com
+        url: "https://test-ipv6.com"
+    docs_page: "docs/standards/ipv6.md"
+
   - id: RPKI
     name: Resource Public Key Infrastructure
     rfcs:

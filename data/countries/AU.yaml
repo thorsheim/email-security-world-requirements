@@ -113,6 +113,20 @@ requirements:
       - title: "ISM - Australian Government Information Security Manual"
         url: "https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism"
 
+  - standard: IPv6
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "ASD / ACSC"
+    policy_document: "ISM"
+    notes: >
+      The ISM and ASD guidance encourage Commonwealth entities to support IPv6
+      for internet-facing infrastructure including email services, as part of
+      network modernisation and to ensure future reachability.
+    references:
+      - title: "ISM - Australian Government Information Security Manual"
+        url: "https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism"
+
   - standard: RPKI
     status: informational
     applies_to:

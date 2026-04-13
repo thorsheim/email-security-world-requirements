@@ -115,6 +115,20 @@ requirements:
       - title: "BSI TR-03108 - Sicherer E-Mail-Transport"
         url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03108/TR-03108_node.html"
 
+  - standard: IPv6
+    status: recommended
+    applies_to:
+      - government_agencies
+      - critical_infrastructure
+    authority: "BSI"
+    notes: >
+      BSI recommends IPv6 support for government and critical infrastructure
+      as part of network modernisation. BSI technical guidelines on secure network
+      architecture include IPv6 readiness for internet-facing services including email.
+    references:
+      - title: "BSI - Sichere Nutzung von IPv6"
+        url: "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr02102/TR-02102_node.html"
+
   - standard: RPKI
     status: informational
     applies_to:

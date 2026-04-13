@@ -26,7 +26,7 @@ END_MATRIX = "<!-- END_MATRIX -->"
 BEGIN_DETAILS = "<!-- BEGIN_DETAILS -->"
 END_DETAILS = "<!-- END_DETAILS -->"
 
-STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "RPKI", "ASPA", "BIMI"]
+STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "IPv6", "RPKI", "ASPA", "BIMI"]
 STANDARDS_DOCS = {
     "SPF": "docs/standards/spf.md",
     "DKIM": "docs/standards/dkim.md",
@@ -37,6 +37,7 @@ STANDARDS_DOCS = {
     "MTA-STS": "docs/standards/mta-sts.md",
     "TLS-RPT": "docs/standards/tls-rpt.md",
     "CAA": "docs/standards/caa.md",
+    "IPv6": "docs/standards/ipv6.md",
     "RPKI": "docs/standards/rpki.md",
     "ASPA": "docs/standards/aspa.md",
     "BIMI": "docs/standards/bimi.md",
@@ -176,7 +177,7 @@ def build_matrix_table(countries):
     rows.append("| :--- | :--- | :--- |")
     rows.append("| Sender authentication | SPF · DKIM · DMARC | Verify who sent the message |")
     rows.append("| Transport security | STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT | Encrypt and secure delivery |")
-    rows.append("| Infrastructure | CAA | Restrict certificate issuance |")
+    rows.append("| Infrastructure | CAA · IPv6 | Certificate issuance restriction; dual-stack mail reachability |")
     rows.append("| Routing security | RPKI · ASPA | Protect against BGP hijacking and route leaks |")
     rows.append("| Emerging | BIMI | Visual brand verification |")
     rows.append("")

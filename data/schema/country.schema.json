@@ -58,7 +58,7 @@
         "properties": {
           "standard": {
             "type": "string",
-            "enum": ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "RPKI", "ASPA", "BIMI"],
+            "enum": ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "IPv6", "RPKI", "ASPA", "BIMI"],
             "description": "Must match an ID in data/standards.yaml."
           },
           "status": {

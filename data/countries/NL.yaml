@@ -134,6 +134,20 @@ requirements:
       - title: "CAA - Forum Standaardisatie"
         url: "https://www.forumstandaardisatie.nl/open-standaarden/caa"
 
+  - standard: IPv6
+    status: mandatory
+    applies_to:
+      - government_agencies
+    authority: "Forum Standaardisatie / NCSA"
+    policy_document: "Pas-toe-of-leg-uit lijst"
+    notes: >
+      IPv6 is on the Forum Standaardisatie mandatory "comply or explain" list for
+      all government organisations. Both inbound and outbound mail servers must
+      support IPv6 (AAAA records for MX hosts, SMTP over IPv6).
+    references:
+      - title: "IPv6 - Forum Standaardisatie"
+        url: "https://www.forumstandaardisatie.nl/open-standaarden/ipv6"
+
   - standard: RPKI
     status: recommended
     applies_to:

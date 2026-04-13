@@ -12,6 +12,7 @@ notes: >
 authorities:
   "CISA": "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
   "ONCD": "https://www.whitehouse.gov/oncd/"
+  "OMB": "https://www.whitehouse.gov/wp-content/uploads/2020/11/M-21-07.pdf"
 
 references:
   - title: "BOD 18-01 - Enhance Email and Web Security"
@@ -139,6 +140,23 @@ requirements:
     references:
       - title: "CISA Email Security Best Practices"
         url: "https://www.cisa.gov/resources-tools/resources/email-security-best-practices"
+
+  - standard: IPv6
+    status: mandatory
+    applies_to:
+      - federal_agencies
+    authority: "OMB"
+    policy_document: "OMB M-21-07"
+    effective_date: "2020-11-19"
+    notes: >
+      OMB Memorandum M-21-07 "Completing the Transition to Internet Protocol Version 6
+      (IPv6)" (November 2020) requires Federal Civilian Executive Branch agencies to
+      ensure all new networked federal information systems are IPv6-enabled and to
+      complete the transition of existing infrastructure. This covers email servers
+      and other internet-facing systems.
+    references:
+      - title: "OMB M-21-07 — Completing the Transition to IPv6"
+        url: "https://www.whitehouse.gov/wp-content/uploads/2020/11/M-21-07.pdf"
 
   - standard: RPKI
     status: informational

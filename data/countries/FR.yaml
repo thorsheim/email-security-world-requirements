@@ -103,6 +103,15 @@ requirements:
       - government_agencies
     notes: "No specific ANSSI mandate or strong recommendation for CAA as of 2026."
 
+  - standard: IPv6
+    status: informational
+    applies_to:
+      - government_agencies
+    notes: >
+      No specific ANSSI mandate for IPv6 on email infrastructure as of 2026.
+      France has published national IPv6 deployment plans through ARCEP
+      (telecoms regulator) but these focus on network operators, not email security.
+
   - standard: RPKI
     status: informational
     applies_to:

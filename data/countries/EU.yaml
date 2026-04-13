@@ -119,6 +119,18 @@ requirements:
       - critical_infrastructure
     notes: "No EU-level mandate for CAA. ENISA mentions certificate security generally."
 
+  - standard: IPv6
+    status: informational
+    applies_to:
+      - critical_infrastructure
+    authority: "ENISA / NIS2"
+    notes: >
+      The EU has published IPv6 adoption targets and the European Commission
+      has encouraged IPv6 deployment across member states. NIS2 Article 21
+      implies modern network protocols for essential entities but does not
+      explicitly mandate IPv6 for email. Individual member states vary significantly
+      in IPv6 mandates (NL mandates; others recommend or have no policy).
+
   - standard: RPKI
     status: informational
     applies_to:

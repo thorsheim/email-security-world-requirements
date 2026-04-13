@@ -106,6 +106,19 @@ requirements:
       - government_agencies
     notes: "No specific CCCS mandate or strong recommendation for CAA as of 2026."
 
+  - standard: IPv6
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "CCCS / Treasury Board"
+    notes: >
+      Treasury Board of Canada Secretariat and Shared Services Canada have
+      published IPv6 adoption guidance for Government of Canada infrastructure.
+      GC email systems are expected to support IPv6 as part of network modernisation.
+    references:
+      - title: "Government of Canada IPv6 Adoption Strategy"
+        url: "https://www.canada.ca/en/shared-services/corporate/publications/ipv6-adoption-strategy.html"
+
   - standard: RPKI
     status: informational
     applies_to:

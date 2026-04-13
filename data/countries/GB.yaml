@@ -125,6 +125,20 @@ requirements:
       - title: "NCSC Mail Check Service"
         url: "https://www.ncsc.gov.uk/information/mail-check"
 
+  - standard: IPv6
+    status: recommended
+    applies_to:
+      - government_agencies
+    authority: "NCSC"
+    notes: >
+      UK government guidance (GDS technology code of practice and NCSC network
+      security recommendations) advises IPv6 readiness for public sector digital
+      services. Internet-facing government services including email should support
+      IPv6 to ensure reachability from IPv6-only networks.
+    references:
+      - title: "GOV.UK Technology Code of Practice — Use open standards"
+        url: "https://www.gov.uk/guidance/the-technology-code-of-practice"
+
   - standard: RPKI
     status: informational
     applies_to:
