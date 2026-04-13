@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate webversion/index.html and webversion/map.svg for deployment to
+Generate webversion/index.html for deployment to
 passwordscon.org/mailrequirements/ (WordPress site, static subfolder).
 
 This produces a fully self-contained HTML page with all CSS and JS inlined.
@@ -9,61 +9,20 @@ Design: clean neutral / light theme.
 Usage:
     python scripts/generate_webversion.py
 
-Requirements: pyyaml, lxml
+Requirements: pyyaml
 """
 
-import os
-import sys
 from pathlib import Path
 
 import yaml
 
-try:
-    from lxml import etree
-except ImportError:
-    print("ERROR: 'lxml' not installed. Run: pip install lxml")
-    sys.exit(1)
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
-BASEMAP_PATH = REPO_ROOT / "assets" / "world-110m.svg"
 COUNTRIES_DIR = REPO_ROOT / "data" / "countries"
 STANDARDS_PATH = REPO_ROOT / "data" / "standards.yaml"
 OUTPUT_DIR = REPO_ROOT / "webversion"
 OUTPUT_HTML = OUTPUT_DIR / "index.html"
-OUTPUT_SVG = OUTPUT_DIR / "map.svg"
 
 STANDARDS_ORDER = ["SPF", "DKIM", "DMARC", "STARTTLS", "DANE", "DNSSEC", "MTA-STS", "TLS-RPT", "CAA", "IPv6", "RPKI", "ASPA", "BIMI"]
-
-# Light-theme color scale (mandatory count → pastel-shifted colors, scale 0–13)
-LIGHT_COLORS = {
-    "no_data": "#e8e8e8",
-    0: "#c0392b",           # deep red — no requirements
-    "rec_only": "#d35400",  # dark orange — recommendations only
-    1: "#e05000",
-    2: "#e67e22",
-    3: "#f39c12",
-    4: "#d4c000",
-    5: "#a8c000",
-    6: "#5cb85c",
-    7: "#27ae60",
-    8: "#1a9945",
-    9: "#0f8838",
-    10: "#0e7a35",
-    11: "#0c6b2e",
-    12: "#0a5c27",
-    13: "#085020",          # dark green — all mandatory
-}
-
-
-def score_color_light(mandatory_count, recommended_count, has_data):
-    if not has_data:
-        return LIGHT_COLORS["no_data"]
-    if mandatory_count == 0 and recommended_count == 0:
-        return LIGHT_COLORS[0]
-    if mandatory_count == 0:
-        return LIGHT_COLORS["rec_only"]
-    count = min(mandatory_count, 13)
-    return LIGHT_COLORS.get(count, LIGHT_COLORS[13])
 
 
 def load_country_data():
@@ -128,56 +87,6 @@ def compute_scores(countries):
         }
     return scores
 
-
-def patch_svg_light(countries, scores):
-    """Load basemap SVG and patch country fill colors for light theme."""
-    if not BASEMAP_PATH.exists():
-        print(f"ERROR: Basemap not found at {BASEMAP_PATH}")
-        print("Run: python scripts/fetch_basemap.py")
-        sys.exit(1)
-
-    parser = etree.XMLParser(remove_blank_text=True)
-    tree = etree.parse(str(BASEMAP_PATH), parser)
-    root = tree.getroot()
-
-    for path_el in root.iter("{http://www.w3.org/2000/svg}path"):
-        code = path_el.get("id", "").upper()
-        if not code or code == "_OCEAN":
-            continue
-
-        if code in countries:
-            s = scores[code]
-            color = score_color_light(s["mandatory"], s["recommended"], True)
-            name = s["name"]
-            tooltip = f"{name} | M:{s['mandatory']} R:{s['recommended']}"
-        else:
-            color = LIGHT_COLORS["no_data"]
-            tooltip = path_el.get("data-name", code) + " | No data"
-
-        path_el.set("fill", color)
-        path_el.set("stroke", "#ffffff")
-        path_el.set("stroke-width", "0.5")
-
-        title_el = path_el.find("{http://www.w3.org/2000/svg}title")
-        if title_el is None:
-            title_el = etree.SubElement(path_el, "{http://www.w3.org/2000/svg}title")
-        title_el.text = tooltip
-
-    # Light background
-    for rect in root.iter("{http://www.w3.org/2000/svg}rect"):
-        if rect.get("id") == "_ocean":
-            rect.set("fill", "#cce5ff")
-
-    root.set("style", "background:#cce5ff")
-    return tree
-
-
-def load_svg_inline(path):
-    with open(path, "rb") as f:
-        content = f.read().decode("utf-8")
-    if content.startswith("<?xml"):
-        content = content[content.index("<svg"):]
-    return content
 
 
 FLAG_EMOJI = {
@@ -311,7 +220,7 @@ def build_details_rows(countries):
     return "\n".join(rows)
 
 
-def generate_webversion_html(countries, scores, svg_content):
+def generate_webversion_html(countries, scores):
     table_rows = build_table_rows(countries, scores)
     details_rows = build_details_rows(countries)
     std_header_cells = "".join(
@@ -365,53 +274,6 @@ def generate_webversion_html(countries, scores, svg_content):
       border-bottom: 2px solid #e2e8f0;
       padding-bottom: 0.5rem;
       margin-bottom: 1.25rem;
-    }}
-    .map-wrap {{
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-    }}
-    .map-wrap svg {{
-      width: 100%;
-      height: auto;
-      display: block;
-    }}
-    .map-wrap svg path {{ transition: opacity 0.15s; }}
-    .map-wrap svg path:hover {{ opacity: 0.7; cursor: pointer; }}
-    .legend {{
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 1rem 1.25rem;
-      margin-top: 1rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-    }}
-    .legend-title {{
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.6rem;
-    }}
-    .legend-scale {{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 1rem;
-      margin-bottom: 0.75rem;
-    }}
-    .legend-item {{ display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: #475569; }}
-    .swatch {{
-      width: 14px; height: 14px;
-      border-radius: 3px;
-      border: 1px solid rgba(0,0,0,0.15);
-      flex-shrink: 0;
-    }}
-    .legend-status {{
-      display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem;
-      font-size: 0.82rem; color: #475569;
     }}
     .controls {{
       display: flex;
@@ -520,38 +382,6 @@ def generate_webversion_html(countries, scores, svg_content):
   </div>
 
   <div class="container">
-    <section>
-      <h2>World Overview</h2>
-      <div class="map-wrap">
-        {svg_content}
-      </div>
-      <div class="legend">
-        <div class="legend-title">Map Legend — Mandatory Standards Count (out of 13)</div>
-        <div class="legend-scale">
-          <div class="legend-item"><span class="swatch" style="background:#085020"></span> 13 — All mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#0a5c27"></span> 10–12 mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#0e7a35"></span> 7–9 mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#1a9945"></span> 7–8 mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#5cb85c"></span> 5–6 mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#d4c000"></span> 3–4 mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#e67e22"></span> 1–2 mandatory</div>
-          <div class="legend-item"><span class="swatch" style="background:#d35400"></span> Recommendations only</div>
-          <div class="legend-item"><span class="swatch" style="background:#c0392b"></span> No requirements</div>
-          <div class="legend-item"><span class="swatch" style="background:#e8e8e8"></span> No data</div>
-        </div>
-        <div class="legend-status">
-          <span>✅ Mandatory</span>
-          <span>🔶 Recommended</span>
-          <span>ℹ️ Informational</span>
-          <span>➖ None</span>
-          <span>❓ Unknown / No data</span>
-        </div>
-        <p style="margin-top:0.5rem;font-size:0.8rem;color:#64748b">
-          Standards: SPF · DKIM · DMARC · STARTTLS · DANE · DNSSEC · MTA-STS · TLS-RPT · CAA · IPv6 · RPKI · ASPA · BIMI
-        </p>
-      </div>
-    </section>
-
     <section>
       <h2>Requirements Matrix</h2>
       <div class="controls">
@@ -688,20 +518,11 @@ def main():
     scores = compute_scores(countries)
     print(f"Loaded {len(countries)} country files.")
 
-    # Generate light-theme SVG
-    tree = patch_svg_light(countries, scores)
-    tree.write(str(OUTPUT_SVG), xml_declaration=True, encoding="utf-8", pretty_print=True)
-    print(f"Written: {OUTPUT_SVG}")
-
-    # Load SVG for inlining
-    svg_content = load_svg_inline(OUTPUT_SVG)
-
-    # Generate HTML
-    html = generate_webversion_html(countries, scores, svg_content)
+    html = generate_webversion_html(countries, scores)
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"Written: {OUTPUT_HTML}")
-    print(f"\nWebversion ready. Upload the contents of {OUTPUT_DIR}/ to your server.")
+    print(f"\nWebversion ready. Upload {OUTPUT_HTML} to your server.")
 
 
 if __name__ == "__main__":

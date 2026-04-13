@@ -33,20 +33,15 @@ data/standards.yaml           Master registry: names, RFCs, testing tools
 data/schema/country.schema.json  JSON Schema v7 — the validation contract
 
 docs/standards/*.md           Human-written documentation per standard (13 files)
-docs/map.svg                  GENERATED — do not edit directly
 docs/index.html               GENERATED — do not edit directly
 
 webversion/index.html         GENERATED — do not edit directly (passwordscon.org deploy)
-webversion/map.svg            GENERATED — do not edit directly
 
-scripts/fetch_basemap.py      One-time: download Natural Earth GeoJSON → assets/world-110m.svg
 scripts/validate_data.py      Validate all YAML against schema
-scripts/generate_map.py       Write docs/map.svg + docs/index.html
+scripts/generate_map.py       Write docs/index.html (GitHub Pages interactive page)
 scripts/generate_readme_table.py  Inject matrix table into README.md (between sentinels)
-scripts/generate_webversion.py    Write webversion/ (light theme, self-contained HTML)
-scripts/requirements.txt      pip dependencies: pyyaml, jsonschema, lxml, requests
-
-assets/world-110m.svg         Basemap SVG (Natural Earth, CC0) — generated once by fetch_basemap.py
+scripts/generate_webversion.py    Write webversion/index.html (light theme, self-contained HTML)
+scripts/requirements.txt      pip dependencies: pyyaml, jsonschema
 ```
 
 **Never edit generated files directly.** Always edit `data/` and re-run scripts.
@@ -64,13 +59,10 @@ assets/world-110m.svg         Basemap SVG (Natural Earth, CC0) — generated onc
 ```bash
 pip install -r scripts/requirements.txt
 
-# One-time basemap setup (only needed when assets/world-110m.svg is missing)
-python scripts/fetch_basemap.py
-
 # Regenerate everything
-python scripts/generate_map.py              # → docs/map.svg + docs/index.html
+python scripts/generate_map.py              # → docs/index.html
 python scripts/generate_readme_table.py     # → injects matrix into README.md
-python scripts/generate_webversion.py       # → webversion/index.html + webversion/map.svg
+python scripts/generate_webversion.py       # → webversion/index.html
 ```
 
 The README matrix is bounded by `<!-- BEGIN_MATRIX -->` and `<!-- END_MATRIX -->` sentinels. Only `generate_readme_table.py` should modify that section.

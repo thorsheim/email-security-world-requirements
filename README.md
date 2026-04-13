@@ -21,17 +21,7 @@ email security standards for public sector organisations and critical infrastruc
 This project answers a simple question: **who requires what, and under which policy?**
 
 The data is stored as machine-readable YAML, validated against a JSON Schema, and rendered as
-an interactive world map and sortable requirements matrix. All sources are cited; contributions
-via Pull Request are welcome.
-
----
-
-## World Map
-
-[![Email Security Requirements Map](docs/map.svg)](https://thorsheim.github.io/email-security-world-requirements/)
-
-*Green = more mandatory standards · Red = no requirements · Grey = no data yet*  
-*[Open interactive version →](https://thorsheim.github.io/email-security-world-requirements/)*
+a sortable requirements matrix. All sources are cited; contributions via Pull Request are welcome.
 
 ---
 
@@ -249,22 +239,16 @@ data/
 
 docs/
   standards/          Documentation page per standard (spf.md, dkim.md, …)
-  map.svg             Generated world map (dark theme, for GitHub display)
   index.html          Generated interactive GitHub Pages page
 
 webversion/
   index.html          Generated self-contained page for passwordscon.org/mailrequirements/
-  map.svg             Generated world map (light theme)
 
 scripts/
   validate_data.py        Validate all country YAML files
-  fetch_basemap.py        One-time: download basemap from Natural Earth
-  generate_map.py         Generate docs/map.svg + docs/index.html
+  generate_map.py         Generate docs/index.html
   generate_readme_table.py  Inject requirements matrix into README.md
-  generate_webversion.py    Generate webversion/
-
-assets/
-  world-110m.svg      Natural Earth 110m basemap (CC0)
+  generate_webversion.py    Generate webversion/index.html
 ```
 
 ---
