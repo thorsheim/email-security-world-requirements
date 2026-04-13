@@ -237,7 +237,7 @@ data/
 
 docs/
   standards/          Documentation page per standard (spf.md, dkim.md, …)
-  index.html          Generated interactive GitHub Pages page
+  index.html          Generated interactive GitHub Pages page (dark/light theme toggle)
 
 webversion/
   index.html          Generated self-contained page for passwordscon.org/mailrequirements/

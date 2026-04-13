@@ -38,7 +38,7 @@ docs/index.html               GENERATED — do not edit directly
 webversion/index.html         GENERATED — do not edit directly (passwordscon.org deploy)
 
 scripts/validate_data.py      Validate all YAML against schema
-scripts/generate_map.py       Write docs/index.html (GitHub Pages interactive page)
+scripts/generate_map.py       Write docs/index.html (GitHub Pages interactive page; dark/light theme toggle)
 scripts/generate_readme_table.py  Inject matrix table into README.md (between sentinels)
 scripts/generate_webversion.py    Write webversion/index.html (light theme, self-contained HTML)
 scripts/requirements.txt      pip dependencies: pyyaml, jsonschema[format], requests
